@@ -20,8 +20,8 @@
 	);
 
 	// Composables
-	import { use版本Check } from "@/lib/use版本Check";
-	const { updateAvailable, startWatch } = use版本Check();
+	import { useVersionCheck } from "@/lib/useVersionCheck";
+	const { updateAvailable, startWatch } = useVersionCheck();
 
 	// Stores
 	import { useUserStore } from "@/stores/userStore";

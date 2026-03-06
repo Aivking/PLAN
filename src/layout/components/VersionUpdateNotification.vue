@@ -1,6 +1,6 @@
 <script setup lang="ts">
-	import { use版本Check } from "@/lib/use版本Check";
-	const { markUpdated } = use版本Check();
+	import { useVersionCheck } from "@/lib/useVersionCheck";
+	const { markUpdated } = useVersionCheck();
 
 	import { trackEvent } from "@/lib/analytics/useAnalytics";
 
