@@ -26,30 +26,30 @@ import {
 } from "@/features/api/gameData.types";
 
 // Schemas
-export const MaterialSchema: z.ZodType<IMaterial> = z.object({
+export const MaterialSchema = z.object({
 	MaterialId: z.string(),
-	CategoryName: z.string(),
-	CategoryId: z.string(),
-	Name: z.string(),
-	Ticker: z.string().min(1).max(3),
-	Weight: z.number(),
-	Volume: z.number(),
-});
+	CategoryName: z.string().optional().default(''),
+	CategoryId: z.string().optional().default(''),
+	Name: z.string().optional().default(''),
+	Ticker: z.string().optional().default(''),
+	Weight: z.number().optional().default(0),
+	Volume: z.number().optional().default(0),
+}).passthrough();
 
 export const MaterialPayloadSchema: z.ZodType<IMaterial[]> =
 	z.array(MaterialSchema);
 
-export const ExchangeSchema: z.ZodType<IExchange> = z.object({
+export const ExchangeSchema = z.object({
 	TickerId: z.string(),
 	MaterialTicker: z.string().min(1).max(3),
 	ExchangeCode: z.string(),
-	Ask: z.number().nullable(),
-	Bid: z.number().nullable(),
-	PriceAverage: z.number(),
-	Supply: z.number().nullable(),
-	Demand: z.number().nullable(),
-	Traded: z.number().nullable(),
-});
+	Ask: z.number().nullish().transform(v => v ?? null),
+	Bid: z.number().nullish().transform(v => v ?? null),
+	PriceAverage: z.number().nullish().transform(v => v ?? null),
+	Supply: z.number().nullish().transform(v => v ?? null),
+	Demand: z.number().nullish().transform(v => v ?? null),
+	Traded: z.number().nullish().transform(v => v ?? null),
+}).passthrough();
 
 export const ExchangePayloadSchema: z.ZodType<IExchange[]> =
 	z.array(ExchangeSchema);
@@ -59,14 +59,14 @@ const RecipeMaterialSchema: z.ZodType<IRecipeMaterial> = z.object({
 	Amount: PositiveOrZeroNumber,
 });
 
-export const RecipeSchema: z.ZodType<IRecipe> = z.object({
+export const RecipeSchema = z.object({
 	RecipeId: z.string(),
 	BuildingTicker: z.string().min(2).max(3),
 	RecipeName: z.string(),
 	TimeMs: z.number(),
-	Inputs: z.array(RecipeMaterialSchema),
-	Outputs: z.array(RecipeMaterialSchema),
-});
+	Inputs: z.array(RecipeMaterialSchema).nullish().transform(v => v ?? []),
+	Outputs: z.array(RecipeMaterialSchema).nullish().transform(v => v ?? []),
+}).passthrough();
 
 export const RecipePayloadSchema: z.ZodType<IRecipe[]> = z.array(RecipeSchema);
 
@@ -99,10 +99,10 @@ const EXPERTISE_TYPE_ZOD = z.enum([
 	"RESOURCE_EXTRACTION",
 ]);
 
-export const BuildingSchema: z.ZodType<IBuilding> = z.object({
+export const BuildingSchema = z.object({
 	Name: z.string(),
 	Ticker: z.string().min(2).max(3),
-	Expertise: EXPERTISE_TYPE_ZOD.nullable(),
+	Expertise: EXPERTISE_TYPE_ZOD.nullish().transform(v => v ?? null),
 	Pioneers: PositiveOrZeroNumber,
 	Settlers: PositiveOrZeroNumber,
 	Technicians: PositiveOrZeroNumber,
@@ -110,9 +110,9 @@ export const BuildingSchema: z.ZodType<IBuilding> = z.object({
 	Scientists: PositiveOrZeroNumber,
 	AreaCost: PositiveOrZeroNumber,
 	BuildingCosts: z.array(BuildingCostSchema),
-	Habitation: BuildingHabitationSchema.nullable(),
+	Habitation: BuildingHabitationSchema.nullish().transform(v => v ?? null),
 	Type: BUILDING_TYPE_ZOD,
-});
+}).passthrough();
 
 export const BuildingPayloadSchema: z.ZodType<IBuilding[]> =
 	z.array(BuildingSchema);
