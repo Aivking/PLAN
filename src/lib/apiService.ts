@@ -18,6 +18,15 @@ class ApiService {
 		this.client = axios;
 		this.client.defaults.baseURL = config.API_BASE_URL;
 
+		// Ensure all request URLs end with trailing slash to avoid 301 redirects
+		// that would convert POST/PATCH/PUT to GET
+		this.client.interceptors.request.use((config) => {
+			if (config.url && !config.url.endsWith("/") && !config.url.includes("?")) {
+				config.url = config.url + "/";
+			}
+			return config;
+		});
+
 		// Set default headers to disable cache
 		this.client.defaults.headers.get["Cache-Control"] =
 			"no-cache, no-store, must-revalidate";
