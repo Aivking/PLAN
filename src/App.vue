@@ -15,8 +15,8 @@
 		() => import("@/layout/components/MobileToggle.vue")
 	);
 
-	const 版本UpdateNotification = defineAsyncComponent(
-		() => import("@/layout/components/版本UpdateNotification.vue")
+	const VersionUpdateNotification = defineAsyncComponent(
+		() => import("@/layout/components/VersionUpdateNotification.vue")
 	);
 
 	// Composables
@@ -45,7 +45,7 @@
 </script>
 
 <template>
-	<版本UpdateNotification v-if="showUpdateNotification" />
+	<VersionUpdateNotification v-if="showUpdateNotification" />
 
 	<main class="flex h-full w-full text-white/80">
 		<NavigationBar v-if="isLoggedIn" />
