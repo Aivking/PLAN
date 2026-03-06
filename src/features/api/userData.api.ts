@@ -94,7 +94,7 @@ export async function callRefreshToken(
 	return apiService.post<RefreshPayloadType, TokenResponseType>(
 		"/user/refresh",
 		{
-			refresh_token,
+			refresh: refresh_token,
 		},
 		RefreshPayloadSchema,
 		TokenResponseSchema,

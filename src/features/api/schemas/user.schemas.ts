@@ -18,13 +18,18 @@ export const LoginPayloadSchema: z.ZodType<IUserLoginPayload> = z.object({
 	password: z.string().min(1),
 });
 
-export const TokenResponseSchema: z.ZodType<IUserTokenResponse> = z.object({
-	access_token: z.string().min(120),
-	refresh_token: z.string().min(120),
-});
+export const TokenResponseSchema = z
+	.object({
+		access: z.string().min(120),
+		refresh: z.string().min(120),
+	})
+	.transform((data) => ({
+		access_token: data.access,
+		refresh_token: data.refresh,
+	}));
 
-export const RefreshPayloadSchema: z.ZodType<IUserRefreshPayload> = z.object({
-	refresh_token: z.string().min(120),
+export const RefreshPayloadSchema = z.object({
+	refresh: z.string().min(120),
 });
 
 export const UserProfilePayloadSchema = z.object({
