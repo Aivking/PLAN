@@ -13,6 +13,8 @@ import type { Plugin } from "vite";
 // read package.json
 import pkg from "./package.json";
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 const dbVersionString = pkg.dbVersion;
 const appVersion = pkg.version;
 
@@ -63,25 +65,26 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		vue(),
-		tailwindcss(),
-		tsconfigPaths(),
-		AutoImport({ imports: ["vue", "vue-router", "pinia"] }),
-		Components({
+        vue(),
+        tailwindcss(),
+        tsconfigPaths(),
+        AutoImport({ imports: ["vue", "vue-router", "pinia"] }),
+        Components({
 			resolvers: [NaiveUiResolver()],
 		}),
-		skipEmptyChunks(),
-		compression({
+        skipEmptyChunks(),
+        compression({
 			algorithms: ["gzip", "brotliCompress"],
 		}),
-		visualizer({
+        visualizer({
 			filename: "dist/bundle-stats.html",
 			template: "treemap",
 			gzipSize: true,
 			brotliSize: true,
 			open: process.env.ANALYZE === "true",
 		}),
-	],
+        cloudflare()
+    ],
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),
@@ -141,12 +144,12 @@ export default defineConfig({
 
 						// sanitize vendor name
 						return (
-							"vendor_" +
-							pkg
-								.replace(/^@/, "") // remove leading @
-								.replace(/[^a-zA-Z0-9]/g, "_") // replace all weird chars
-								.replace(/_+$/, "") // trim trailing underscores
-						);
+                            // trim trailing underscores
+                            ("vendor_" + pkg
+                                    .replace(/^@/, "") // remove leading @
+                                    .replace(/[^a-zA-Z0-9]/g, "_") // replace all weird chars
+                                    .replace(/_+$/, ""))
+                        );
 					}
 
 					// group app code by feature
