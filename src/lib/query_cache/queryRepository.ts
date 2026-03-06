@@ -741,10 +741,14 @@ export function useQueryRepository() {
 		GetFIOStorage: {
 			key: () => ["gamedata", "fio", "storage"],
 			fetchFn: async () => {
-				return await callDataFIOStorage().then((data: IFIOStorage) => {
-					planningStore.setFIOStorageData(data);
-					return data;
-				});
+				try {
+					return await callDataFIOStorage().then((data: IFIOStorage) => {
+						planningStore.setFIOStorageData(data);
+						return data;
+					});
+				} catch {
+					return null;
+				}
 			},
 			autoRefetch: true,
 			persist: true,
