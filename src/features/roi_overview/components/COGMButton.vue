@@ -25,7 +25,7 @@
 		key="COGM"
 		v-model:show="refShowCOGM"
 		preset="card"
-		title="Cost Of Goods Manufactured"
+		title="生产成本"
 		class="max-w-150">
 		<PlanCOGM v-if="cogmData" :cogm-data="cogmData" />
 	</n-modal>

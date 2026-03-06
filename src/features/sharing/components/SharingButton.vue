@@ -70,7 +70,7 @@
 		v-model:show="showModal"
 		class="w-fit! max-w-175!"
 		preset="card"
-		title="Share Plan">
+		title="分享规划">
 		<template v-if="!isShared">
 			<div>
 				This will create an unique link that can be shared with others.
@@ -127,7 +127,7 @@
 
 		<template v-if="buttonSize !== 'sm'">
 			<template v-if="isShared"> Views</template>
-			<template v-else>Share</template>
+			<template v-else>分享</template>
 		</template>
 	</PButton>
 </template>

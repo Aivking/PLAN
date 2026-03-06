@@ -101,76 +101,74 @@
 		<template v-if="registrationSuccess">
 			<div>
 				<div class="text-xl text-white font-bold font-mono pb-1">
-					Welcome, {{ registrationUsername }}!
+					欢迎，{{ registrationUsername }}！
 				</div>
 				<div class="pt-3">
-					Registration successful. You can now login to PRUNplanner.
+					注册成功，您现在可以登录 PRUNplanner 了。
 				</div>
 			</div>
 		</template>
 		<template v-else>
 			<div class="text-xl text-white font-bold font-mono pb-1">
-				Account Information
+				账号信息
 			</div>
 			<div class="pb-3 text-white/60 text-xs font-mono">
-				PRUNplanner is free to use. By creating an account, you
-				acknowledge and agree to the
+				PRUNplanner 免费使用。创建账号即表示您同意
 				<router-link
 					to="/imprint-tos"
 					class="underline hover:text-link-primary">
-					Terms of Service.
+					服务条款。
 				</router-link>
 			</div>
 			<div v-if="hasError" class="pb-3 text-red-600">
-				Error during registration.
+				注册失败。
 				{{ hasErrorMessage }}
 			</div>
 			<PForm>
-				<PFormItem label="Username">
+				<PFormItem label="用户名">
 					<PInput v-model:value="inputUsername" class="w-full" />
 					<template #info>
-						Must be at least 3 characters long. Can't contain
-						spaces.
+						至少 3 个字符，不能包含空格。
 					</template>
 				</PFormItem>
-				<PFormItem label="Password">
+				<PFormItem label="密码">
 					<PInput
 						v-model:value="inputPassword"
 						type="password"
 						class="w-full" />
 					<template #info>
-						Must be at least 8 characters long.
+						至少 8 个字符。
 					</template>
 				</PFormItem>
-				<PFormItem label="Email">
+				<PFormItem label="邮箱">
 					<PInput
 						v-model:value="inputEmail"
-						placeholder="Not mandatory, but recommended."
+						placeholder="非必填，但推荐填写。"
 						class="w-full" />
 					<template #info>
-						Not mandatory. Increases your account security.
+						非必填，有助于提高账号安全性。
 					</template>
 				</PFormItem>
 				<PFormSeperator>
 					<div
 						class="text-xl text-white font-bold font-mono pt-3 pb-1">
-						Security Question
+						安全验证
 					</div>
 					<div class="font-mono text-xs text-white/60 pb-3">
-						Enter the name of planet
+						请输入星球
 						<span
 							class="text-nowrap bg-prunplanner text-black px-1"
 							>{{ activeSecurityOption }}</span
-						>. To find it, open a new Prosperous Universe buffer
-						with the command
+						>
+						的名称。在 Prosperous Universe 中使用命令
 						<span
 							class="text-nowrap bg-prunplanner text-black px-0.5"
 							>{{ `PLI ${activeSecurityOption}` }}</span
-						>. You'll see the planet's name listed under "Name" in
-						the planet information.
+						>
+						打开星球信息，在 "Name" 字段中查看其名称。
 					</div>
 				</PFormSeperator>
-				<PFormItem label="Name">
+				<PFormItem label="星球名称">
 					<PInput v-model:value="inputPlanetName" class="w-full" />
 				</PFormItem>
 				<PFormItem label="">
@@ -179,7 +177,7 @@
 						:loading="isLoading"
 						class="mt-3"
 						@click="registerUser">
-						Create Account
+						创建账号
 					</PButton>
 				</PFormItem>
 			</PForm>

@@ -208,7 +208,7 @@
 	<div class="grid grid-cols-1 xl:grid-cols-[40%_auto] gap-x-6">
 		<div>
 			<PForm>
-				<PFormItem label="Materials">
+				<PFormItem label="物资">
 					<PSelectMultiple
 						v-model:value="inputMaterials"
 						:options="PLANETSEARCHOPTIONMATERIALS"
@@ -218,7 +218,7 @@
 						@update:value="
 							(value) => {
 								// NOTE: There is apparently a bug where search returns planets for 3+ materials
-								// but the materials do not actually exist on the planets. Backend issue.
+								// but the materials do not actually exist on the planets. 返回end issue.
 
 								// limit to 2
 								if (Object.keys(inputMaterials).length > 2) {
@@ -229,7 +229,7 @@
 				</PFormItem>
 				<PFormItem
 					v-if="inputMaterials.length > 0"
-					label="Min. Richness %">
+					label="最低丰富度 %">
 					<div class="flex flex-col gap-1 w-full">
 						<div
 							v-for="material in inputMaterials"
@@ -255,7 +255,7 @@
 						searchable
 						class="w-full" />
 				</PFormItem>
-				<PFormItem label="Planet Features">
+				<PFormItem label="星球特征">
 					<PSelectMultiple
 						v-model:value="inputInfrastructure"
 						:options="PLANETSEARCHINFRASTRUCTURE"
@@ -263,7 +263,7 @@
 						clearable
 						class="w-full" />
 				</PFormItem>
-				<PFormItem label="System Distance">
+				<PFormItem label="星系距离">
 					<PSelect
 						v-model:value="inputSystem"
 						:options="PLANETSEARCHSYSTEMS"

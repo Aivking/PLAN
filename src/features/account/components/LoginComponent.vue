@@ -52,25 +52,25 @@
 
 <template>
 	<div class="mx-auto max-w-100">
-		<div class="text-xl text-white font-bold font-mono pb-3">Login</div>
+		<div class="text-xl text-white font-bold font-mono pb-3">登录</div>
 		<div v-if="hasError" class="pb-3 text-red-600">
-			Error logging in. Please check your username and password.
+			登录失败，请检查用户名和密码。
 		</div>
 		<PForm>
 			<PFormSeperator>
 				<div class="font-mono text-xs text-white/60 pb-3">
-					By using PRUNplanner you agree to the
+					使用 PRUNplanner 即表示您同意
 					<router-link
 						to="/imprint-tos"
 						class="hover:cursor-pointer underline">
-						Terms of Service.
+						服务条款。
 					</router-link>
 				</div>
 			</PFormSeperator>
-			<PFormItem label="Username">
+			<PFormItem label="用户名">
 				<PInput v-model:value="inputUsername" class="w-full" />
 			</PFormItem>
-			<PFormItem label="Password">
+			<PFormItem label="密码">
 				<PInput
 					v-model:value="inputPassword"
 					type="password"
@@ -78,11 +78,11 @@
 			</PFormItem>
 			<PFormSeperator>
 				<div class="font-mono text-xs text-white/60 py-3">
-					Forgot your password? Request a
+					忘记密码？点击
 					<router-link
 						to="/request-password-reset"
 						class="hover:cursor-pointer underline">
-						Password Reset.
+						重置密码。
 					</router-link>
 				</div>
 			</PFormSeperator>
@@ -91,7 +91,7 @@
 					:loading="isLoggingIn"
 					:disabled="!canLogin"
 					@click="handleLogin">
-					Login
+					登录
 				</PButton>
 			</PFormItem>
 		</PForm>

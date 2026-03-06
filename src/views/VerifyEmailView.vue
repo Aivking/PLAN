@@ -2,7 +2,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "Email Verification | PRUNplanner",
+		title: "邮箱验证 | PRUNplanner",
 	});
 
 	import VerifyEmailComponent from "@/features/account/components/VerifyEmailComponent.vue";

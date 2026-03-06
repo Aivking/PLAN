@@ -61,7 +61,7 @@
 			<template v-else>
 				<PInput
 					v-model:value="newAPIKeyName"
-					placeholder="Max. 100 characters" />
+					placeholder="最多 100 个字符" />
 				<PButton :disabled="!canCreate" @click="triggerKeyCreation">
 					Create API Key
 				</PButton>
@@ -72,7 +72,7 @@
 	<PTable striped>
 		<thead>
 			<tr>
-				<th>Name</th>
+				<th>名称</th>
 				<th>Key</th>
 				<th>Created</th>
 				<th>Last Activity</th>

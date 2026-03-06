@@ -268,7 +268,7 @@
 		v-model:show="refShowDrawer"
 		:width="500"
 		placement="right">
-		<n-drawer-content title="Material Information">
+		<n-drawer-content title="物资信息">
 			<div class="flex gap-x-5">
 				<div class="flex items-center">
 					<div

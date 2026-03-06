@@ -97,7 +97,7 @@
 					icon: HomeSharp,
 				},
 				{
-					label: "Planet Search",
+					label: "星球搜索",
 					display: true,
 					routerLink: "/search",
 					icon: SearchRound,
@@ -137,7 +137,7 @@
 			display: true,
 			children: [
 				{
-					label: "Market Exploration",
+					label: "市场探索",
 					display: true,
 					routerLink: "/market-exploration",
 					icon: ExploreSharp,
@@ -187,7 +187,7 @@
 					icon: ProductionQuantityLimitsSharp,
 				},
 				{
-					label: "Production Chains",
+					label: "生产链s",
 					display: true,
 					routerLink: "/production-chain",
 					icon: CompareSharp,
@@ -211,13 +211,13 @@
 				// 	icon: StarsSharp,
 				// },
 				{
-					label: "FIO Burn",
+					label: "FIO 消耗",
 					display: userStore.hasFIO,
 					routerLink: "/fio/burn",
 					icon: LocalFireDepartmentSharp,
 				},
 				{
-					label: "FIO Repair",
+					label: "FIO 修复",
 					display: userStore.hasFIO,
 					routerLink: "/fio/repair",
 					icon: AutoFixNormalSharp,
@@ -278,7 +278,7 @@
 					icon: HelpOutlineSharp,
 				},
 				{
-					label: "Logout",
+					label: "退出登录",
 					display: true,
 					icon: LogOutRound,
 					functionCall: () => {
@@ -290,7 +290,7 @@
 		},
 	]);
 
-	const appVersion = __APP_VERSION__;
+	const app版本 = __APP_VERSION__;
 
 	function toggleNavigationSize(): void {
 		layoutNavigationStyle.value === "full"
@@ -333,7 +333,7 @@
 					</router-link>
 				</div>
 				<div v-if="isFull" class="text-end text-[10px] text-white/40">
-					{{ appVersion }}
+					{{ app版本 }}
 				</div>
 			</div>
 		</div>
@@ -535,8 +535,8 @@
 						<PTable striped>
 							<thead>
 								<tr>
-									<th>Type</th>
-									<th>Backend</th>
+									<th>类型</th>
+									<th>返回end</th>
 									<th>FIO</th>
 								</tr>
 							</thead>
@@ -551,7 +551,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td>Storage</td>
+									<td>存储</td>
 									<td>
 										{{ relativeFromDate(storageTimestamp) }}
 									</td>

@@ -272,33 +272,33 @@
 		<div class="flex gap-x-3 pt-3 w-1/2 min-w-100">
 			<div class="grow">
 				<PForm>
-					<PFormItem label="Empire Name">
+					<PFormItem label="帝国名称">
 						<PInput
 							v-model:value="refCreateName"
 							class="w-full"
-							placeholder="Empire Name (max. 100 characters)" />
+							placeholder="帝国名称（最多 100 个字符）" />
 					</PFormItem>
-					<PFormItem label="Faction">
+					<PFormItem label="派系">
 						<PSelect
 							v-model:value="refCreateFaction"
 							class="w-full"
 							:options="factionOptions" />
 					</PFormItem>
-					<PFormItem label="Permits Total">
+					<PFormItem label="许可证总数">
 						<PInputNumber
 							v-model:value="refCreatePermitsTotal"
 							show-buttons
 							:min="2"
 							class="w-full" />
 					</PFormItem>
-					<PFormItem label="Permits Used">
+					<PFormItem label="已用许可证">
 						<PInputNumber
 							v-model:value="refCreatePermitsUsed"
 							show-buttons
 							:min="1"
 							class="w-full" />
 					</PFormItem>
-					<PFormItem label="Use FIO Storage?">
+					<PFormItem label="使用 FIO 存储？">
 						<PCheckbox v-model:checked="refCreateUseFioStorage" />
 					</PFormItem>
 				</PForm>
@@ -314,7 +314,7 @@
 		</div>
 	</div>
 	<x-n-data-table :data="localEmpires" striped class="pt-3">
-		<x-n-data-table-column key="name" title="Name">
+		<x-n-data-table-column key="name" title="名称">
 			<template #render-cell="{ rowData }">
 				<router-link
 					:to="`/empire/${rowData.uuid}`"
@@ -323,17 +323,17 @@
 				</router-link>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="faction" title="Faction">
+		<x-n-data-table-column key="faction" title="派系">
 			<template #render-cell="{ rowData }">
 				{{ capitalizeString(rowData.faction) }}
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="permits" title="Permits">
+		<x-n-data-table-column key="permits" title="许可证">
 			<template #render-cell="{ rowData }">
 				{{ rowData.permits_used }} / {{ rowData.permits_total }}
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="plans" title="Plans">
+		<x-n-data-table-column key="plans" title="规划列表">
 			<template #render-cell="{ rowData }">
 				{{ rowData.baseplanners.length }}
 			</template>
@@ -349,7 +349,7 @@
 				<PTag v-else :bordered="false" type="error"> No </PTag>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="cx" title="CX" width="200">
+		<x-n-data-table-column key="cx" title="交易所" width="200">
 			<template #render-cell="{ rowData }">
 				<div class="max-w-50">
 					<PSelect

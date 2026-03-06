@@ -288,10 +288,10 @@
 	<h2 class="pb-3 text-white/80 font-bold text-lg">Repair Analysis</h2>
 	<div class="grid grid-cols-1 xl:grid-cols-[400px_auto] gap-3 gap-x-6">
 		<div>
-			<h2 class="font-bold pb-3">Plan</h2>
+			<h2 class="font-bold pb-3">规划</h2>
 
 			<PForm>
-				<PFormItem label="Select Day">
+				<PFormItem label="选择天数">
 					<div class="w-full flex flex-row justify-between">
 						<PSelect
 							v-model:value="selectedDay"
@@ -317,7 +317,7 @@
 		<div>
 			<h2 class="font-bold pb-3">Individual Building</h2>
 			<PForm>
-				<PFormItem label="Select Building">
+				<PFormItem label="选择建筑">
 					<PSelect
 						v-model:value="selectedBuilding"
 						:options="selectionOptions"

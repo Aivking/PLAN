@@ -103,12 +103,12 @@
 			<template #header> {{ drawerTitle }} </template>
 
 			<PForm>
-				<PFormItem label="Origin">
+				<PFormItem label="出发点">
 					<PSelect
 						v-model:value="burnOrigin"
 						:options="XITSTATIONWAREHOUSES" />
 				</PFormItem>
-				<PFormItem label="Buy From CX">
+				<PFormItem label="从交易所购买">
 					<div
 						class="w-full flex flex-row gap-1 my-3 h-8 items-center">
 						<PCheckbox
@@ -162,8 +162,8 @@
 			<PTable striped class="mt-3">
 				<thead>
 					<tr>
-						<th>Ticker</th>
-						<th>Amount</th>
+						<th>代码</th>
+						<th>数量</th>
 					</tr>
 				</thead>
 				<tbody>

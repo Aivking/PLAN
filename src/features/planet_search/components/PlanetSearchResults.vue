@@ -84,7 +84,7 @@
 
 <template>
 	<XNDataTable :data="tableResults" striped :pagination="{ pageSize: 50 }">
-		<XNDataTableColumn key="Plan" title="Plan" width="50">
+		<XNDataTableColumn key="Plan" title="规划" width="50">
 			<template #render-cell="{ rowData }">
 				<router-link :to="`/plan/${rowData.planetId}`">
 					<PButton size="sm">
@@ -95,7 +95,7 @@
 				</router-link>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planetName" title="Planet" sorter="default">
+		<XNDataTableColumn key="planetName" title="星球" sorter="default">
 			<template #render-cell="{ rowData }">
 				<span
 					v-if="rowData.planetName === rowData.planetId"
@@ -137,7 +137,7 @@
 				</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="additionalResources" title="Resources">
+		<XNDataTableColumn key="additionalResources" title="资源">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1 child:text-nowrap">
 					<MaterialTile
@@ -158,7 +158,7 @@
 		</XNDataTableColumn>
 		<XNDataTableColumn
 			key="cogcProgram"
-			title="COGC Program"
+			title="COGC 项目"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{
@@ -168,7 +168,7 @@
 				}}
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="environment" title="Environment">
+		<XNDataTableColumn key="environment" title="环境">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1">
 					<PTooltip v-if="rowData.environmentSurface.length !== 0">

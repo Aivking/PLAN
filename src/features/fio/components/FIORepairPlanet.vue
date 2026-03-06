@@ -24,11 +24,11 @@
 	<x-n-data-table :data="repairData" striped>
 		<x-n-data-table-column
 			key="planetName"
-			title="Planet"
+			title="星球"
 			sorter="default" />
 		<x-n-data-table-column
 			key="amountProductionBuildings"
-			title="Buildings"
+			title="建筑"
 			sorter="default" />
 		<x-n-data-table-column
 			key="averageCondition"
@@ -40,7 +40,7 @@
 		</x-n-data-table-column>
 		<x-n-data-table-column
 			key="minCondition"
-			title="Min. Condition"
+			title="最低状态"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{ formatNumber(rowData.minCondition * 100) }} %
@@ -48,7 +48,7 @@
 		</x-n-data-table-column>
 		<x-n-data-table-column
 			key="maxLastRepairDays"
-			title="Repair Age"
+			title="修复年限"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{ formatAmount(rowData.maxLastRepairDays) }}

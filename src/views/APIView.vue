@@ -96,7 +96,7 @@
 					<div class="flex flex-row flex-wrap justify-between pb-3">
 						<div>
 							<PForm>
-								<PFormItem label="API Key">
+								<PFormItem label="API 密钥">
 									<PSelect
 										v-model:value="selectedAPIKey"
 										:options="apiKeySelectOptions"
@@ -106,7 +106,7 @@
 						</div>
 						<div>
 							<PForm>
-								<PFormItem label="Empire">
+								<PFormItem label="帝国">
 									<PSelect
 										v-model:value="selectedEmpireUuid"
 										:options="empireSelectOptions"

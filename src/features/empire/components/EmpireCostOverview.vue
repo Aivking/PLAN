@@ -24,7 +24,7 @@
 <template>
 	<div class="grid grid-cols-[auto_auto] grid-rows-2 sm:grid-rows-1 sm:grid-cols-[1fr_auto_auto_auto_auto_1fr] gap-6 child:child:text-center">
 		<div class="sm:col-2">
-			<div class="text-white/40 text-xs">Profit</div>
+			<div class="text-white/40 text-xs">利润</div>
 			<div class="text-white text-xl">
 				{{ formatNumber(costOverview.totalProfit) }}
 			</div>
@@ -45,7 +45,7 @@
 			</div>
 		</div>
 		<div>
-			<div class="text-white/40 text-xs">Cost</div>
+			<div class="text-white/40 text-xs">成本</div>
 			<div class="text-white text-xl">
 				{{ formatNumber(costOverview.totalCost) }}
 			</div>

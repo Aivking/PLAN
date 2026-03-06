@@ -11,7 +11,7 @@
 	// Unhead
 	import { useHead } from "@unhead/vue";
 	useHead({
-		title: "Burn | PRUNplanner",
+		title: "FIO 消耗 | PRUNplanner",
 	});
 
 	// Stores
@@ -163,7 +163,7 @@
 				<div v-else class="min-h-screen flex flex-col">
 					<div
 						class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
-						<h1 class="text-2xl font-bold my-auto">FIO Burn</h1>
+						<h1 class="text-2xl font-bold my-auto">FIO 消耗</h1>
 						<div class="flex flex-row gap-x-3">
 							<div class="my-auto">
 								FIO Data Update:
@@ -211,14 +211,14 @@
 									</h2>
 
 									<PForm>
-										<PFormItem label="Red">
+										<PFormItem label="红色">
 											<PInputNumber
 												v-model:value="burnDaysRed"
 												show-buttons
 												:min="1"
 												class="w-full max-w-100" />
 										</PFormItem>
-										<PFormItem label="Yellow">
+										<PFormItem label="黄色">
 											<PInputNumber
 												v-model:value="burnDaysYellow"
 												show-buttons

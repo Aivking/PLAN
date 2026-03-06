@@ -121,7 +121,7 @@
 			<div class="grow">
 				<PInput
 					v-model:value="refNewCXName"
-					placeholder="CX Name (max. 100 characters)" />
+					placeholder="交易所名称（最多 100 个字符）" />
 			</div>
 			<PButton
 				:loading="refIsCreating"
@@ -133,7 +133,7 @@
 	</div>
 
 	<x-n-data-table :data="localCX" striped class="pt-3">
-		<x-n-data-table-column key="name" title="Name">
+		<x-n-data-table-column key="name" title="名称">
 			<template #render-cell="{ rowData }">
 				<router-link
 					:to="`/exchanges/${rowData.uuid}`"
@@ -142,7 +142,7 @@
 				</router-link>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="uuid" title="Assigned to Empire?">
+		<x-n-data-table-column key="uuid" title="已分配到帝国？">
 			<template #title>
 				<div class="text-center">Assigned to Empire?</div>
 			</template>

@@ -62,7 +62,7 @@
 				v-model:cx-options="localMap[selectedPlanet].exchanges" />
 		</div>
 		<div>
-			<h3 class="text-lg font-bold pb-3">Ticker</h3>
+			<h3 class="text-lg font-bold pb-3">代码</h3>
 			<CXTickerPreference
 				:key="`Ticker#${selectedPlanet}`"
 				v-model:cx-options="localMap[selectedPlanet].ticker" />
@@ -87,7 +87,7 @@
 				</PButton>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planet" title="Planet" sorter="default">
+		<XNDataTableColumn key="planet" title="星球" sorter="default">
 			<template #render-cell="{ rowData }">
 				{{
 					planetNames[rowData.planet] ||
@@ -96,7 +96,7 @@
 				}}
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="exchanges" title="Exchanges" max-width="20%">
+		<XNDataTableColumn key="exchanges" title="交易所" max-width="20%">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-col gap-y-1">
 					<div
@@ -117,7 +117,7 @@
 				</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="ticker" title="Ticker" max-width="50%">
+		<XNDataTableColumn key="ticker" title="代码" max-width="50%">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-wrap gap-3">
 					<div

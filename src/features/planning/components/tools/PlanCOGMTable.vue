@@ -25,7 +25,7 @@
 	<PTable>
 		<tbody>
 			<tr>
-				<th colspan="4">Parameters</th>
+				<th colspan="4">参数</th>
 			</tr>
 			<tr>
 				<td class="border-r">Recipe Runtime</td>
@@ -39,7 +39,7 @@
 				<td colspan="3">{{ formatNumber(data.efficiency * 100) }} %</td>
 			</tr>
 			<tr>
-				<th colspan="4">Cost</th>
+				<th colspan="4">成本</th>
 			</tr>
 			<tr>
 				<td class="border-r">Degradation</td>
@@ -65,7 +65,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Material</td>
+					<td>物资</td>
 					<td>$ / Unit</td>
 					<td class="text-end">$ Total</td>
 				</tr>
@@ -89,7 +89,7 @@
 				</tr>
 			</template>
 			<tr>
-				<td class="border-r">Workforce</td>
+				<td class="border-r">劳动力</td>
 				<td class="font-bold">
 					{{ formatNumber(data.workforceCost) }}
 					<span class="pl-1 font-light text-white/50"> $ </span>
@@ -115,7 +115,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th colspan="4">Cost of Goods Manufactured</th>
+				<th colspan="4">生产成本</th>
 			</tr>
 			<tr>
 				<td
@@ -123,7 +123,7 @@
 					class="border-b-0! border-r">
 					COGM
 				</td>
-				<td>Material</td>
+				<td>物资</td>
 				<td>Cost Split</td>
 				<td class="text-end">Cost Total</td>
 			</tr>

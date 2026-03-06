@@ -81,7 +81,7 @@
 							src="/images/help/management-screenshot.png"
 							alt="Management Screenshot"
 							class="rounded shadow-lg border border-white/10" />
-						<span class="text-xs text-white/60">Management</span>
+						<span class="text-xs text-white/60">管理</span>
 					</div>
 				</div>
 			</div>
@@ -91,7 +91,7 @@
 			<div class="grid grid-cols-1 xl:grid-cols-[30%_auto] gap-3 gap-x-6">
 				<div>
 					<div class="bg-white/10 rounded p-3">
-						<h2 class="text-lg font-bold mb-3">Core Concepts</h2>
+						<h2 class="text-lg font-bold mb-3">核心概念</h2>
 						<div class="space-y-6">
 							<div>
 								<h3 class="text-lg mb-1">Plans</h3>
@@ -114,7 +114,7 @@
 								</p>
 							</div>
 							<div>
-								<h3 class="text-lg mb-1">Exchanges</h3>
+								<h3 class="text-lg mb-1">交易所</h3>
 								<p class="text-white/80">
 									Exchange settings define how prices are
 									calculated. Each Empire uses one Exchange
@@ -129,7 +129,7 @@
 					<h2 class="text-lg font-bold mb-3">Key Features</h2>
 					<div class="space-y-6">
 						<div>
-							<h3 class="text-lg">Base Simulation</h3>
+							<h3 class="text-lg">基地模拟</h3>
 							<p class="text-white/80">
 								Design and test bases without spending
 								resources. From habitation to production to

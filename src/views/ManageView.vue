@@ -4,7 +4,7 @@
 	// Unhead
 	import { useHead } from "@unhead/vue";
 	useHead({
-		title: "Management | PRUNplanner",
+		title: "管理 | PRUNplanner",
 	});
 
 	// Composables
@@ -60,7 +60,7 @@
 		@complete="planOnComplete">
 		<div
 			class="px-6 py-3 border-b border-white/10 flex flex-row justify-between gap-x-3">
-			<h1 class="text-2xl font-bold my-auto">Management</h1>
+			<h1 class="text-2xl font-bold my-auto">管理</h1>
 			<HelpDrawer file-name="management" />
 		</div>
 		<div

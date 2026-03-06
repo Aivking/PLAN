@@ -50,7 +50,7 @@
 				</span>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="output" title="Out" sorter="default">
+		<XNDataTableColumn key="output" title="产出" sorter="default">
 			<template #render-cell="{ rowData }">
 				<span :class="rowData.output === 0 ? 'text-white/20' : ''">
 					{{ formatNumber(rowData.output) }}

@@ -3,7 +3,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "Resource ROI Overview | PRUNplanner",
+		title: "资源投资回报概览 | PRUNplanner",
 	});
 
 	// Composables
@@ -65,11 +65,11 @@
 				<div
 					class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
 					<h1 class="text-2xl font-bold my-auto grow">
-						Resource ROI Overview
+						Resource 投资回报概览
 					</h1>
 					<div
 						class="flex flex-row flex-wrap gap-3 my-auto child:my-auto">
-						<div>Select Resource</div>
+						<div>选择资源</div>
 						<PSelect
 							v-model:value="refSearchMaterial"
 							:options="PLANETSEARCHOPTIONMATERIALS"

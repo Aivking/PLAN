@@ -43,18 +43,18 @@
 </script>
 
 <template>
-	<h2 class="text-white/80 font-bold text-lg my-auto">Browser Storage</h2>
+	<h2 class="text-white/80 font-bold text-lg my-auto">浏览器存储</h2>
 	<div class="py-3 text-white/60">
-		PRUNplanner minimizes API calls by storing data locally in your browser.
-		Data refreshes automatically at set intervals.
+		PRUNplanner 通过在浏览器本地存储数据来减少 API 请求。
+		数据会按设定间隔自动刷新。
 	</div>
 	<div>
 		<PTable striped>
 			<thead>
 				<tr>
-					<th>Storage</th>
-					<th>Records</th>
-					<th class="!text-end">Approx. Size</th>
+					<th>存储</th>
+					<th>记录数</th>
+					<th class="!text-end">大小</th>
 				</tr>
 			</thead>
 			<tbody>

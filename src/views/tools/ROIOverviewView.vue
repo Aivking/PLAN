@@ -10,14 +10,14 @@
 	import ROIOverviewTable from "@/features/roi_overview/components/ROIOverviewTable.vue";
 
 	useHead({
-		title: "ROI Overview | PRUNplanner",
+		title: "投资回报概览 | PRUNplanner",
 	});
 
 	// UI
 	import { PForm, PFormItem } from "@/ui";
 
 	/*
-	 * ROI Overview assumes a fully standard planet, so we're going for Montem (OT-580b)
+	 * 投资回报概览 assumes a fully standard planet, so we're going for Montem (OT-580b)
 	 */
 	const planetNaturalId: string = "OT-580b";
 	const refSelectedCXUuid: Ref<string | undefined> = ref(undefined);
@@ -37,10 +37,10 @@
 				<div class="min-h-screen flex flex-col">
 					<div
 						class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
-						<h1 class="text-2xl font-bold my-auto">ROI Overview</h1>
+						<h1 class="text-2xl font-bold my-auto">投资回报概览</h1>
 						<div class="flex flex-row gap-x-3">
 							<PForm>
-								<PFormItem label="CX Preference">
+								<PFormItem label="交易所偏好">
 									<CXPreferenceSelector
 										:cx-uuid="refSelectedCXUuid"
 										@update:cxuuid="

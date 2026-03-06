@@ -27,7 +27,7 @@
 
 <template>
 	<XNDataTable :data="planTable" striped>
-		<XNDataTableColumn key="planUuid" title="Plan" sorter="default">
+		<XNDataTableColumn key="planUuid" title="规划" sorter="default">
 			<template #render-cell="{ rowData }">
 				<router-link
 					:to="`/plan/${rowData.planetId}/${rowData.planUuid}`"
@@ -36,7 +36,7 @@
 				</router-link>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planetId" title="Planet">
+		<XNDataTableColumn key="planetId" title="星球">
 			<template #render-cell="{ rowData }">
 				{{
 					planetNames[rowData.planetId] ||
@@ -45,7 +45,7 @@
 				}}
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="minDays" title="Burn" sorter="default">
+		<XNDataTableColumn key="minDays" title="消耗" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="text-center">
 					<span

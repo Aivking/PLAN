@@ -109,7 +109,7 @@
 </script>
 
 <template>
-	<h2 class="text-white/80 font-bold text-lg">Production</h2>
+	<h2 class="text-white/80 font-bold text-lg">生产</h2>
 	<div
 		class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-3 py-3 child:my-auto">
 		<div class="flex gap-3 child:my-auto">
@@ -153,7 +153,7 @@
 		</div>
 		<div class="sm:justify-self-end-safe flex child:my-auto gap-3">
 			<div class="flex gap-3">
-				<div class="text-sm text-nowrap">Match COGC</div>
+				<div class="text-sm text-nowrap">匹配 COGC</div>
 				<PCheckbox
 					v-model:checked="localMatchCOGC"
 					:disabled="disabled" />
@@ -163,7 +163,7 @@
 				v-model:value="localSelectedBuilding"
 				:disabled="disabled"
 				searchable
-				placeholder="Select Production Building(s)"
+				placeholder="选择生产建筑"
 				class="w-full sm:w-75!"
 				:options="
 					getProductionBuildingOptions(

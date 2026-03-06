@@ -85,14 +85,14 @@
 
 <template>
 	<PForm>
-		<PFormItem label="Name">
+		<PFormItem label="星球名称">
 			<PInput
 				v-model:value="localPlanName"
 				class="w-full"
 				:disabled="disabled"
-				placeholder="Plan Name" />
+				placeholder="规划名称" />
 		</PFormItem>
-		<PFormItem label="Empire">
+		<PFormItem label="帝国">
 			<PSelect
 				v-model:value="localActiveEmpireUuid"
 				class="w-full"

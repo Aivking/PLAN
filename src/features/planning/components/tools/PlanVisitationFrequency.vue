@@ -217,7 +217,7 @@
 
 	<div class="grid grid-cols-1 lg:grid-cols-[40%_auto] gap-3">
 		<div>
-			<h3 class="font-bold text-lg pb-3">Storage</h3>
+			<h3 class="font-bold text-lg pb-3">存储</h3>
 
 			<p class="pb-3">
 				<template v-if="storageAmountsForDisplay.length > 0">
@@ -240,12 +240,12 @@
 				</thead>
 				<tbody class="child:child:text-center">
 					<tr>
-						<td class="text-left! font-bold">Import</td>
+						<td class="text-left! font-bold">导入</td>
 						<td>{{ formatNumber(dailyData.dailyWeightImport) }}</td>
 						<td>{{ formatNumber(dailyData.dailyVolumeImport) }}</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">Export</td>
+						<td class="text-left! font-bold">导出</td>
 						<td>{{ formatNumber(dailyData.dailyWeightExport) }}</td>
 						<td>{{ formatNumber(dailyData.dailyVolumeExport) }}</td>
 					</tr>

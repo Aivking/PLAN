@@ -45,9 +45,9 @@
 <template>
 	<div
 		class="border border-b-0 rounded-[3px] border-white/15 p-3 flex flex-row gap-3 flex-wrap">
-		<div class="my-auto font-bold pr-3">Filter</div>
+		<div class="my-auto font-bold pr-3">筛选</div>
 		<div class="flex flex-row gap-3 child:my-auto">
-			<div>Plan</div>
+			<div>规划</div>
 			<div>
 				<PSelectMultiple
 					v-model:value="localFilterPlanNames"

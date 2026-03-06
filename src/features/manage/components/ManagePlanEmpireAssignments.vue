@@ -315,7 +315,7 @@
 		striped
 		:single-line="false"
 		:pagination="{ pageSize: 50 }">
-		<x-n-data-table-column key="planName" title="Plan" sorter="default">
+		<x-n-data-table-column key="planName" title="规划" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="w-43.75 text-wrap">
 					<router-link
@@ -326,7 +326,7 @@
 				</div>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="planetId" title="Planet" sorter="default">
+		<x-n-data-table-column key="planetId" title="星球" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="w-43.75 text-wrap">
 					{{
@@ -338,7 +338,7 @@
 			</template>
 		</x-n-data-table-column>
 
-		<x-n-data-table-column key="options" title="Configuration">
+		<x-n-data-table-column key="options" title="配置">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1">
 					<PButton
@@ -403,7 +403,7 @@
 					<router-link
 						to="/search"
 						class="text-link-primary hover:underline">
-						Planet Search
+						星球搜索
 					</router-link>
 					to create your first plan.
 				</div>

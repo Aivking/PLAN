@@ -34,9 +34,9 @@
 	<PTable striped>
 		<thead>
 			<tr>
-				<th>Material</th>
-				<th>Amount</th>
-				<th class="text-end!">Cost</th>
+				<th>物资</th>
+				<th>数量</th>
+				<th class="text-end!">成本</th>
 			</tr>
 		</thead>
 		<tbody>

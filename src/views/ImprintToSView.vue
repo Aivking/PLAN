@@ -2,7 +2,7 @@
 
 <template>
 	<div class="px-6 py-3">
-		<h1 class="text-2xl font-bold my-auto">Imprint & Terms of Service</h1>
+		<h1 class="text-2xl font-bold my-auto">Imprint & 服务条款</h1>
 
 		<div class="grid grid-cols-1 xl:grid-cols-2 gap-3">
 			<div>
@@ -55,7 +55,7 @@
 				</p>
 			</div>
 			<div>
-				<h2 class="text-lg font-bold py-3">Terms of Service</h2>
+				<h2 class="text-lg font-bold py-3">服务条款</h2>
 				<p>
 					This document describes how PRUNplanner handles your data.
 					PRUNplanner is designed to collect only required information

@@ -892,7 +892,7 @@
 					<div class="sticky top-12">
 						<h2
 							class="text-white/80 font-bold text-lg pb-3 flex justify-between child:my-auto">
-							<div>Material I/O</div>
+							<div>物资 I/O</div>
 							<div class="flex gap-x-3">
 								<PTooltip>
 									<template #trigger>
@@ -943,11 +943,11 @@
 								:show-basked="refMaterialIOShowBasked" />
 						</template>
 						<template v-else>
-							<h3 class="font-bold pb-3">Production</h3>
+							<h3 class="font-bold pb-3">生产</h3>
 							<PlanMaterialIO
 								:material-i-o-data="result.productionMaterialIO"
 								:show-basked="refMaterialIOShowBasked" />
-							<h3 class="font-bold py-3">Workforce</h3>
+							<h3 class="font-bold py-3">劳动力</h3>
 							<PlanMaterialIO
 								:material-i-o-data="result.workforceMaterialIO"
 								:show-basked="refMaterialIOShowBasked" />
@@ -963,15 +963,15 @@
 		v-model:show="refShowSaveAsModal"
 		class="w-120! max-w-[90vw]!"
 		preset="card"
-		title="Save As">
+		title="另存为">
 		<PForm>
-			<PFormItem label="Name">
+			<PFormItem label="星球名称">
 				<PInput
 					v-model:value="refSaveAsName"
 					class="w-full"
-					placeholder="New Plan Name" />
+					placeholder="新规划名称" />
 			</PFormItem>
-			<PFormItem v-if="saveAsEmpireOptions.length > 0" label="Empire">
+			<PFormItem v-if="saveAsEmpireOptions.length > 0" label="帝国">
 				<PSelect
 					v-model:value="refSaveAsEmpireUuid"
 					class="w-full"

@@ -209,7 +209,7 @@
 					{{ displayValue }}
 				</div>
 				<div v-else class="grow child:child:bg-transparent! py-0.5">
-					<PInput v-model:value="searchString" placeholder="Search" />
+					<PInput v-model:value="searchString" placeholder="搜索" />
 				</div>
 				<div
 					v-if="value && value !== null && clearable"

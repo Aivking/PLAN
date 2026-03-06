@@ -108,7 +108,7 @@
 		:key="`COGM#RECIPE#${recipeData.recipe.BuildingTicker}#${localRecipeIndex}`"
 		v-model:show="refShowCOGM"
 		preset="card"
-		title="Cost Of Goods Manufactured"
+		title="生产成本"
 		:class="cogmWithCX ? 'max-w-250' : 'max-w-150'">
 		<PlanCOGM
 			v-if="localRecipeData.cogm && cxUuid"
@@ -201,13 +201,13 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="TimeMs"
-						title="Time"
+						title="时间"
 						sorter="default">
 						<template #render-cell="{ rowData }">
 							{{ humanizeTimeMs(rowData.TimeMs) }}
 						</template>
 					</XNDataTableColumn>
-					<XNDataTableColumn key="Output" title="Output">
+					<XNDataTableColumn key="Output" title="产出">
 						<template #render-cell="{ rowData }">
 							<div class="flex flex-row gap-1">
 								<MaterialTile
@@ -248,7 +248,7 @@
 							</span>
 						</template>
 					</XNDataTableColumn>
-					<XNDataTableColumn key="roi" title="ROI" sorter="default">
+					<XNDataTableColumn key="roi" title="投资回报率" sorter="default">
 						<template #render-cell="{ rowData }">
 							<span
 								:class="

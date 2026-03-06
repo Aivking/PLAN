@@ -42,7 +42,7 @@
 
 <template>
 	<PForm>
-		<PFormItem label="Permits">
+		<PFormItem label="许可证">
 			<PInputNumber
 				v-model:value="localPermits"
 				:disabled="disabled"
@@ -51,7 +51,7 @@
 				:max="3"
 				class="w-full" />
 		</PFormItem>
-		<PFormItem label="Area">
+		<PFormItem label="区域">
 			<div class="flex flex-row w-full">
 				<div class="grow">
 					{{ areaData.areaUsed }} / {{ areaData.areaTotal }}

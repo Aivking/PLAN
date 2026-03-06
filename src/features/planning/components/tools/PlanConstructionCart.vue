@@ -269,9 +269,9 @@
 		<PTable striped>
 			<thead>
 				<tr>
-					<th>Building</th>
-					<th v-if="constructedMap">Built</th>
-					<th>Amount</th>
+					<th>建筑</th>
+					<th v-if="constructedMap">已建</th>
+					<th>数量</th>
 					<th>Planned</th>
 					<th
 						v-for="mat in uniqueMaterials"
@@ -326,7 +326,7 @@
 					</td>
 				</tr>
 				<tr class="child:border-t-2! child:border-b-2!">
-					<td :colspan="constructedMap ? 4 : 3">Materials Sum</td>
+					<td :colspan="constructedMap ? 4 : 3">物资合计</td>
 					<td
 						v-for="mat in uniqueMaterials"
 						:key="`CONSTRUCTIONCART#COLUMN#TOTALS#${mat}`"
@@ -381,7 +381,7 @@
 				</h2>
 				<div class="flex flex-row flex-wrap gap-3">
 					<template v-if="hasStorage">
-						<div class="my-auto font-bold">Storage</div>
+						<div class="my-auto font-bold">存储</div>
 						<PSelect
 							v-model:value="refSelectedStorage"
 							searchable
@@ -398,9 +398,9 @@
 			<PTable striped>
 				<thead>
 					<tr>
-						<th>Material</th>
-						<th>Amount</th>
-						<th v-if="hasStorage">Stock</th>
+						<th>物资</th>
+						<th>数量</th>
+						<th v-if="hasStorage">库存</th>
 						<th>Stock Override</th>
 						<th>Need</th>
 					</tr>

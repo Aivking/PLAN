@@ -10,7 +10,7 @@
 	import UpkeepPriceCalculator from "@/features/government/components/UpkeepPriceCalculator.vue";
 
 	useHead({
-		title: "Upkeep Price Calculator | PRUNplanner",
+		title: "维护价格计算器 | PRUNplanner",
 	});
 
 	// UI
@@ -31,11 +31,11 @@
 					<div
 						class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
 						<h1 class="text-2xl font-bold my-auto">
-							Upkeep Price Calculator
+							维护价格计算器
 						</h1>
 						<div class="flex flex-row gap-x-3">
 							<PForm>
-								<PFormItem label="CX Preference">
+								<PFormItem label="交易所偏好">
 									<CXPreferenceSelector
 										:cx-uuid="refSelectedCXUuid"
 										@update:cxuuid="

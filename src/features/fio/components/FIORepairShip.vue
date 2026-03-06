@@ -28,10 +28,10 @@
 			key="shipRegistration"
 			title="Id"
 			sorter="default" />
-		<x-n-data-table-column key="shipName" title="Name" sorter="default" />
+		<x-n-data-table-column key="shipName" title="名称" sorter="default" />
 		<x-n-data-table-column
 			key="condition"
-			title="Condition"
+			title="状态"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{ formatNumber(rowData.condition * 100) }} %
@@ -39,7 +39,7 @@
 		</x-n-data-table-column>
 		<x-n-data-table-column
 			key="repairMaterials"
-			title="Repair Materials"
+			title="修复物资"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1 child:text-nowrap">

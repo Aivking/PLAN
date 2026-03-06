@@ -15,13 +15,13 @@
 		() => import("@/layout/components/MobileToggle.vue")
 	);
 
-	const VersionUpdateNotification = defineAsyncComponent(
-		() => import("@/layout/components/VersionUpdateNotification.vue")
+	const 版本UpdateNotification = defineAsyncComponent(
+		() => import("@/layout/components/版本UpdateNotification.vue")
 	);
 
 	// Composables
-	import { useVersionCheck } from "@/lib/useVersionCheck";
-	const { updateAvailable, startWatch } = useVersionCheck();
+	import { use版本Check } from "@/lib/use版本Check";
+	const { updateAvailable, startWatch } = use版本Check();
 
 	// Stores
 	import { useUserStore } from "@/stores/userStore";
@@ -45,7 +45,7 @@
 </script>
 
 <template>
-	<VersionUpdateNotification v-if="showUpdateNotification" />
+	<版本UpdateNotification v-if="showUpdateNotification" />
 
 	<main class="flex h-full w-full text-white/80">
 		<NavigationBar v-if="isLoggedIn" />

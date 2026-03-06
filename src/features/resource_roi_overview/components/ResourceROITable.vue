@@ -74,7 +74,7 @@
 		:building-options="filterOptionBuilding"
 		:searched-material="searchedMaterial" />
 	<XNDataTable :data="localResult" striped :pagination="{ pageSize: 50 }">
-		<XNDataTableColumn key="planetName" title="Planet" sorter="default">
+		<XNDataTableColumn key="planetName" title="星球" sorter="default">
 			<template #render-cell="{ rowData }">
 				<router-link
 					:to="`/plan/${rowData.planetNaturalId}`"
@@ -83,16 +83,16 @@
 				</router-link>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="production" title="Production">
+		<XNDataTableColumn key="production" title="生产">
 			<XNDataTableColumn
 				key="buildingTicker"
-				title="Building"
+				title="建筑"
 				sorter="default">
 				<template #render-cell="{ rowData }">
 					<span class="font-bold">{{ rowData.buildingTicker }}</span>
 				</template>
 			</XNDataTableColumn>
-			<XNDataTableColumn key="dailyYield" title="Daily" sorter="default">
+			<XNDataTableColumn key="dailyYield" title="每日" sorter="default">
 				<template #render-cell="{ rowData }">
 					{{ formatNumber(rowData.dailyYield) }}
 				</template>
@@ -106,7 +106,7 @@
 				</template>
 			</XNDataTableColumn>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planet" title="Planet">
+		<XNDataTableColumn key="planet" title="星球">
 			<XNDataTableColumn key="popr" title="POPR">
 				<template #render-cell="{ rowData }">
 					<PlanetPOPRButton
@@ -125,7 +125,7 @@
 					}}
 				</template>
 			</XNDataTableColumn>
-			<XNDataTableColumn key="environment" title="Environment">
+			<XNDataTableColumn key="environment" title="环境">
 				<template #render-cell="{ rowData }">
 					<div class="flex flex-row flex-wrap gap-1">
 						<MaterialTile
@@ -155,15 +155,15 @@
 				</template>
 			</XNDataTableColumn>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="profit" title="Profit">
-			<XNDataTableColumn key="cogm" title="COGM">
+		<XNDataTableColumn key="profit" title="利润">
+			<XNDataTableColumn key="cogm" title="生产成本">
 				<template #render-cell="{ rowData }">
 					<COGMButton :cogm-data="rowData.cogm" />
 				</template>
 			</XNDataTableColumn>
 			<XNDataTableColumn
 				key="planCost"
-				title="Plan Cost"
+				title="规划成本"
 				sorter="default">
 				<template #title>
 					<div class="text-end">Plan Cost</div>
@@ -177,7 +177,7 @@
 			</XNDataTableColumn>
 			<XNDataTableColumn
 				key="outputProfit"
-				title="Output Profit"
+				title="产出利润"
 				sorter="default">
 				<template #title>
 					<div class="text-end">Output Profit</div>
@@ -197,7 +197,7 @@
 			</XNDataTableColumn>
 			<XNDataTableColumn
 				key="dailyProfit"
-				title="Daily Profit"
+				title="每日利润"
 				sorter="default">
 				<template #title>
 					<div class="text-end">Daily Profit</div>
@@ -217,7 +217,7 @@
 			</XNDataTableColumn>
 			<XNDataTableColumn
 				key="planProfitArea"
-				title="Profit/Area"
+				title="利润/区域"
 				sorter="default">
 				<template #title>
 					<div class="text-end">Profit/Area</div>
@@ -235,7 +235,7 @@
 					</div>
 				</template>
 			</XNDataTableColumn>
-			<XNDataTableColumn key="planROI" title="Plan ROI" sorter="default">
+			<XNDataTableColumn key="planROI" title="规划回报率" sorter="default">
 				<template #title>
 					<div class="text-end">Plan ROI</div>
 				</template>

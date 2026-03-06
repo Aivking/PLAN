@@ -3,7 +3,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "HQ Upgrade Calculator | PRUNplanner",
+		title: "总部升级计算器 | PRUNplanner",
 	});
 
 	// Composables
@@ -66,7 +66,7 @@
 				<div
 					class="px-6 py-3 border-b border-white/10 flex flex-row justify-between gap-x-3">
 					<h1 class="text-2xl font-bold my-auto">
-						HQ Upgrade Calculator
+						总部升级计算器
 					</h1>
 					<HelpDrawer file-name="tools_hq_upgrade_calculator" />
 				</div>
@@ -76,7 +76,7 @@
 						class="px-6 py-3 grid grid-cols-1 xl:grid-cols-2 gap-3">
 						<div>
 							<PForm>
-								<PFormItem label="From HQ Level">
+								<PFormItem label="从总部等级">
 									<PSelect
 										v-model:value="selectedStart"
 										:options="levelOptions"
@@ -84,7 +84,7 @@
 										class="w-37.5"
 										@update:value="calculateMaterialData" />
 								</PFormItem>
-								<PFormItem label="To HQ Level">
+								<PFormItem label="到总部等级">
 									<PSelect
 										v-model:value="selectedTo"
 										:options="levelOptionsTo"
@@ -96,7 +96,7 @@
 						</div>
 						<div>
 							<PForm>
-								<PFormItem label="CX Preference">
+								<PFormItem label="交易所偏好">
 									<CXPreferenceSelector
 										:cx-uuid="refSelectedCXUuid"
 										class="w-full"
@@ -105,7 +105,7 @@
 												(refSelectedCXUuid = value)
 										" />
 								</PFormItem>
-								<PFormItem label="Show Locations">
+								<PFormItem label="显示位置">
 									<PCheckbox
 										v-model:checked="
 											selectedShowLocations
@@ -118,14 +118,14 @@
 						class="px-6 py-3 grid grid-cols-1 xl:grid-cols-2 gap-x-3">
 						<div
 							class="grid grid-cols-[min-content_1fr] gap-x-3 child:not-even:font-bold child:not-even:text-nowrap child:not-even:pr-3">
-							<div>Total Cost</div>
+							<div>总成本</div>
 							<div>
 								{{ formatNumber(totalCost) }}
 								<span class="pl-1 font-light text-white/50">
 									$
 								</span>
 							</div>
-							<div>Total Weight</div>
+							<div>总重量</div>
 							<div>
 								{{
 									formatNumber(totalWeightVolume.totalWeight)
@@ -134,7 +134,7 @@
 									t
 								</span>
 							</div>
-							<div>Total Volume</div>
+							<div>总体积</div>
 							<div>
 								{{
 									formatNumber(totalWeightVolume.totalVolume)
@@ -173,7 +173,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="amount"
-							title="Amount"
+							title="数量"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatAmount(rowData.amount) }}
@@ -181,7 +181,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="storage"
-							title="Storage"
+							title="存储"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatAmount(rowData.storage) }}
@@ -189,7 +189,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="override"
-							title="Override Stock">
+							title="覆盖库存">
 							<template #render-cell="{ rowData }">
 								<PInputNumber
 									:key="`OVERRIDE#${rowData.ticker}`"
@@ -206,7 +206,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="required"
-							title="Required"
+							title="所需"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatAmount(rowData.required) }}
@@ -214,7 +214,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="unitCost"
-							title="Cost / Unit"
+							title="单位成本"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatNumber(rowData.unitCost) }}
@@ -225,7 +225,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="totalCost"
-							title="Total Cost"
+							title="总成本"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatNumber(rowData.totalCost) }}
@@ -237,7 +237,7 @@
 						<XNDataTableColumn
 							v-if="selectedShowLocations"
 							key="storageLocations"
-							title="Storage Locations"
+							title="存储位置"
 							:width="'25%'">
 							<template #render-cell="{ rowData }">
 								{{

@@ -3,7 +3,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "Market Exploration | PRUNplanner",
+		title: "市场探索 | PRUNplanner",
 	});
 
 	// Stores
@@ -69,16 +69,16 @@
 		<div class="min-h-screen flex flex-col">
 			<div
 				class="px-6 py-3 border-b border-white/10 flex flex-row justify-between gap-x-3">
-				<h1 class="text-2xl font-bold">Market Exploration</h1>
+				<h1 class="text-2xl font-bold">市场探索</h1>
 				<div>
 					<div class="flex flex-row gap-x-3 child:my-auto">
-						<div>Exchange</div>
+						<div>交易所</div>
 						<PSelect
 							v-model:value="selectedExchange"
 							:options="exchangeOptions"
 							class="w-25" />
 
-						<div>Material</div>
+						<div>物资</div>
 						<PSelect
 							v-model:value="selectedMaterial"
 							searchable
@@ -112,7 +112,7 @@
 						:pagination="{ pageSize: 50 }">
 						<XNDataTableColumn
 							key="Datetime"
-							title="Date"
+							title="日期"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatDate(rowData.Datetime) }}
@@ -120,7 +120,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="price_average"
-							title="Average Price"
+							title="平均价格"
 							sorter="default" />
 						<XNDataTableColumn
 							key="price_min"
@@ -132,7 +132,7 @@
 							sorter="default" />
 						<XNDataTableColumn
 							key="volume_max"
-							title="Traded Volume"
+							title="交易量"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatAmount(rowData.volume_max) }}
@@ -140,7 +140,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="delta_supply_demand"
-							title="Delta Supply & Demand"
+							title="供需变化"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								<span

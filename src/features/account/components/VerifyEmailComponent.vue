@@ -43,7 +43,7 @@
 
 <template>
 	<h2 class="text-white/80 font-bold text-lg font-mono">
-		Email Verification
+		邮箱验证
 	</h2>
 	<div class="py-3 text-xs font-mono text-white/60">
 		Please enter the verification code you received via email. Maybe check
@@ -54,16 +54,16 @@
 			<div
 				v-if="verifyStatus"
 				class="mb-3 py-1 px-2 bg-prunplanner text-black">
-				Email address verified.
+				邮箱已验证。
 			</div>
 			<div v-else class="mb-3 py-1 px-2 bg-red-600 text-white">
-				Invalid code or already verified.
+				验证码无效或已验证。
 			</div>
 		</template>
 		<div>
 			<PInput
 				v-model:value="refVerificationCode"
-				placeholder="Verification Code"
+				placeholder="验证码"
 				class="w-full" />
 		</div>
 		<div class="pt-3">
@@ -71,7 +71,7 @@
 				:disabled="!canVerify"
 				:loading="isVerifying"
 				@click="verifyEmail">
-				Verify Email
+				验证邮箱
 			</PButton>
 		</div>
 	</div>

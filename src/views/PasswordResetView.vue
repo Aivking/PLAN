@@ -2,7 +2,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "Password Reset | PRUNplanner",
+		title: "重置密码 | PRUNplanner",
 	});
 
 	defineProps({

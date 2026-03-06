@@ -55,10 +55,10 @@
 
 <template>
 	<h2 class="text-white/80 font-bold text-lg font-mono">
-		Reset your Password
+		重置密码
 	</h2>
 	<div class="py-3 text-xs font-mono text-white/60">
-		Please enter the code sent to your email, along with your new password.
+		请输入发送到您邮箱的验证码以及新密码。
 	</div>
 	<div
 		v-if="requestResponse"
@@ -72,22 +72,22 @@
 	</div>
 	<div>
 		<PForm>
-			<PFormItem label="Code">
+			<PFormItem label="验证码">
 				<PInput v-model:value="inputCode" class="w-full" />
 			</PFormItem>
-			<PFormItem label="Password">
+			<PFormItem label="新密码">
 				<PInput
 					v-model:value="inputPassword"
 					type="password"
 					class="w-full" />
-				<template #info> Must be at least 8 characters long. </template>
+				<template #info> 至少 8 个字符。 </template>
 			</PFormItem>
 			<PFormItem label="">
 				<PButton
 					:disabled="!canSend"
 					:loading="isLoading"
 					@click="requestReset">
-					Send Request
+					提交请求
 				</PButton>
 			</PFormItem>
 		</PForm>

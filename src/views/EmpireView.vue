@@ -11,7 +11,7 @@
 	// Unhead
 	import { useHead } from "@unhead/vue";
 	useHead({
-		title: "Empire | PRUNplanner",
+		title: "帝国 | PRUNplanner",
 	});
 
 	// Composables
@@ -301,7 +301,7 @@
 				@complete="calculateEmpire">
 				<AsyncWrapperGenericError
 					v-if="refEmpireList.length === 0"
-					message-title="No Empires"
+					message-title="无帝国"
 					message-text="You don't have any empires. Head to Management to create your first." />
 
 				<ComputingProgress
@@ -334,7 +334,7 @@
 								class="flex flex-col gap-6 justify-items-start">
 								<div>
 									<PForm>
-										<PFormItem label="Switch Empire">
+										<PFormItem label="切换帝国">
 											<PSelect
 												v-model:value="
 													selectedEmpireUuid

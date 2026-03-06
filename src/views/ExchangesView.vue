@@ -229,7 +229,7 @@
 		<WrapperGameDataLoader load-exchanges load-materials>
 			<template v-if="!localCXUuid">
 				<AsyncWrapperGenericError
-					message-title="No Preferences"
+					message-title="无偏好设置"
 					message-text="You don't have exchange preferences. Head to Management and create your first." />
 			</template>
 			<div v-else class="min-h-screen flex flex-col">
@@ -248,7 +248,7 @@
 								{{ cxName }}
 							</div>
 						</n-dropdown>
-						<template v-else>Exchanges</template>
+						<template v-else>交易所</template>
 					</h1>
 					<div class="flex flex-row gap-x-3">
 						<PButton @click="toggleImportExport">
@@ -295,7 +295,7 @@
 						<CXExchangePreference
 							v-if="selectedCX"
 							v-model:cx-options="selectedCX.cx_data.cx_empire" />
-						<h3 class="text-lg font-bold py-3">Ticker</h3>
+						<h3 class="text-lg font-bold py-3">代码</h3>
 						<CXTickerPreference
 							v-if="selectedCX"
 							v-model:cx-options="

@@ -32,21 +32,21 @@
 		<div class="lg:mb-10">
 			<h1
 				class="bg-linear-to-b bg-clip-text pb-4 text-7xl font-extrabold leading-tight text-transparent from-white/50 to-white">
-				Plan your empire. <br />
-				Rule Prosperous Universe.
+				规划您的帝国。 <br />
+				统治繁荣宇宙。
 			</h1>
 			<p class="text-xl text-white/60 font-mono">
-				Say goodbye to cumbersome spreadsheets and hello to seamless
-				management of your in-game assets.
+				告别繁琐的电子表格，
+				轻松管理您的游戏内资产。
 			</p>
 		</div>
 
 		<h1 class="pb-4 text-4xl tracking-tight text-white text-center mt-30">
-			Powerful Features, Free For Everyone
+			强大功能，免费向所有人开放
 		</h1>
 		<p class="text-white/60 text-center text-xl mb-10">
-			Streamline your planning and resource management, ensure you stay
-			ahead in the galaxy.
+			简化规划与资源管理，
+			确保您在星系中始终领先。
 		</p>
 
 		<div
@@ -54,7 +54,7 @@
 			<div class="bg-black">
 				<div class="flex flex-col">
 					<div class="text-white text-2xl font-bold mb-2">
-						Base Simulation
+						基地模拟
 					</div>
 					<div class="text-white/60 text-lg font-mono">
 						PRUNplanner lets you design and try new bases without
@@ -106,7 +106,7 @@
 			<div class="bg-black">
 				<div class="flex flex-col">
 					<div class="text-white text-2xl font-bold mb-2">
-						Market Exploration
+						市场探索
 					</div>
 					<div class="text-white/60 text-lg font-mono">
 						Explore historic market trends from past years and
@@ -159,7 +159,7 @@
 
 	<div class="mx-auto w-full max-w-7xl px-5 md:px-10 lg:px-0">
 		<h1 class="pb-4 text-4xl tracking-tight text-white text-center mt-30">
-			Core Concepts
+			核心概念
 		</h1>
 		<p class="text-white/60 text-center text-xl mb-10">
 			PRUNplanner consists of three main components that allow you to plan
@@ -190,7 +190,7 @@
 				</div>
 			</div>
 			<div class="">
-				<div class="text-white text-2xl font-bold mb-2">Exchanges</div>
+				<div class="text-white text-2xl font-bold mb-2">交易所</div>
 				<div class="text-lg font-mono text-white/60">
 					The Exchange Settings allow you to define market preferences
 					for the pricing of materials. Each preference can be used in

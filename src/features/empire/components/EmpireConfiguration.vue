@@ -107,7 +107,7 @@
 <template>
 	<div class="p-3 child:my-auto border border-white/10 rounded">
 		<div class="pb-3 flex justify-between child:my-auto">
-			<h2 class="grow text-white/80 font-bold text-lg">Configuration</h2>
+			<h2 class="grow text-white/80 font-bold text-lg">配置</h2>
 
 			<div class="flex gap-x-3">
 				<PButton size="md" :loading="isLoading" @click="save">
@@ -121,28 +121,28 @@
 			</div>
 		</div>
 		<PForm>
-			<PFormItem label="Name">
+			<PFormItem label="星球名称">
 				<PInput v-model:value="localData.name" class="w-full" />
 			</PFormItem>
-			<PFormItem label="Faction">
+			<PFormItem label="派系">
 				<PSelect
 					v-model:value="localData.faction"
 					class="w-full"
 					:options="factionOptions" />
 			</PFormItem>
-			<PFormItem label="Permits Total">
+			<PFormItem label="许可证总数">
 				<PInputNumber
 					v-model:value="localData.permits_total"
 					show-buttons
 					:min="2" />
 			</PFormItem>
-			<PFormItem label="Permits Used">
+			<PFormItem label="已用许可证">
 				<PInputNumber
 					v-model:value="localData.permits_used"
 					show-buttons
 					:min="1" />
 			</PFormItem>
-			<PFormItem label="Use FIO Storage?">
+			<PFormItem label="使用 FIO 存储？">
 				<PCheckbox v-model:checked="localData.use_fio_storage" />
 			</PFormItem>
 		</PForm>
