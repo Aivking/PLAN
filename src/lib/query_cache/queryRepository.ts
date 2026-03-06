@@ -440,9 +440,13 @@ export function useQueryRepository() {
 		GetAllEmpires: {
 			key: () => ["planningdata", "empire", "list"],
 			fetchFn: async () => {
-				const data = await callGetEmpireList();
-				planningStore.setEmpires(data);
-				return data;
+				try {
+					const data = await callGetEmpireList();
+					planningStore.setEmpires(data);
+					return data;
+				} catch {
+					return [];
+				}
 			},
 			autoRefetch: false,
 			persist: true,
@@ -558,9 +562,13 @@ export function useQueryRepository() {
 		GetAllCX: {
 			key: () => ["planningdata", "cx"],
 			fetchFn: async () => {
-				const data = await callGetCXList();
-				planningStore.setCXs(data);
-				return data;
+				try {
+					const data = await callGetCXList();
+					planningStore.setCXs(data);
+					return data;
+				} catch {
+					return [];
+				}
 			},
 			autoRefetch: false,
 			persist: true,
