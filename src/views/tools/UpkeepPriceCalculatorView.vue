@@ -1,6 +1,8 @@
 <script setup lang="ts">
-	import { ref, Ref } from "vue";
+	import { computed, ref, Ref } from "vue";
 	import { useHead } from "@unhead/vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	// Components
 	import WrapperGameDataLoader from "@/features/wrapper/components/WrapperGameDataLoader.vue";
@@ -10,7 +12,7 @@
 	import UpkeepPriceCalculator from "@/features/government/components/UpkeepPriceCalculator.vue";
 
 	useHead({
-		title: "Upkeep Price Calculator | PRUNplanner",
+		title: computed(() => `${t("manage.upkeep.title")} | PRUNplanner`),
 	});
 
 	// UI
@@ -31,11 +33,11 @@
 					<div
 						class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
 						<h1 class="text-2xl font-bold my-auto">
-							Upkeep Price Calculator
+							{{ $t("manage.upkeep.title") }}
 						</h1>
 						<div class="flex flex-row gap-x-3">
 							<PForm>
-								<PFormItem label="CX Preference">
+								<PFormItem :label="$t('manage.upkeep.cx_preference')">
 									<CXPreferenceSelector
 										:cx-uuid="refSelectedCXUuid"
 										@update:cxuuid="

@@ -17,6 +17,7 @@
       "production_chains": "Production Chains",
       "fio_burn": "FIO Burn",
       "fio_repair": "FIO Repair",
+      "upkeep_calculator": "Upkeep Prices",
       "api": "API",
       "profile": "Profile",
       "help": "Help",
@@ -892,6 +893,19 @@
           "SELL": "Sell",
           "BOTH": "Both"
         }
+      }
+    },
+    "upkeep": {
+      "title": "Upkeep Price Calculator",
+      "cx_preference": "CX Preference",
+      "calculating": "Calculating Upkeep Material Prices",
+      "material_details": "Material Details",
+      "table": {
+        "material": "Material",
+        "building": "Building",
+        "price_per_need": "$/Need",
+        "cx_price": "CX Price",
+        "qty_per_day": "Qty/Day"
       }
     },
     "assignments": {

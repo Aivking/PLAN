@@ -46,6 +46,7 @@
 		TravelExploreSharp,
 		KeyboardDoubleArrowLeftSharp,
 		KeyboardDoubleArrowRightSharp,
+		AccountBalanceSharp,
 	} from "@vicons/material";
 
 	const userStore = useUserStore();
@@ -205,6 +206,12 @@
 				// 	routerLink: "/not-implemented",
 				// 	icon: StarsSharp,
 				// },
+				{
+					label: t("nav.items.upkeep_calculator"),
+					display: true,
+					routerLink: "/upkeep-price-calculator",
+					icon: AccountBalanceSharp,
+				},
 				{
 					label: t("nav.items.fio_burn"),
 					display: userStore.hasFIO,

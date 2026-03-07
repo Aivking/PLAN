@@ -1,5 +1,7 @@
 <script setup lang="ts">
 	import { ComputedRef, Ref, computed, ref, watch } from "vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	// Composables
 	import { useUpkeepBuildings } from "@/features/government/composables/useUpkeepBuildings";
@@ -82,7 +84,7 @@
 		<div class="text-center w-100 py-3">
 			<PProgressBar :step="1" :total="2" />
 			<div class="pt-3 text-xs text-white/60">
-				Calculating Upkeep Material Prices
+				{{ $t("manage.upkeep.calculating") }}
 			</div>
 		</div>
 	</div>
@@ -105,7 +107,7 @@
 		<!-- Material Details Section -->
 		<div>
 			<h3 class="text-sm font-semibold text-white/80 mb-3">
-				Material Details
+				{{ $t("manage.upkeep.material_details") }}
 			</h3>
 			<XNDataTable
 				:data="currentResults"
@@ -113,7 +115,7 @@
 				:pagination="{ pageSize: 50 }">
 				<XNDataTableColumn
 					key="ticker"
-					title="Material"
+					:title="t('manage.upkeep.table.material')"
 					sorter="default">
 					<template #render-cell="{ rowData }">
 						<MaterialTile
@@ -123,7 +125,7 @@
 				</XNDataTableColumn>
 				<XNDataTableColumn
 					key="buildingTicker"
-					title="Building"
+					:title="t('manage.upkeep.table.building')"
 					sorter="default">
 					<template #render-cell="{ rowData }">
 						<span class="font-bold">{{
@@ -133,10 +135,10 @@
 				</XNDataTableColumn>
 				<XNDataTableColumn
 					key="pricePerNeed"
-					title="$/Need"
+					:title="t('manage.upkeep.table.price_per_need')"
 					sorter="default">
 					<template #title>
-						<div class="text-end">$/Need</div>
+						<div class="text-end">{{ $t("manage.upkeep.table.price_per_need") }}</div>
 					</template>
 					<template #render-cell="{ rowData }">
 						<div
@@ -153,10 +155,10 @@
 				</XNDataTableColumn>
 				<XNDataTableColumn
 					key="cxPrice"
-					title="CX Price"
+					:title="t('manage.upkeep.table.cx_price')"
 					sorter="default">
 					<template #title>
-						<div class="text-end">CX Price</div>
+						<div class="text-end">{{ $t("manage.upkeep.table.cx_price") }}</div>
 					</template>
 					<template #render-cell="{ rowData }">
 						<div
@@ -177,10 +179,10 @@
 
 				<XNDataTableColumn
 					key="qtyPerDay"
-					title="Qty/Day"
+					:title="t('manage.upkeep.table.qty_per_day')"
 					sorter="default">
 					<template #title>
-						<div class="text-end">Qty/Day</div>
+						<div class="text-end">{{ $t("manage.upkeep.table.qty_per_day") }}</div>
 					</template>
 					<template #render-cell="{ rowData }">
 						<div class="text-end text-nowrap">

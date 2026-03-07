@@ -17,6 +17,7 @@
       "production_chains": "生产链",
       "fio_burn": "FIO 消耗",
       "fio_repair": "FIO 维修",
+      "upkeep_calculator": "维护价格",
       "api": "API",
       "profile": "个人资料",
       "help": "帮助",
@@ -892,6 +893,19 @@
           "SELL": "卖出",
           "BOTH": "全部"
         }
+      }
+    },
+    "upkeep": {
+      "title": "维护价格计算器",
+      "cx_preference": "交易所偏好",
+      "calculating": "正在计算维护材料价格...",
+      "material_details": "材料详情",
+      "table": {
+        "material": "材料",
+        "building": "建筑",
+        "price_per_need": "$/需求",
+        "cx_price": "交易所价格",
+        "qty_per_day": "每日数量"
       }
     },
     "assignments": {

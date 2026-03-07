@@ -291,14 +291,14 @@
 							};
 						}),
 						cxUuid: refCXUuid.value,
-						planetNaturalId: planetData.PlanetNaturalId,
+						planetNaturalId: planetData.planet_natural_id,
 					},
 					listeners: {},
 				};
 			case "popr":
 				return {
 					props: {
-						planetNaturalId: planetData.PlanetNaturalId,
+						planetNaturalId: planetData.planet_natural_id,
 						workforceData: result.value.workforce,
 					},
 					listeners: {},
@@ -306,7 +306,7 @@
 			case "supply-cart":
 				return {
 					props: {
-						planetNaturalId: planetData.PlanetNaturalId,
+						planetNaturalId: planetData.planet_natural_id,
 						materialIO: result.value.materialio,
 						workforceMaterialIO: result.value.workforceMaterialIO,
 						productionMaterialIO: result.value.productionMaterialIO,
@@ -316,7 +316,7 @@
 			case "construction-cart":
 				return {
 					props: {
-						planetNaturalId: planetData.PlanetNaturalId,
+						planetNaturalId: planetData.planet_natural_id,
 						cxUuid: refCXUuid.value,
 						constructionData: result.value.constructionMaterials,
 						productionBuildingData:
@@ -345,7 +345,7 @@
 
 			await patchMaterialIO(
 				refPlanData.value.uuid!,
-				planetData.PlanetNaturalId,
+				planetData.planet_natural_id,
 				result.value.materialio
 			);
 
@@ -353,7 +353,7 @@
 			handleResetModified();
 
 			trackEvent("plan_save", {
-				planetNaturalId: planetData.PlanetNaturalId,
+				planetNaturalId: planetData.planet_natural_id,
 			});
 
 			refIsSaving.value = false;
@@ -366,7 +366,7 @@
 
 						await patchMaterialIO(
 							refPlanData.value.uuid!,
-							planetData.PlanetNaturalId,
+							planetData.planet_natural_id,
 							result.value.materialio
 						);
 
@@ -380,11 +380,11 @@
 						// reset modified state
 						handleResetModified();
 						trackEvent("plan_create", {
-							planetNaturalId: planetData.PlanetNaturalId,
+							planetNaturalId: planetData.planet_natural_id,
 						});
 
 						router.push(
-							`/plan/${planetData.PlanetNaturalId}/${newUuid}`
+							`/plan/${planetData.planet_natural_id}/${newUuid}`
 						);
 					}
 				}
@@ -407,7 +407,7 @@
 		);
 
 		trackEvent("plan_reload", {
-			planetNaturalId: planetData.PlanetNaturalId,
+			planetNaturalId: planetData.planet_natural_id,
 		});
 		refIsReloading.value = false;
 	}
@@ -420,7 +420,7 @@
 
 		sharedWasCloned.value = await cloneSharedPlan(props.sharedPlanUuid);
 		trackEvent("plan_shared_cloned", {
-			planetNaturalId: planetData.PlanetNaturalId,
+			planetNaturalId: planetData.planet_natural_id,
 			sharedUuid: props.sharedPlanUuid,
 		});
 	}
@@ -439,7 +439,7 @@
 	onBeforeRouteLeave(() => {
 		if (modified.value && !props.sharedPlanUuid) {
 			trackEvent("plan_leave_changed", {
-				planetNaturalId: planetData.PlanetNaturalId,
+				planetNaturalId: planetData.planet_natural_id,
 			});
 
 			const answer = confirm(t("plan.leave_confirmation"));
@@ -512,11 +512,11 @@
 				</h1>
 				<span class="text-white/60">
 					{{
-						planetData.PlanetName != planetData.PlanetNaturalId
-							? planetData.PlanetName + " - "
+						planetData.planet_name != planetData.planet_natural_id
+							? planetData.planet_name + " - "
 							: ""
 					}}
-					{{ planetData.PlanetNaturalId }}
+					{{ planetData.planet_natural_id }}
 				</span>
 			</div>
 			<!-- Status Bar (sticky) -->
@@ -678,7 +678,7 @@
 									:disabled="disabled"
 									:area-data="result.area"
 									:planet-natural-id="
-										planetData.PlanetNaturalId
+										planetData.planet_natural_id
 									"
 									@update:permits="handleUpdatePermits" />
 								<PlanBonuses
@@ -686,7 +686,7 @@
 									:corphq="result.corphq"
 									:cogc="result.cogc"
 									:planet-natural-id="
-										planetData.PlanetNaturalId
+										planetData.planet_natural_id
 									"
 									@update:corphq="handleUpdateCorpHQ"
 									@update:cogc="handleUpdateCOGC" />
@@ -703,7 +703,7 @@
 									:infrastructure-data="result.infrastructure"
 									:auto-optimize-habs="refAutoOptimizeHabs"
 									:planet-natural-id="
-										planetData.PlanetNaturalId
+										planetData.planet_natural_id
 									"
 									@update:infrastructure="
 										handleUpdateInfrastructure
@@ -728,7 +728,7 @@
 									:disabled="disabled"
 									:expert-data="result.experts"
 									:planet-natural-id="
-										planetData.PlanetNaturalId
+										planetData.planet_natural_id
 									"
 									@update:expert="handleUpdateExpert" />
 							</div>
@@ -762,7 +762,7 @@
 							<PlanWorkforce
 								:disabled="disabled"
 								:workforce-data="result.workforce"
-								:planet-natural-id="planetData.PlanetNaturalId"
+								:planet-natural-id="planetData.planet_natural_id"
 								@update:lux="handleUpdateWorkforceLux" />
 						</div>
 						<div>
@@ -783,10 +783,10 @@
 						<PlanProduction
 							:disabled="disabled"
 							:production-data="result.production"
-							:planet-resources="planetData.Resources"
+							:planet-resources="planetData.resources"
 							:cogc="result.cogc"
 							:cx-uuid="refCXUuid"
-							:planet-id="planetData.PlanetNaturalId"
+							:planet-id="planetData.planet_natural_id"
 							@update:building:amount="handleUpdateBuildingAmount"
 							@delete:building="handleDeleteBuilding"
 							@create:building="handleCreateBuilding"

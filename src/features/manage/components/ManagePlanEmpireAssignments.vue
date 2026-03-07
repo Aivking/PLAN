@@ -89,7 +89,7 @@
 
 	const filterOptionsPlanNames: ComputedRef<PSelectOption[]> = computed(() =>
 		localPlans.value.map((e) => ({
-			label: e.empire_name ?? t("empire.unknown_plan_name"),
+			label: e.plan_name ?? t("empire.unknown_plan_name"),
 			value: e.uuid,
 		}))
 	);
@@ -140,7 +140,7 @@
 		// prepare flatmap of all plan uuids within an empire
 		const empirePlans: Record<string, string[]> = localEmpires.value.reduce(
 			(acc, item) => (
-				(acc[item.uuid] = item.baseplanners.map((p) => p.uuid)), acc
+				(acc[item.uuid] = item.plans.map((p) => p.uuid)), acc
 			),
 			{} as Record<string, string[]>
 		);
