@@ -19,21 +19,32 @@
 			import: "default",
 		}) as Record<string, () => Promise<string>>;
 
-		const path = `/src/assets/help/changelog${
-			locale.value === "zh" ? ".zh" : ""
-		}.md`;
+		const zhPath = `/src/assets/help/changelog.zh.md`;
+		const enPath = `/src/assets/help/changelog.md`;
+		const path =
+			locale.value === "zh" && markdownFiles[zhPath] ? zhPath : enPath;
 		const loader = markdownFiles[path];
-		if (!loader) throw new Error(`Markdown file "changelog" not found.`);
+		if (!loader) return "";
 
 		return await loader();
 	}
 
 	const markdownContent: Ref<string> = ref("");
 
-	onMounted(async () => (markdownContent.value = await loadMarkdown()));
+	onMounted(async () => {
+		try {
+			markdownContent.value = await loadMarkdown();
+		} catch {
+			markdownContent.value = "";
+		}
+	});
 
 	watch(locale, async () => {
-		markdownContent.value = await loadMarkdown();
+		try {
+			markdownContent.value = await loadMarkdown();
+		} catch {
+			markdownContent.value = "";
+		}
 	});
 </script>
 

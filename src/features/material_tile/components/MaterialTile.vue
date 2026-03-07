@@ -132,15 +132,7 @@
 	const instance = getCurrentInstance();
 
 	onMounted(async () => {
-		// enforce a "key" on MaterialTile
-		if (!instance?.vnode.key) {
-			console.warn(
-				`[${
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					(instance?.type as any).__name
-				}] should always be used with a :key!`
-			);
-		}
+		if (!props.ticker) return;
 
 		try {
 			material.value = await getMaterial(props.ticker);
