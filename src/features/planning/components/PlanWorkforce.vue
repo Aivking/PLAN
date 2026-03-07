@@ -65,7 +65,7 @@
 	<PTable striped>
 		<thead>
 			<tr>
-				<th>类型</th>
+				<th>Type</th>
 				<th>Req.</th>
 				<th>Capa.</th>
 				<th>Open</th>

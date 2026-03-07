@@ -83,9 +83,9 @@
 <template>
 	<div
 		class="border border-b-0 rounded-[3px] border-white/15 p-3 flex flex-row gap-3 flex-wrap">
-		<div class="my-auto font-bold pr-3">筛选</div>
+		<div class="my-auto font-bold pr-3">Filter</div>
 		<div class="flex flex-row gap-3 child:my-auto">
-			<div>建筑</div>
+			<div>Building</div>
 			<PSelect
 				v-model:value="localFilterBuilding"
 				:options="buildingOptions"
@@ -103,7 +103,7 @@
 				class="w-50" />
 		</div>
 		<div class="flex flex-row gap-3 child:my-auto">
-			<div>产出</div>
+			<div>Output</div>
 			<PSelect
 				v-model:value="localFilterOutputMaterial"
 				:options="outputMaterialOptions"
@@ -112,7 +112,7 @@
 				class="w-50" />
 		</div>
 		<div class="flex flex-row gap-3 child:my-auto">
-			<div>输入</div>
+			<div>Input</div>
 			<PSelect
 				v-model:value="localFilterInputMaterial"
 				:options="inputMaterialOptions"

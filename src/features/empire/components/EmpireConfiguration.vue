@@ -19,7 +19,6 @@
 	// UI
 	import {
 		PButton,
-		PCheckbox,
 		PForm,
 		PFormItem,
 		PInputNumber,
@@ -83,10 +82,10 @@
 		trackEvent("empire_patch");
 
 		const patchData: IEmpirePatchPayload = {
+			empire_name: localData.value.empire_name,
 			empire_faction: localData.value.empire_faction as PLAN_FACTION,
 			empire_permits_used: localData.value.empire_permits_used,
 			empire_permits_total: localData.value.empire_permits_total,
-			empire_name: localData.value.empire_name,
 		};
 
 		try {
@@ -106,7 +105,7 @@
 <template>
 	<div class="p-3 child:my-auto border border-white/10 rounded">
 		<div class="pb-3 flex justify-between child:my-auto">
-			<h2 class="grow text-white/80 font-bold text-lg">配置</h2>
+			<h2 class="grow text-white/80 font-bold text-lg">Configuration</h2>
 
 			<div class="flex gap-x-3">
 				<PButton size="md" :loading="isLoading" @click="save">
@@ -120,22 +119,22 @@
 			</div>
 		</div>
 		<PForm>
-			<PFormItem label="星球名称">
+			<PFormItem label="Name">
 				<PInput v-model:value="localData.empire_name" class="w-full" />
 			</PFormItem>
-			<PFormItem label="派系">
+			<PFormItem label="Faction">
 				<PSelect
 					v-model:value="localData.empire_faction"
 					class="w-full"
 					:options="factionOptions" />
 			</PFormItem>
-			<PFormItem label="许可证总数">
+			<PFormItem label="Permits Total">
 				<PInputNumber
 					v-model:value="localData.empire_permits_total"
 					show-buttons
 					:min="2" />
 			</PFormItem>
-			<PFormItem label="已用许可证">
+			<PFormItem label="Permits Used">
 				<PInputNumber
 					v-model:value="localData.empire_permits_used"
 					show-buttons

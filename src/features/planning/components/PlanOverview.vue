@@ -83,7 +83,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td>投资回报率</td>
+						<td>ROI</td>
 						<td
 							:class="
 								overviewData.roi > 0
@@ -121,7 +121,7 @@
 				</thead>
 				<tbody class="child:child:text-center">
 					<tr>
-						<td class="text-left! font-bold">导入</td>
+						<td class="text-left! font-bold">Import</td>
 						<td>
 							{{ formatNumber(visitationData.dailyWeightImport) }}
 						</td>
@@ -130,7 +130,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">导出</td>
+						<td class="text-left! font-bold">Export</td>
 						<td>
 							{{ formatNumber(visitationData.dailyWeightExport) }}
 						</td>

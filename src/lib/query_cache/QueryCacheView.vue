@@ -33,7 +33,7 @@
 			<thead>
 				<tr>
 					<th>Key</th>
-					<th>加载中</th>
+					<th>Loading</th>
 					<th>Error</th>
 					<th>Timestamp</th>
 					<th>ExpireMs</th>

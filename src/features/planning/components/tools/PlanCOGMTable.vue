@@ -25,7 +25,7 @@
 	<PTable>
 		<tbody>
 			<tr>
-				<th colspan="4">参数</th>
+				<th colspan="4">Parameters</th>
 			</tr>
 			<tr>
 				<td class="border-r">Recipe Runtime</td>
@@ -39,7 +39,7 @@
 				<td colspan="3">{{ formatNumber(data.efficiency * 100) }} %</td>
 			</tr>
 			<tr>
-				<th colspan="4">成本</th>
+				<th colspan="4">Cost</th>
 			</tr>
 			<tr>
 				<td class="border-r">Degradation</td>
@@ -65,7 +65,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>物资</td>
+					<td>Material</td>
 					<td>$ / Unit</td>
 					<td class="text-end">$ Total</td>
 				</tr>

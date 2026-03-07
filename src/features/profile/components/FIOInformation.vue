@@ -86,7 +86,7 @@
 				<li>
 					Copy and enter your <strong>FIO API Key</strong> as well as
 					your <strong>Prosperous Universe username</strong> to your
-					profile above and press the "更新资料" button
+					profile above and press the "Update Profile" button
 				</li>
 				<li>
 					Wait a few minutes for PRUNplanner to get your data and

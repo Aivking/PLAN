@@ -50,7 +50,7 @@
 
 <template>
 	<x-n-data-table :data="localEmpireMaterialIO" striped>
-		<x-n-data-table-column key="ticker" title="代码" sorter="default">
+		<x-n-data-table-column key="ticker" title="Ticker" sorter="default">
 			<template #render-cell="{ rowData }">
 				<MaterialTile :key="rowData.ticker" :ticker="rowData.ticker" />
 			</template>

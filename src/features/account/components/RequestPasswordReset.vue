@@ -45,25 +45,19 @@
 
 <template>
 	<h2 class="text-white/80 font-bold text-lg font-mono">
-		申请重置密码
+		Password Reset Request
 	</h2>
 	<div class="py-3 text-xs font-mono text-white/60">
-		请输入您 PRUNplanner 账号绑定的邮箱地址，我们将向该邮箱发送重置验证码。
+		Enter the email address linked to your PRUNplanner account. If we
+		recognize it, we'll send you a code to reset your password.
 	</div>
-	<div
-		v-if="requestResponse"
-		class="pb-3 text-xs font-mono"
-		:class="
-			requestResponse.status_code === 200
-				? 'text-prunplanner'
-				: 'text-red-600'
-		">
-		{{ requestResponse.message }}.
+	<div v-if="requestResponse" class="pb-3 text-xs font-mono text-prunplanner">
+		{{ requestResponse.detail }}.
 	</div>
 	<div>
 		<PInput
 			v-model:value="inputEmail"
-			placeholder="邮箱地址"
+			placeholder="Email Address"
 			class="w-full" />
 	</div>
 	<div class="pt-3">
@@ -71,7 +65,7 @@
 			:disabled="!canRequest"
 			:loading="isLoading"
 			@click="requestReset">
-			发送请求
+			Send Request
 		</PButton>
 	</div>
 </template>

@@ -74,7 +74,7 @@
 		:building-options="filterOptionBuilding"
 		:searched-material="searchedMaterial" />
 	<XNDataTable :data="localResult" striped :pagination="{ pageSize: 50 }">
-		<XNDataTableColumn key="planetName" title="星球" sorter="default">
+		<XNDataTableColumn key="planetName" title="Planet" sorter="default">
 			<template #render-cell="{ rowData }">
 				<router-link
 					:to="`/plan/${rowData.planetNaturalId}`"

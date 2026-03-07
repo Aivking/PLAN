@@ -85,12 +85,12 @@
 	const filterEmpires: Ref<string[]> = ref([]);
 	const filterOptionsPlanNames: ComputedRef<PSelectOption[]> = computed(() =>
 		localPlans.value.map((e) => ({
-			label: e.name ?? "Missing Plan Name",
+			label: e.plan_name ?? "Missing Plan Name",
 			value: e.uuid,
 		}))
 	);
 	const filterOptionsEmpires: ComputedRef<PSelectOption[]> = computed(() =>
-		localEmpires.value.map((e) => ({ label: e.name, value: e.uuid }))
+		localEmpires.value.map((e) => ({ label: e.empire_name, value: e.uuid }))
 	);
 
 	// generate initial matrix upon props passing
@@ -128,7 +128,7 @@
 			.map((e) => {
 				return {
 					empireUuid: e.uuid,
-					empireName: e.name,
+					empireName: e.empire_name,
 				};
 			})
 			.sort((a, b) => (a.empireName > b.empireName ? 1 : -1));
@@ -136,7 +136,8 @@
 		// prepare flatmap of all plan uuids within an empire
 		const empirePlans: Record<string, string[]> = localEmpires.value.reduce(
 			(acc, item) => (
-				(acc[item.uuid] = item.plans.map((p) => p.uuid)), acc
+				(acc[item.uuid] = item.plans.map((p) => p.uuid)),
+				acc
 			),
 			{} as Record<string, string[]>
 		);
@@ -199,7 +200,7 @@
 
 				matrix.value.forEach((mp) => {
 					if (mp.empires[me.empireUuid]) {
-						indJunction.plans.push({
+						indJunction.baseplanners.push({
 							baseplanner_uuid: mp.planUuid,
 						});
 					}
@@ -315,7 +316,7 @@
 		striped
 		:single-line="false"
 		:pagination="{ pageSize: 50 }">
-		<x-n-data-table-column key="planName" title="规划" sorter="default">
+		<x-n-data-table-column key="planName" title="Plan" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="w-43.75 text-wrap">
 					<router-link
@@ -326,7 +327,7 @@
 				</div>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="planetId" title="星球" sorter="default">
+		<x-n-data-table-column key="planetId" title="Planet" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="w-43.75 text-wrap">
 					{{
@@ -338,7 +339,7 @@
 			</template>
 		</x-n-data-table-column>
 
-		<x-n-data-table-column key="options" title="配置">
+		<x-n-data-table-column key="options" title="Configuration">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1">
 					<PButton
@@ -403,7 +404,7 @@
 					<router-link
 						to="/search"
 						class="text-link-primary hover:underline">
-						星球搜索
+						Planet Search
 					</router-link>
 					to create your first plan.
 				</div>

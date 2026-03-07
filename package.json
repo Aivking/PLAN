@@ -9,15 +9,14 @@
 		"build": "vite build && node scripts/write-version.js",
 		"tsc": "vue-tsc --project tsconfig.typecheck.json",
 		"tsc:watch": "vue-tsc --project tsconfig.typecheck.json --watch",
-		"preview": "pnpm run build && wrangler dev",
+		"preview": "vite preview",
 		"test": "vitest --run --silent",
 		"test:watch": "vitest watch",
 		"test:ui": "vitest --ui",
 		"test:coverage": "vitest run --coverage",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"knip": "knip",
-		"deploy": "pnpm run build && wrangler deploy"
+		"knip": "knip"
 	},
 	"dependencies": {
 		"@dagrejs/dagre": "^2.0.4",
@@ -51,7 +50,6 @@
 		"zod": "^4.3.6"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "^1.26.1",
 		"@eslint/js": "^10.0.1",
 		"@types/node": "25.3.2",
 		"@types/papaparse": "^5.5.2",
@@ -77,7 +75,6 @@
 		"vite-tsconfig-paths": "^6.1.1",
 		"vitest": "^4.0.18",
 		"vue-eslint-parser": "^10.4.0",
-		"vue-tsc": "3.2.5",
-		"wrangler": "^4.71.0"
+		"vue-tsc": "3.2.5"
 	}
 }

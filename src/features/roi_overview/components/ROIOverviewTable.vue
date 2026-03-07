@@ -105,7 +105,9 @@
 			Array.from(
 				new Set(
 					result.value
-						.map((e) => e.recipeInputs.map((e) => e.material_ticker))
+						.map((e) =>
+							e.recipeInputs.map((e) => e.material_ticker)
+						)
 						.flat()
 				)
 			)
@@ -118,7 +120,9 @@
 			Array.from(
 				new Set(
 					result.value
-						.map((e) => e.recipeOutputs.map((e) => e.material_ticker))
+						.map((e) =>
+							e.recipeOutputs.map((e) => e.material_ticker)
+						)
 						.flat()
 				)
 			)
@@ -175,18 +179,18 @@
 			:pagination="{ pageSize: 50 }">
 			<XNDataTableColumn
 				key="buildingTicker"
-				title="建筑"
+				title="Building"
 				sorter="default">
 				<template #render-cell="{ rowData }">
 					<span class="font-bold">{{ rowData.buildingTicker }}</span>
 				</template>
 			</XNDataTableColumn>
-			<XNDataTableColumn key="optimalSetup" title="最优配置">
+			<XNDataTableColumn key="optimalSetup" title="Optimal Setup">
 				<template #render-cell="{ rowData }">
 					{{ formatOptimal(rowData.optimalSetup) }}
 				</template>
 			</XNDataTableColumn>
-			<XNDataTableColumn key="recipeOutputs" title="配方产出">
+			<XNDataTableColumn key="recipeOutputs" title="Recipe Output">
 				<template #render-cell="{ rowData }">
 					<div class="flex flex-row flex-wrap gap-1">
 						<MaterialTile
@@ -197,7 +201,7 @@
 					</div>
 				</template>
 			</XNDataTableColumn>
-			<XNDataTableColumn key="recipeInputs" title="配方输入">
+			<XNDataTableColumn key="recipeInputs" title="Recipe Input">
 				<template #render-cell="{ rowData }">
 					<div class="flex flex-row flex-wrap gap-1">
 						<MaterialTile
@@ -215,14 +219,14 @@
 					</span>
 				</template>
 			</XNDataTableColumn>
-			<XNDataTableColumn key="cogm" title="生产成本">
+			<XNDataTableColumn key="cogm" title="COGM">
 				<template #render-cell="{ rowData }">
 					<COGMButton :cogm-data="rowData.cogm" />
 				</template>
 			</XNDataTableColumn>
 			<XNDataTableColumn
 				key="planCost"
-				title="规划成本"
+				title="Plan Cost"
 				sorter="default">
 				<template #title>
 					<div class="text-end">Plan Cost</div>
@@ -236,7 +240,7 @@
 			</XNDataTableColumn>
 			<XNDataTableColumn
 				key="dailyProfit"
-				title="每日利润"
+				title="Daily Profit"
 				sorter="default">
 				<template #title>
 					<div class="text-end">Daily Profit</div>
@@ -256,7 +260,7 @@
 			</XNDataTableColumn>
 			<XNDataTableColumn
 				key="planProfitArea"
-				title="利润/区域"
+				title="Profit/Area"
 				sorter="default">
 				<template #title>
 					<div class="text-end">Profit/Area</div>
@@ -274,7 +278,7 @@
 					</div>
 				</template>
 			</XNDataTableColumn>
-			<XNDataTableColumn key="planROI" title="规划回报率" sorter="default">
+			<XNDataTableColumn key="planROI" title="Plan ROI" sorter="default">
 				<template #title>
 					<div class="text-end">Plan ROI</div>
 				</template>

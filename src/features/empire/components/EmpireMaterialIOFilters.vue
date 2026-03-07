@@ -85,7 +85,7 @@
 	<div class="grid grid-cols-1 xl:grid-cols-[max-content_auto] gap-6">
 		<div>
 			<PForm>
-				<PFormItem label="显示">
+				<PFormItem label="Display">
 					<PButtonGroup>
 						<PButton
 							:type="localLoadBalance ? 'secondary' : 'primary'"
@@ -103,7 +103,7 @@
 						</PButton>
 					</PButtonGroup>
 				</PFormItem>
-				<PFormItem label="消耗品">
+				<PFormItem label="Consumables">
 					<PButtonGroup>
 						<PButton
 							:type="
@@ -133,7 +133,7 @@
 		</div>
 		<div class="">
 			<PForm>
-				<PFormItem label="物资">
+				<PFormItem label="Materials">
 					<PSelectMultiple
 						v-model:value="localFilterMaterials"
 						multiple
@@ -142,7 +142,7 @@
 						class="w-full"
 						:options="materialOptions" />
 				</PFormItem>
-				<PFormItem label="星球">
+				<PFormItem label="Planets">
 					<PSelectMultiple
 						v-model:value="localFilterPlanets"
 						multiple

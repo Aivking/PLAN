@@ -43,7 +43,7 @@
 	const empireOptions: Ref<PSelectOption[]> = ref(
 		Object.values(planningStore.empires).map((e) => {
 			return {
-				label: e.name,
+				label: e.empire_name,
 				value: e.uuid,
 			};
 		})
@@ -71,7 +71,7 @@
 </script>
 
 <template>
-	<h2 class="text-white/80 font-bold text-lg my-auto">偏好</h2>
+	<h2 class="text-white/80 font-bold text-lg my-auto">Preferences</h2>
 	<div class="py-3 text-white/60">
 		Your preferences are saved locally in your browser and aren't synced
 		with the backend yet. Use this panel to review and customize your
@@ -80,9 +80,9 @@
 
 	<PForm>
 		<PFormSeperator>
-			<h3 class="font-bold pb-3">工具偏好</h3>
+			<h3 class="font-bold pb-3">Tool Preferences</h3>
 		</PFormSeperator>
-		<PFormItem label="默认帝国">
+		<PFormItem label="Default Empire">
 			<PSelect
 				v-model:value="defaultEmpireUuid"
 				:options="empireOptions"
@@ -95,50 +95,57 @@
 					}
 				" />
 		</PFormItem>
-		<PFormItem label="默认交易所">
+		<PFormItem label="Default CX">
 			<CXPreferenceSelector
 				:cx-uuid="defaultCXUuid"
 				:add-undefined-c-x="false"
-				class="w-full" />
+				class="w-full"
+				@update:value="
+					(value: string | undefined) => {
+						if (value && typeof value === 'string') {
+							defaultCXUuid = value;
+						}
+					}
+				" />
 		</PFormItem>
 
 		<PFormSeperator>
-			<h4 class="font-bold py-1">FIO 消耗</h4>
+			<h4 class="font-bold py-1">FIO Burn</h4>
 		</PFormSeperator>
 
-		<PFormItem label="红色阈值">
+		<PFormItem label="Red Threshold">
 			<PInputNumber
 				v-model:value="burnDaysRed"
 				show-button
 				:min="1"
 				class="w-full" />
 		</PFormItem>
-		<PFormItem label="黄色阈值">
+		<PFormItem label="Yellow Threshold">
 			<PInputNumber
 				v-model:value="burnDaysYellow"
 				show-button
 				:min="1"
 				class="w-full" />
 		</PFormItem>
-		<PFormItem label="补给天数">
+		<PFormItem label="Resupply Days">
 			<PInputNumber
 				v-model:value="burnResupplyDays"
 				show-button
 				:min="1"
 				class="w-full" />
 		</PFormItem>
-		<PFormItem label="XIT 出发点">
+		<PFormItem label="XIT Origin">
 			<PSelect
 				v-model:value="burnOrigin"
 				:options="XITSTATIONWAREHOUSES"
 				class="w-full" />
 		</PFormItem>
-		<PFormItem label="XIT 从交易所购买">
+		<PFormItem label="XIT Buy from CX">
 			<PCheckbox v-model:checked="defaultBuyItemsFromCX" />
 		</PFormItem>
 	</PForm>
 
-	<h3 class="font-bold py-3">规划专属设置</h3>
+	<h3 class="font-bold py-3">Plan-Specific Settings</h3>
 	<div class="pb-3 text-white/60">
 		These settings are managed within individual plans. This section
 		provides an overview of the preferences you've customized so far — to
@@ -147,8 +154,8 @@
 	<PTable striped>
 		<thead>
 			<tr>
-				<th>规划</th>
-				<th>偏好</th>
+				<th>Plan</th>
+				<th>Preferences</th>
 			</tr>
 		</thead>
 		<tbody>

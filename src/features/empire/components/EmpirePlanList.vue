@@ -37,7 +37,7 @@
 
 <template>
 	<XNDataTable :data="planListData" striped>
-		<XNDataTableColumn key="name" title="规划" sorter="default">
+		<XNDataTableColumn key="name" title="Plan" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="text-wrap">
 					<router-link

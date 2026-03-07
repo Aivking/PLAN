@@ -60,8 +60,8 @@
 		() => ({
 			username: inputUsername.value ?? "",
 			password: inputPassword.value ?? "",
-			planet: inputPlanetName.value ?? "",
-			randomplanet: activeSecurityOption.value ?? "",
+			planet_id: activeSecurityOption.value ?? "",
+			planet_input: inputPlanetName.value ?? "",
 			...(inputEmail.value ? { email: inputEmail.value } : {}),
 		})
 	);
@@ -81,10 +81,11 @@
 			registrationSuccess.value = true;
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			// error message is string
-			const match = err.message.match(/{.*}$/);
-			if (match) {
-				hasErrorMessage.value = JSON.parse(match[0]).detail;
+			if (err.validationFields) {
+				hasErrorMessage.value = err.validationFields;
+			} else {
+				hasErrorMessage.value =
+					"Unknown error. Please try again later.";
 			}
 			hasError.value = true;
 			randomSecurityOption();
@@ -101,74 +102,76 @@
 		<template v-if="registrationSuccess">
 			<div>
 				<div class="text-xl text-white font-bold font-mono pb-1">
-					欢迎，{{ registrationUsername }}！
+					Welcome, {{ registrationUsername }}!
 				</div>
 				<div class="pt-3">
-					注册成功，您现在可以登录 PRUNplanner 了。
+					Registration successful. You can now login to PRUNplanner.
 				</div>
 			</div>
 		</template>
 		<template v-else>
 			<div class="text-xl text-white font-bold font-mono pb-1">
-				账号信息
+				Account Information
 			</div>
 			<div class="pb-3 text-white/60 text-xs font-mono">
-				PRUNplanner 免费使用。创建账号即表示您同意
+				PRUNplanner is free to use. By creating an account, you
+				acknowledge and agree to the
 				<router-link
 					to="/imprint-tos"
 					class="underline hover:text-link-primary">
-					服务条款。
+					Terms of Service.
 				</router-link>
 			</div>
 			<div v-if="hasError" class="pb-3 text-red-600">
-				注册失败。
+				Error during registration.
 				{{ hasErrorMessage }}
 			</div>
 			<PForm>
-				<PFormItem label="用户名">
+				<PFormItem label="Username">
 					<PInput v-model:value="inputUsername" class="w-full" />
 					<template #info>
-						至少 3 个字符，不能包含空格。
+						Must be at least 3 characters long. Can't contain
+						spaces.
 					</template>
 				</PFormItem>
-				<PFormItem label="密码">
+				<PFormItem label="Password">
 					<PInput
 						v-model:value="inputPassword"
 						type="password"
 						class="w-full" />
 					<template #info>
-						至少 8 个字符。
+						Must be at least 8 characters long.
 					</template>
 				</PFormItem>
-				<PFormItem label="邮箱">
+				<PFormItem label="Email">
 					<PInput
 						v-model:value="inputEmail"
-						placeholder="非必填，但推荐填写。"
+						placeholder="Not mandatory, but recommended."
 						class="w-full" />
 					<template #info>
-						非必填，有助于提高账号安全性。
+						Not mandatory. Increases your account security.
 					</template>
 				</PFormItem>
 				<PFormSeperator>
 					<div
 						class="text-xl text-white font-bold font-mono pt-3 pb-1">
-						安全验证
+						Security Question
 					</div>
 					<div class="font-mono text-xs text-white/60 pb-3">
-						请输入星球
+						Enter the name of planet
 						<span
 							class="text-nowrap bg-prunplanner text-black px-1"
 							>{{ activeSecurityOption }}</span
-						>
-						的名称。在 Prosperous Universe 中使用命令
+						>. To find it, open a new Prosperous Universe buffer
+						with the command
 						<span
 							class="text-nowrap bg-prunplanner text-black px-0.5"
 							>{{ `PLI ${activeSecurityOption}` }}</span
-						>
-						打开星球信息，在 "Name" 字段中查看其名称。
+						>. You'll see the planet's name listed under "Name" in
+						the planet information.
 					</div>
 				</PFormSeperator>
-				<PFormItem label="星球名称">
+				<PFormItem label="Name">
 					<PInput v-model:value="inputPlanetName" class="w-full" />
 				</PFormItem>
 				<PFormItem label="">
@@ -177,7 +180,7 @@
 						:loading="isLoading"
 						class="mt-3"
 						@click="registerUser">
-						创建账号
+						Create Account
 					</PButton>
 				</PFormItem>
 			</PForm>

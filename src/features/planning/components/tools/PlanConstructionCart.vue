@@ -71,14 +71,16 @@
 	let constructedMap: Map<string, number> | null = null;
 	if (useUserStore().hasFIO) {
 		constructedMap = new Map<string, number>();
-		const fioSites = await useQuery("GetFIOSites").execute();
-		const constructedArray = Object.values(fioSites.planets).find(
-			(p) => p.PlanetIdentifier === props.planetNaturalId
-		)?.Buildings;
-		if (constructedArray) {
+		const fioSites = await useQuery("GetFIOStorage").execute();
+		if (
+			fioSites.sites_data[props.planetNaturalId] &&
+			fioSites.sites_data[props.planetNaturalId].Buildings
+		) {
+			const constructedArray =
+				fioSites.sites_data[props.planetNaturalId].Buildings;
 			for (const building of constructedArray) {
-				const count = constructedMap.get(building.building_ticker) ?? 0;
-				constructedMap.set(building.building_ticker, count + 1);
+				const count = constructedMap.get(building.BuildingTicker) ?? 0;
+				constructedMap.set(building.BuildingTicker, count + 1);
 			}
 		}
 	}
@@ -229,8 +231,8 @@
 
 		for (const m of data) {
 			const materialInfo = materialsMap.value[m.ticker];
-			weight += materialInfo.Weight * m.value;
-			volume += materialInfo.Volume * m.value;
+			weight += materialInfo.weight * m.value;
+			volume += materialInfo.volume * m.value;
 
 			const unitPrice = await getPrice(m.ticker, "BUY");
 			price += unitPrice * m.value;
@@ -269,9 +271,9 @@
 		<PTable striped>
 			<thead>
 				<tr>
-					<th>建筑</th>
-					<th v-if="constructedMap">已建</th>
-					<th>数量</th>
+					<th>Building</th>
+					<th v-if="constructedMap">Built</th>
+					<th>Amount</th>
 					<th>Planned</th>
 					<th
 						v-for="mat in uniqueMaterials"
@@ -326,7 +328,7 @@
 					</td>
 				</tr>
 				<tr class="child:border-t-2! child:border-b-2!">
-					<td :colspan="constructedMap ? 4 : 3">物资合计</td>
+					<td :colspan="constructedMap ? 4 : 3">Materials Sum</td>
 					<td
 						v-for="mat in uniqueMaterials"
 						:key="`CONSTRUCTIONCART#COLUMN#TOTALS#${mat}`"
@@ -381,7 +383,7 @@
 				</h2>
 				<div class="flex flex-row flex-wrap gap-3">
 					<template v-if="hasStorage">
-						<div class="my-auto font-bold">存储</div>
+						<div class="my-auto font-bold">Storage</div>
 						<PSelect
 							v-model:value="refSelectedStorage"
 							searchable
@@ -398,9 +400,9 @@
 			<PTable striped>
 				<thead>
 					<tr>
-						<th>物资</th>
-						<th>数量</th>
-						<th v-if="hasStorage">库存</th>
+						<th>Material</th>
+						<th>Amount</th>
+						<th v-if="hasStorage">Stock</th>
 						<th>Stock Override</th>
 						<th>Need</th>
 					</tr>

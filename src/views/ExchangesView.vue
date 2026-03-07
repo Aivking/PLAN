@@ -71,14 +71,14 @@
 
 	const selectorDropdownOptions = computed(() =>
 		localCXs.value.map((c) => ({
-			label: c.name,
+			label: c.cx_name,
 			key: c.uuid,
 		}))
 	);
 
 	const cxName = computed(() => {
 		if (!localCXUuid.value) return "Exchanges";
-		return planningStore.getCX(localCXUuid.value).name;
+		return planningStore.getCX(localCXUuid.value).cx_name;
 	});
 
 	const localPlanetList: Ref<string[]> = ref([]);
@@ -95,7 +95,7 @@
 
 	function initialize(cxUuid: string): void {
 		selectedCX.value = planningStore.getCX(cxUuid);
-		selectedName.value = selectedCX.value.name;
+		selectedName.value = selectedCX.value.cx_name;
 
 		// save raw, in order to re-use on "reload" button
 		rawSelectedCX.value = planningStore.getCX(cxUuid);
@@ -160,6 +160,7 @@
 			});
 
 			await useQuery("PatchCX", {
+				cxName: selectedName.value ?? "Unnamed",
 				cxUuid: selectedCX.value.uuid,
 				data: data,
 			}).execute();
@@ -172,7 +173,7 @@
 	function reloadCXData(): void {
 		trackEvent("exchange_reload", { location: "exchanges_view" });
 		selectedCX.value = inertClone(rawSelectedCX.value);
-		selectedName.value = selectedCX.value!.name;
+		selectedName.value = selectedCX.value!.cx_name;
 	}
 
 	function toggleImportExport(): void {
@@ -229,7 +230,7 @@
 		<WrapperGameDataLoader load-exchanges load-materials>
 			<template v-if="!localCXUuid">
 				<AsyncWrapperGenericError
-					message-title="无偏好设置"
+					message-title="No Preferences"
 					message-text="You don't have exchange preferences. Head to Management and create your first." />
 			</template>
 			<div v-else class="min-h-screen flex flex-col">
@@ -248,7 +249,7 @@
 								{{ cxName }}
 							</div>
 						</n-dropdown>
-						<template v-else>交易所</template>
+						<template v-else>Exchanges</template>
 					</h1>
 					<div class="flex flex-row gap-x-3">
 						<PButton @click="toggleImportExport">
@@ -295,7 +296,7 @@
 						<CXExchangePreference
 							v-if="selectedCX"
 							v-model:cx-options="selectedCX.cx_data.cx_empire" />
-						<h3 class="text-lg font-bold py-3">代码</h3>
+						<h3 class="text-lg font-bold py-3">Ticker</h3>
 						<CXTickerPreference
 							v-if="selectedCX"
 							v-model:cx-options="

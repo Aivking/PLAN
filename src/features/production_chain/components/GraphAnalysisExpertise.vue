@@ -28,7 +28,7 @@
 		<thead>
 			<tr>
 				<th>Expertise</th>
-				<th class="text-end!">物资</th>
+				<th class="text-end!">Materials</th>
 			</tr>
 		</thead>
 		<tbody>

@@ -64,56 +64,46 @@
 
 	const searchPayload: ComputedRef<IPlanetSearchAdvanced> = computed(() => {
 		return {
-			Materials: inputMaterials.value,
-			COGC: inputCOGC.value as PLANET_COGCPROGRAM_TYPE[],
-			IncludeRocky: inputIncludeRocky.value,
-			IncludeGaseous: inputIncludeGaseous.value,
-			IncludeLowGravity: inputIncludeLowGravity.value,
-			IncludeHighGravity: inputIncludeHighGravity.value,
-			IncludeLowPressure: inputIncludeLowPressure.value,
-			IncludeHighPressure: inputIncludeHighPressure.value,
-			IncludeLowTemperature: inputIncludeLowTemperature.value,
-			IncludeHighTemperature: inputIncludeHighTemperature.value,
-			MustBeFertile:
+			materials: inputMaterials.value,
+			cogc_programs: inputCOGC.value as PLANET_COGCPROGRAM_TYPE[],
+			environment_rocky: inputIncludeRocky.value,
+			environment_gaseous: inputIncludeGaseous.value,
+			environment_low_gravity: inputIncludeLowGravity.value,
+			environment_high_gravity: inputIncludeHighGravity.value,
+			environment_low_pressure: inputIncludeLowPressure.value,
+			environment_high_pressure: inputIncludeHighPressure.value,
+			environment_low_temperature: inputIncludeLowTemperature.value,
+			environment_high_temperature: inputIncludeHighTemperature.value,
+			must_be_fertile:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("Fertile")
 					? true
 					: false,
-			MustHaveLocalMarket:
+			must_have_localmarket:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("LM")
 					? true
 					: false,
-			MustHaveChamberOfCommerce:
+			must_have_chamberofcommerce:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("COGC")
 					? true
 					: false,
-			MustHaveWarehouse:
+			must_have_warehouse:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("WAR")
 					? true
 					: false,
-			MustHaveAdministrationCenter:
+			must_have_administrationcenter:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("ADM")
 					? true
 					: false,
-			MustHaveShipyard:
+			must_have_shipyard:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("SHY")
 					? true
 					: false,
-			// // NOTE: Removed to use frontend pathfinding
-			// MaxDistanceCheck:
-			// 	inputSystem.value !== undefined &&
-			// 	inputSystem.value !== null &&
-			// 	inputSystemDistance.value !== undefined
-			// 		? {
-			// 				SystemId: inputSystem.value,
-			// 				MaxDistance: inputSystemDistance.value,
-			// 		  }
-			// 		: undefined,
 		};
 	});
 
@@ -208,7 +198,7 @@
 	<div class="grid grid-cols-1 xl:grid-cols-[40%_auto] gap-x-6">
 		<div>
 			<PForm>
-				<PFormItem label="物资">
+				<PFormItem label="Materials">
 					<PSelectMultiple
 						v-model:value="inputMaterials"
 						:options="PLANETSEARCHOPTIONMATERIALS"
@@ -218,7 +208,7 @@
 						@update:value="
 							(value) => {
 								// NOTE: There is apparently a bug where search returns planets for 3+ materials
-								// but the materials do not actually exist on the planets. 返回end issue.
+								// but the materials do not actually exist on the planets. Backend issue.
 
 								// limit to 2
 								if (Object.keys(inputMaterials).length > 2) {
@@ -229,7 +219,7 @@
 				</PFormItem>
 				<PFormItem
 					v-if="inputMaterials.length > 0"
-					label="最低丰富度 %">
+					label="Min. Richness %">
 					<div class="flex flex-col gap-1 w-full">
 						<div
 							v-for="material in inputMaterials"
@@ -255,7 +245,7 @@
 						searchable
 						class="w-full" />
 				</PFormItem>
-				<PFormItem label="星球特征">
+				<PFormItem label="Planet Features">
 					<PSelectMultiple
 						v-model:value="inputInfrastructure"
 						:options="PLANETSEARCHINFRASTRUCTURE"
@@ -263,7 +253,7 @@
 						clearable
 						class="w-full" />
 				</PFormItem>
-				<PFormItem label="星系距离">
+				<PFormItem label="System Distance">
 					<PSelect
 						v-model:value="inputSystem"
 						:options="PLANETSEARCHSYSTEMS"

@@ -184,7 +184,7 @@
 			<RouterLink
 				to="/fio/burn"
 				class="text-link-primary font-bold hover:underline">
-				<span>FIO 消耗</span>
+				<span>FIO Burn</span>
 			</RouterLink>
 			tool for more advanced supply cart options.
 		</template>

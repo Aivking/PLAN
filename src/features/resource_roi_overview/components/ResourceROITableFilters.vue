@@ -65,9 +65,9 @@
 	<div
 		class="border border-b-0 rounded-[3px] border-white/15 p-3 flex flex-row gap-3 flex-wrap justify-between">
 		<div class="flex flex-row flex-wrap gap-3 child:my-auto">
-			<div class="font-bold pr-3">筛选</div>
+			<div class="font-bold pr-3">Filter</div>
 			<div class="flex flex-row gap-3 child:my-auto">
-				<div>星球</div>
+				<div>Planet</div>
 				<PSelect
 					v-model:value="localFilterPlanet"
 					:options="planetOptions"
@@ -76,7 +76,7 @@
 					class="w-50" />
 			</div>
 			<div class="flex flex-row gap-3 child:my-auto">
-				<div>建筑</div>
+				<div>Building</div>
 				<PSelect
 					v-model:value="localFilterBuilding"
 					:options="buildingOptions"

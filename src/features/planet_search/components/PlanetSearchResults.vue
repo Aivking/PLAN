@@ -84,7 +84,7 @@
 
 <template>
 	<XNDataTable :data="tableResults" striped :pagination="{ pageSize: 50 }">
-		<XNDataTableColumn key="Plan" title="规划" width="50">
+		<XNDataTableColumn key="Plan" title="Plan" width="50">
 			<template #render-cell="{ rowData }">
 				<router-link :to="`/plan/${rowData.planetId}`">
 					<PButton size="sm">

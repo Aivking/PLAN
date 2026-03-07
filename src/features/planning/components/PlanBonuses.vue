@@ -76,7 +76,7 @@
 
 <template>
 	<PForm>
-		<PFormItem label="企业总部">
+		<PFormItem label="Corp. HQ">
 			<PTooltip>
 				<template #trigger>
 					<PCheckbox

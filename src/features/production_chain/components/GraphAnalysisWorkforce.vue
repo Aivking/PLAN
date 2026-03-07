@@ -21,11 +21,11 @@
 </script>
 
 <template>
-	<h3 class="font-bold py-3">劳动力</h3>
+	<h3 class="font-bold py-3">Workforce</h3>
 	<PTable striped>
 		<thead>
 			<tr>
-				<th>劳动力</th>
+				<th>Workforce</th>
 				<th class="text-end!">Required</th>
 			</tr>
 		</thead>

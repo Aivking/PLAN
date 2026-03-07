@@ -61,7 +61,7 @@
 			:options="materialOptions"
 			searchable
 			size="small"
-			placeholder="物资"
+			placeholder="Material"
 			class="w-25!" />
 		<PInputNumber
 			v-model:value="selectedValue"

@@ -72,10 +72,12 @@
 		() => {
 			// sort by output ticker ascending, map-join multiple tickers
 			return [...props.recipeOptions].sort((a, b) => {
-				const tickerA = a.outputs.map((o) => o.material_ticker)
+				const tickerA = a.outputs
+					.map((o) => o.material_ticker)
 					.sort()
 					.join("#");
-				const tickerB = b.outputs.map((o) => o.material_ticker)
+				const tickerB = b.outputs
+					.map((o) => o.material_ticker)
 					.sort()
 					.join("#");
 				return tickerA.localeCompare(tickerB);
@@ -108,7 +110,7 @@
 		:key="`COGM#RECIPE#${recipeData.recipe.building_ticker}#${localRecipeIndex}`"
 		v-model:show="refShowCOGM"
 		preset="card"
-		title="生产成本"
+		title="Cost Of Goods Manufactured"
 		:class="cogmWithCX ? 'max-w-250' : 'max-w-150'">
 		<PlanCOGM
 			v-if="localRecipeData.cogm && cxUuid"
@@ -146,9 +148,11 @@
 			<div class="flex flex-col gap-1">
 				<MaterialTile
 					v-for="material in localRecipeData.recipe.outputs"
-					:key="`${localRecipeData.recipe.building_ticker}#${material.ticker}`"
-					:ticker="material.ticker"
-					:amount="material.material_amount * localRecipeData.amount" />
+					:key="`${localRecipeData.recipe.building_ticker}#${material.material_ticker}`"
+					:ticker="material.material_ticker"
+					:amount="
+						material.material_amount * localRecipeData.amount
+					" />
 			</div>
 			<div class="text-white/50 text-xs text-end">
 				<span class="font-bold">
@@ -182,38 +186,38 @@
 								),
 						})
 					">
-					<XNDataTableColumn key="Input" title="Input">
+					<XNDataTableColumn key="input" title="input">
 						<template #render-cell="{ rowData }">
 							<div class="flex flex-row gap-1">
 								<span
 									v-if="
-										rowData.recipe_id ===
+										rowData.RecipeId ===
 										localRecipeData.recipe.recipe_id
 									"
 									class="w-2 h-2 bg-prunplanner animate-pulse rounded-full my-auto mr-1" />
 								<MaterialTile
 									v-for="material in rowData.inputs"
-									:key="`${rowData.building_ticker}#INPUT#${material.ticker}`"
-									:ticker="material.ticker"
+									:key="`${rowData.building_ticker}#INPUT#${material.material_ticker}`"
+									:ticker="material.material_ticker"
 									:amount="material.material_amount" />
 							</div>
 						</template>
 					</XNDataTableColumn>
 					<XNDataTableColumn
-						key="time_ms"
-						title="时间"
+						key="TimeMs"
+						title="Time"
 						sorter="default">
 						<template #render-cell="{ rowData }">
 							{{ humanizeTimeMs(rowData.time_ms) }}
 						</template>
 					</XNDataTableColumn>
-					<XNDataTableColumn key="Output" title="产出">
+					<XNDataTableColumn key="output" title="output">
 						<template #render-cell="{ rowData }">
 							<div class="flex flex-row gap-1">
 								<MaterialTile
 									v-for="material in rowData.outputs"
-									:key="`${rowData.building_ticker}#OUTPUT#${material.ticker}`"
-									:ticker="material.ticker"
+									:key="`${rowData.building_ticker}#OUTPUT#${material.material_ticker}`"
+									:ticker="material.material_ticker"
 									:amount="material.material_amount" />
 							</div>
 						</template>
@@ -248,7 +252,7 @@
 							</span>
 						</template>
 					</XNDataTableColumn>
-					<XNDataTableColumn key="roi" title="投资回报率" sorter="default">
+					<XNDataTableColumn key="roi" title="ROI" sorter="default">
 						<template #render-cell="{ rowData }">
 							<span
 								:class="

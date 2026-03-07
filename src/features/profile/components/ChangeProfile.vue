@@ -96,7 +96,7 @@
 				:loading="isUpdating"
 				:type="wasSaved ? 'primary' : 'error'"
 				@click="patchProfile">
-				更新资料
+				Update Profile
 			</PButton>
 		</div>
 		<PForm v-if="localProfile">
@@ -106,12 +106,12 @@
 					automatically.
 				</div>
 			</PFormSeperator>
-			<PFormItem label="FIO API 密钥">
+			<PFormItem label="FIO API Key">
 				<PInput
 					v-model:value="localProfile.fio_apikey"
 					class="w-full min-w-50 max-w-[50%]" />
 			</PFormItem>
-			<PFormItem label="PrUn 用户名">
+			<PFormItem label="PrUn Username">
 				<PInput
 					v-model:value="localProfile.prun_username"
 					class="w-full min-w-50 max-w-[50%]" />
@@ -123,12 +123,12 @@
 					recovery.
 				</div>
 			</PFormSeperator>
-			<PFormItem label="邮箱地址">
+			<PFormItem label="Email Address">
 				<PInput
 					v-model:value="localProfile.email"
 					class="w-full min-w-50 max-w-[50%]" />
 			</PFormItem>
-			<PFormItem label="邮箱已验证">
+			<PFormItem label="Email Verified">
 				<div class="w-full flex flex-row flex-wrap gap-3">
 					<PCheckbox
 						v-model:checked="localProfile.is_email_verified"
@@ -142,7 +142,7 @@
 							<router-link
 								to="/verify-email"
 								class="text-link-primary hover:cursor-pointer hover:underline">
-								验证邮箱
+								Verify Email
 							</router-link>
 						</div>
 						<div>
@@ -150,10 +150,10 @@
 								v-if="!codeResendRequested"
 								class="text-link-primary hover:cursor-pointer hover:underline"
 								@click="requestVerification">
-								重新发送验证码
+								Resend Code
 							</span>
 							<span v-else class="text-lime-600">
-								验证码已发送。
+								Code requested.
 							</span>
 						</div>
 					</div>

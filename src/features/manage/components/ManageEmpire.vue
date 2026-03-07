@@ -26,7 +26,6 @@
 		PInput,
 		PInputNumber,
 		PSelect,
-		PCheckbox
 	} from "@/ui";
 	import { useDialog } from "naive-ui";
 	const dialog = useDialog();
@@ -269,26 +268,26 @@
 		<div class="flex gap-x-3 pt-3 w-1/2 min-w-100">
 			<div class="grow">
 				<PForm>
-					<PFormItem label="帝国名称">
+					<PFormItem label="Empire Name">
 						<PInput
 							v-model:value="refCreateName"
 							class="w-full"
-							placeholder="帝国名称（最多 100 个字符）" />
+							placeholder="Empire Name (max. 100 characters)" />
 					</PFormItem>
-					<PFormItem label="派系">
+					<PFormItem label="Faction">
 						<PSelect
 							v-model:value="refCreateFaction"
 							class="w-full"
 							:options="factionOptions" />
 					</PFormItem>
-					<PFormItem label="许可证总数">
+					<PFormItem label="Permits Total">
 						<PInputNumber
 							v-model:value="refCreatePermitsTotal"
 							show-buttons
 							:min="2"
 							class="w-full" />
 					</PFormItem>
-					<PFormItem label="已用许可证">
+					<PFormItem label="Permits Used">
 						<PInputNumber
 							v-model:value="refCreatePermitsUsed"
 							show-buttons
@@ -308,7 +307,7 @@
 		</div>
 	</div>
 	<x-n-data-table :data="localEmpires" striped class="pt-3">
-		<x-n-data-table-column key="name" title="名称">
+		<x-n-data-table-column key="empire_name" title="Name">
 			<template #render-cell="{ rowData }">
 				<router-link
 					:to="`/empire/${rowData.uuid}`"
@@ -317,23 +316,23 @@
 				</router-link>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="faction" title="派系">
+		<x-n-data-table-column key="empire_faction" title="Faction">
 			<template #render-cell="{ rowData }">
 				{{ capitalizeString(rowData.empire_faction) }}
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="permits" title="许可证">
+		<x-n-data-table-column key="permits" title="Permits">
 			<template #render-cell="{ rowData }">
-				{{ rowData.empire_permits_used }} / {{ rowData.empire_permits_total }}
+				{{ rowData.empire_permits_used }} /
+				{{ rowData.empire_permits_total }}
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="plans" title="规划列表">
+		<x-n-data-table-column key="plans" title="Plans">
 			<template #render-cell="{ rowData }">
 				{{ rowData.plans.length }}
 			</template>
 		</x-n-data-table-column>
-		
-		<x-n-data-table-column key="cx" title="交易所" width="200">
+		<x-n-data-table-column key="cx" title="CX" width="200">
 			<template #render-cell="{ rowData }">
 				<div class="max-w-50">
 					<PSelect

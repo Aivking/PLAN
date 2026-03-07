@@ -62,7 +62,7 @@
 				v-model:cx-options="localMap[selectedPlanet].exchanges" />
 		</div>
 		<div>
-			<h3 class="text-lg font-bold pb-3">代码</h3>
+			<h3 class="text-lg font-bold pb-3">Ticker</h3>
 			<CXTickerPreference
 				:key="`Ticker#${selectedPlanet}`"
 				v-model:cx-options="localMap[selectedPlanet].ticker" />

@@ -47,8 +47,8 @@
 			</div>
 			<div
 				class="flex flex-row gap-x-7 child:px-3 child:py-1 child:text-lg child:font-light child:hover:bg-white/10 child:hover:rounded-lg">
-				<div @click="toggleRegistration">创建账号</div>
-				<div @click="toggleLogin">登录</div>
+				<div @click="toggleRegistration">Create Account</div>
+				<div @click="toggleLogin">Login</div>
 			</div>
 		</div>
 	</div>

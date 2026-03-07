@@ -27,7 +27,7 @@
 
 <template>
 	<XNDataTable :data="planTable" striped>
-		<XNDataTableColumn key="planUuid" title="规划" sorter="default">
+		<XNDataTableColumn key="planUuid" title="Plan" sorter="default">
 			<template #render-cell="{ rowData }">
 				<router-link
 					:to="`/plan/${rowData.planetId}/${rowData.planUuid}`"

@@ -23,12 +23,12 @@
 </script>
 
 <template>
-	<h3 class="font-bold py-3">物资</h3>
+	<h3 class="font-bold py-3">Materials</h3>
 	<PTable striped>
 		<thead>
 			<tr>
-				<th>物资</th>
-				<th>数量</th>
+				<th>Material</th>
+				<th>Amount</th>
 			</tr>
 		</thead>
 		<tbody>

@@ -43,7 +43,7 @@
 
 <template>
 	<h2 class="text-white/80 font-bold text-lg font-mono">
-		邮箱验证
+		Email Verification
 	</h2>
 	<div class="py-3 text-xs font-mono text-white/60">
 		Please enter the verification code you received via email. Maybe check
@@ -54,10 +54,10 @@
 			<div
 				v-if="verifyStatus"
 				class="mb-3 py-1 px-2 bg-prunplanner text-black">
-				邮箱已验证。
+				Email address verified.
 			</div>
 			<div v-else class="mb-3 py-1 px-2 bg-red-600 text-white">
-				验证码无效或已验证。
+				Invalid code or already verified.
 			</div>
 		</template>
 		<div>

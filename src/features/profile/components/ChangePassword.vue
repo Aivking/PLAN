@@ -53,26 +53,26 @@
 	<div>
 		<div class="flex flex-row flex-wrap gap-3">
 			<h2 class="grow my-auto text-white/80 font-bold text-lg">
-				修改密码
+				Change Password
 			</h2>
 			<PButton
 				:disabled="!canChange"
 				:loading="isChanging"
 				@click="patchPassword">
-				修改密码
+				Change Password
 			</PButton>
 		</div>
 		<div class="py-3 text-white/60">
-			密码至少需要 8 个字符。
+			Passwords must be at least 8 characters long.
 		</div>
 		<template v-if="changeStatus !== null">
 			<div
 				v-if="changeStatus"
 				class="mb-3 py-1 px-2 bg-prunplanner text-black">
-				密码修改成功。
+				Password changed.
 			</div>
 			<div v-else class="mb-3 py-1 px-2 bg-red-600 text-white">
-				密码修改失败。
+				Password changed failed.
 			</div>
 		</template>
 		<PForm>

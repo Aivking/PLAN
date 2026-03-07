@@ -9,8 +9,14 @@
 
 	// Types & Interfaces
 	import { PSelectOption } from "@/ui/ui.types";
-	import { IMaterialIO, IStorageRecord } from "@/features/planning/usePlanCalculation.types";
-	import { getVolumeOfAllStorages, getWeightOfAllStorages } from "../../calculations/infrastructureCalculations";
+	import {
+		IMaterialIO,
+		IStorageRecord,
+	} from "@/features/planning/usePlanCalculation.types";
+	import {
+		getVolumeOfAllStorages,
+		getWeightOfAllStorages,
+	} from "../../calculations/infrastructureCalculations";
 
 	interface IShippingCalculation {
 		shipVolume: number;
@@ -112,7 +118,8 @@
 		getExclusionOptions(props.materialIO)
 	);
 	const refMaterialExclusions: Ref<string[]> = ref(
-		planPrefs.value === null
+		planPrefs.value === null ||
+			planPrefs.value.visitationMaterialExclusions.value === undefined
 			? []
 			: planPrefs.value.visitationMaterialExclusions.value
 	);
@@ -205,7 +212,9 @@
 		return shippingCalc;
 	});
 
-	const storageAmountsForDisplay: ComputedRef<{ ticker: string; amount: number }[]> = computed(() => {
+	const storageAmountsForDisplay: ComputedRef<
+		{ ticker: string; amount: number }[]
+	> = computed(() => {
 		return Object.entries(localStorage.value)
 			.filter(([_, amount]) => amount > 0)
 			.map(([ticker, amount]) => ({ ticker: ticker, amount: amount }));
@@ -217,17 +226,33 @@
 
 	<div class="grid grid-cols-1 lg:grid-cols-[40%_auto] gap-3">
 		<div>
-			<h3 class="font-bold text-lg pb-3">存储</h3>
+			<h3 class="font-bold text-lg pb-3">Storage</h3>
 
 			<p class="pb-3">
 				<template v-if="storageAmountsForDisplay.length > 0">
 					Your plan involves adding
-					<template v-for="(item, index) in storageAmountsForDisplay" :key="item.ticker">
-						<strong>{{ item.amount }}</strong> {{ item.ticker }}<template v-if="index < storageAmountsForDisplay.length - 1">{{ index === storageAmountsForDisplay.length - 2 ? ' and ' : ', ' }}</template>
-					</template>, giving you a total storage capacity of
-					<strong>{{ formatAmount(totalWeight) }}</strong> t and <strong>{{ formatAmount(totalVolume) }}</strong> m³.
+					<template
+						v-for="(item, index) in storageAmountsForDisplay"
+						:key="item.ticker">
+						<strong>{{ item.amount }}</strong> {{ item.ticker
+						}}<template
+							v-if="index < storageAmountsForDisplay.length - 1"
+							>{{
+								index === storageAmountsForDisplay.length - 2
+									? " and "
+									: ", "
+							}}</template
+						> </template
+					>, giving you a total storage capacity of
+					<strong>{{ formatAmount(totalWeight) }}</strong> t and
+					<strong>{{ formatAmount(totalVolume) }}</strong> m³.
 				</template>
-				<template v-else>Your plan has a storage capacity of <strong>{{ formatAmount(totalWeight) }}</strong> t and <strong>{{ formatAmount(totalVolume) }}</strong> m³.</template>
+				<template v-else
+					>Your plan has a storage capacity of
+					<strong>{{ formatAmount(totalWeight) }}</strong> t and
+					<strong>{{ formatAmount(totalVolume) }}</strong>
+					m³.</template
+				>
 			</p>
 
 			<PTable striped>
@@ -240,12 +265,12 @@
 				</thead>
 				<tbody class="child:child:text-center">
 					<tr>
-						<td class="text-left! font-bold">导入</td>
+						<td class="text-left! font-bold">Import</td>
 						<td>{{ formatNumber(dailyData.dailyWeightImport) }}</td>
 						<td>{{ formatNumber(dailyData.dailyVolumeImport) }}</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">导出</td>
+						<td class="text-left! font-bold">Export</td>
 						<td>{{ formatNumber(dailyData.dailyWeightExport) }}</td>
 						<td>{{ formatNumber(dailyData.dailyVolumeExport) }}</td>
 					</tr>
@@ -278,7 +303,9 @@
 				@update:value="
 					(value) => {
 						// only keep string values
-						const stringsOnly = value.filter((v): v is string => typeof v === 'string');
+						const stringsOnly = value.filter(
+							(v): v is string => typeof v === 'string'
+						);
 						if (planPrefs !== null) {
 							planPrefs.visitationMaterialExclusions.value =
 								stringsOnly;

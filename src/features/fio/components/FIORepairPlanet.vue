@@ -24,11 +24,11 @@
 	<x-n-data-table :data="repairData" striped>
 		<x-n-data-table-column
 			key="planetName"
-			title="星球"
+			title="Planet"
 			sorter="default" />
 		<x-n-data-table-column
 			key="amountProductionBuildings"
-			title="建筑"
+			title="Buildings"
 			sorter="default" />
 		<x-n-data-table-column
 			key="averageCondition"

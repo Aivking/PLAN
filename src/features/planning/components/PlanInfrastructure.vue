@@ -85,7 +85,7 @@
 <template>
 	<div class="mb-3">
 		<PForm>
-			<PFormItem label="自动优化居住舱">
+			<PFormItem label="Auto-Optimize Habs">
 				<PTooltip>
 					<template #trigger>
 						<PCheckbox
