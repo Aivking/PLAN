@@ -127,13 +127,13 @@ export function usePlanetSearchResults(
 				infrastructures.sort((a, b) => (a > b ? 1 : -1));
 
 				return {
-					planetId: e.PlanetNaturalId,
-					planetName: e.PlanetName,
+					planetId: e.planet_natural_id,
+					planetName: e.planet_name,
 					fertility:
 						e.Fertility === -1 ? 0 : 1 + e.Fertility * (10 / 33),
 					cogcProgram:
-						e.COGCProgramActive !== null
-							? e.COGCProgramActive
+						e.cogc_program_active !== null
+							? e.cogc_program_active
 							: "—",
 					environmentSurface,
 					environmentGravity,

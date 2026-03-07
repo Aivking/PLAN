@@ -47,9 +47,9 @@ export function usePlanetData() {
 		try {
 			const planet = await getPlanet(planetNaturalId);
 
-			if (planet.PlanetName != planet.PlanetNaturalId) {
-				return `${planet.PlanetName} (${planet.PlanetNaturalId})`;
-			} else return planet.PlanetName;
+			if (planet.planet_name != planet.planet_natural_id) {
+				return `${planet.planet_name} (${planet.planet_natural_id})`;
+			} else return planet.planet_name;
 		} catch {
 			return planetNaturalId;
 		}

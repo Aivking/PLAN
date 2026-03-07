@@ -83,11 +83,10 @@
 		trackEvent("empire_patch");
 
 		const patchData: IEmpirePatchPayload = {
-			faction: localData.value.faction as PLAN_FACTION,
-			permits_used: localData.value.permits_used,
-			permits_total: localData.value.permits_total,
-			name: localData.value.name,
-			use_fio_storage: localData.value.use_fio_storage,
+			empire_faction: localData.value.empire_faction as PLAN_FACTION,
+			empire_permits_used: localData.value.empire_permits_used,
+			empire_permits_total: localData.value.empire_permits_total,
+			empire_name: localData.value.empire_name,
 		};
 
 		try {
@@ -122,28 +121,25 @@
 		</div>
 		<PForm>
 			<PFormItem label="星球名称">
-				<PInput v-model:value="localData.name" class="w-full" />
+				<PInput v-model:value="localData.empire_name" class="w-full" />
 			</PFormItem>
 			<PFormItem label="派系">
 				<PSelect
-					v-model:value="localData.faction"
+					v-model:value="localData.empire_faction"
 					class="w-full"
 					:options="factionOptions" />
 			</PFormItem>
 			<PFormItem label="许可证总数">
 				<PInputNumber
-					v-model:value="localData.permits_total"
+					v-model:value="localData.empire_permits_total"
 					show-buttons
 					:min="2" />
 			</PFormItem>
 			<PFormItem label="已用许可证">
 				<PInputNumber
-					v-model:value="localData.permits_used"
+					v-model:value="localData.empire_permits_used"
 					show-buttons
 					:min="1" />
-			</PFormItem>
-			<PFormItem label="使用 FIO 存储？">
-				<PCheckbox v-model:checked="localData.use_fio_storage" />
 			</PFormItem>
 		</PForm>
 	</div>

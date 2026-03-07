@@ -83,7 +83,7 @@ export function useFIOBurn(
 			IPlanResult
 		][]) {
 			const planData: IPlan = planRecord.value[planUuid];
-			const hasStorage: boolean = burnData[planData.planet_id]
+			const hasStorage: boolean = burnData[planData.planet_natural_id]
 				? true
 				: false;
 
@@ -91,7 +91,7 @@ export function useFIOBurn(
 				key: planUuid,
 				planUuid: planUuid,
 				planName: planData.name ?? "Unnamed",
-				planetId: planData.planet_id,
+				planetId: planData.planet_natural_id,
 				hasStorage,
 				burnMaterials: [] as IFIOBurnTableElementMaterial[],
 				minDays: 0,
@@ -103,9 +103,9 @@ export function useFIOBurn(
 			plan.materialio.forEach((m) => {
 				let stock: number = 0;
 
-				if (hasStorage && burnData[planData.planet_id]) {
+				if (hasStorage && burnData[planData.planet_natural_id]) {
 					const found = burnData[
-						planData.planet_id
+						planData.planet_natural_id
 					].StorageItems.find((bi) => bi.MaterialTicker === m.ticker);
 
 					if (found) {

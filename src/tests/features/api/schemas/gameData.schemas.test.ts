@@ -16,12 +16,12 @@ import planets from "@/tests/test_data/api_data_planets.json";
 
 describe("RecipeSchema validation", () => {
 	recipes.forEach((recipe: any) => {
-		it(`Validate recipe ${recipe.RecipeId}`, () => {
+		it(`Validate recipe ${recipe.recipe_id}`, () => {
 			const result = RecipeSchema.safeParse(recipe);
 			expect(result.success).toBe(true);
 			if (!result.success) {
 				console.error(
-					`Validation failed for recipe: ${recipe.RecipeId}`,
+					`Validation failed for recipe: ${recipe.recipe_id}`,
 					result.error.errors
 				);
 			}
@@ -31,12 +31,12 @@ describe("RecipeSchema validation", () => {
 
 describe("BuildingSchema validation", () => {
 	buildings.forEach((building: any) => {
-		it(`Validate building ${building.Ticker}`, () => {
+		it(`Validate building ${building.building_ticker}`, () => {
 			const result = BuildingSchema.safeParse(building);
 			expect(result.success).toBe(true);
 			if (!result.success) {
 				console.error(
-					`Validation failed for building: ${building.Ticker}`,
+					`Validation failed for building: ${building.building_ticker}`,
 					result.error.errors
 				);
 			}
@@ -46,12 +46,12 @@ describe("BuildingSchema validation", () => {
 
 describe("MaterialSchema validation", () => {
 	materials.forEach((material: any) => {
-		it(`Validate material ${material.Ticker}`, () => {
+		it(`Validate material ${material.ticker}`, () => {
 			const result = MaterialSchema.safeParse(material);
 			expect(result.success).toBe(true);
 			if (!result.success) {
 				console.error(
-					`Validation failed for material: ${material.Ticker}`,
+					`Validation failed for material: ${material.ticker}`,
 					result.error.errors
 				);
 			}
@@ -76,12 +76,12 @@ describe("ExchangeSchema validation", () => {
 
 describe("PlanetSchema validation", () => {
 	planets.forEach((planet: any) => {
-		it(`Validate planet ${planet.PlanetNaturalId}`, () => {
+		it(`Validate planet ${planet.planet_natural_id}`, () => {
 			const result = PlanetSchema.safeParse(planet);
 			expect(result.success).toBe(true);
 			if (!result.success) {
 				console.error(
-					`Validation failed for planet: ${planet.PlanetNaturalId}`,
+					`Validation failed for planet: ${planet.planet_natural_id}`,
 					result.error.errors
 				);
 			}

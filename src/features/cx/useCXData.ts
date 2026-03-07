@@ -48,7 +48,7 @@ export function useCXData() {
 
 		// add actual cx options from planning store
 		planningStore.getAllCX().forEach((cx) => {
-			options.push({ label: cx.name, value: cx.uuid });
+			options.push({ label: cx.cx_name, value: cx.uuid });
 		});
 
 		return options;

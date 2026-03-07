@@ -1,8 +1,6 @@
 import {
-	IPlanDataBuilding,
-	IPlanDataInfrastructure,
-	IPlanDataPlanet,
-	PLAN_FACTION,
+	IPlanData,
+	PLAN_COGCPROGRAM_TYPE,
 } from "@/stores/planningStore.types";
 
 export interface IPlanRouteParams {
@@ -12,16 +10,13 @@ export interface IPlanRouteParams {
 }
 
 export interface IPlanCreateData {
-	name: string;
-	planet_id: string;
-	faction: PLAN_FACTION;
-	override_empire: boolean;
-	permits_used: number;
-	permits_total: number;
-	planet: IPlanDataPlanet;
-	infrastructure: IPlanDataInfrastructure[];
-	buildings: IPlanDataBuilding[];
 	empire_uuid?: string;
+	plan_name: string;
+	planet_natural_id: string;
+	plan_permits_used: number;
+	plan_cogc: PLAN_COGCPROGRAM_TYPE;
+	plan_corphq: boolean;
+	plan_data: IPlanData;
 }
 
 export interface IPlanSaveData extends IPlanCreateData {
@@ -34,7 +29,7 @@ export interface IPlanSaveCreateResponse {
 
 export interface IPlanPatchMaterialIOElement {
 	uuid: string;
-	planet_id: string;
+	planet_natural_id: string;
 	material_io: {
 		ticker: string;
 		input: number;

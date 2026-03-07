@@ -26,8 +26,7 @@
 		PInput,
 		PInputNumber,
 		PSelect,
-		PCheckbox,
-		PTag,
+		PCheckbox
 	} from "@/ui";
 	import { useDialog } from "naive-ui";
 	const dialog = useDialog();
@@ -70,7 +69,6 @@
 	const refCreatePermitsUsed: Ref<number> = ref(1);
 	const refCreatePermitsTotal: Ref<number> = ref(2);
 	const refCreateName: Ref<string | undefined> = ref(undefined);
-	const refCreateUseFioStorage: Ref<boolean> = ref(false);
 	const refIsCreating: Ref<boolean> = ref(false);
 	const refIsDeleting: Ref<string | undefined> = ref(undefined);
 	const compCanCreate: ComputedRef<boolean> = computed(() => {
@@ -126,7 +124,7 @@
 		localCX.value.forEach((c) => {
 			options.push({
 				value: c.uuid,
-				label: c.name,
+				label: c.cx_name,
 			});
 		});
 
@@ -186,11 +184,10 @@
 
 				await useQuery("CreateEmpire", {
 					data: {
-						faction: refCreateFaction.value,
-						permits_used: refCreatePermitsUsed.value,
-						permits_total: refCreatePermitsTotal.value,
-						name: refCreateName.value!,
-						use_fio_storage: refCreateUseFioStorage.value,
+						empire_faction: refCreateFaction.value,
+						empire_permits_used: refCreatePermitsUsed.value,
+						empire_permits_total: refCreatePermitsTotal.value,
+						empire_name: refCreateName.value!,
 					},
 				}).execute();
 
@@ -298,9 +295,6 @@
 							:min="1"
 							class="w-full" />
 					</PFormItem>
-					<PFormItem label="使用 FIO 存储？">
-						<PCheckbox v-model:checked="refCreateUseFioStorage" />
-					</PFormItem>
 				</PForm>
 			</div>
 			<div>
@@ -319,36 +313,26 @@
 				<router-link
 					:to="`/empire/${rowData.uuid}`"
 					class="text-link-primary font-bold hover:underline">
-					{{ rowData.name }}
+					{{ rowData.empire_name }}
 				</router-link>
 			</template>
 		</x-n-data-table-column>
 		<x-n-data-table-column key="faction" title="派系">
 			<template #render-cell="{ rowData }">
-				{{ capitalizeString(rowData.faction) }}
+				{{ capitalizeString(rowData.empire_faction) }}
 			</template>
 		</x-n-data-table-column>
 		<x-n-data-table-column key="permits" title="许可证">
 			<template #render-cell="{ rowData }">
-				{{ rowData.permits_used }} / {{ rowData.permits_total }}
+				{{ rowData.empire_permits_used }} / {{ rowData.empire_permits_total }}
 			</template>
 		</x-n-data-table-column>
 		<x-n-data-table-column key="plans" title="规划列表">
 			<template #render-cell="{ rowData }">
-				{{ rowData.baseplanners.length }}
+				{{ rowData.plans.length }}
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="fio" title="FIO">
-			<template #render-cell="{ rowData }">
-				<PTag
-					v-if="rowData.use_fio_storage"
-					:bordered="false"
-					type="success">
-					Yes
-				</PTag>
-				<PTag v-else :bordered="false" type="error"> No </PTag>
-			</template>
-		</x-n-data-table-column>
+		
 		<x-n-data-table-column key="cx" title="交易所" width="200">
 			<template #render-cell="{ rowData }">
 				<div class="max-w-50">

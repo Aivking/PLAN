@@ -68,7 +68,7 @@ describe("productionNode", async () => {
 	});
 
 	it("addRecipe", async () => {
-		const rat_recipes = recipes.filter((f) => f.BuildingTicker === "FP");
+		const rat_recipes = recipes.filter((f) => f.building_ticker === "FP");
 
 		const node = new ProductionNode("RAT");
 
@@ -81,7 +81,7 @@ describe("productionNode", async () => {
 	});
 
 	it("getOutput", async () => {
-		const rat_recipes = recipes.filter((f) => f.BuildingTicker === "FP");
+		const rat_recipes = recipes.filter((f) => f.building_ticker === "FP");
 
 		const node = new ProductionNode("RAT");
 		rat_recipes.forEach((r) => node.addRecipe(r));
@@ -98,7 +98,7 @@ describe("productionNode", async () => {
 	});
 
 	it("getInput", async () => {
-		const rat_recipes = recipes.filter((f) => f.BuildingTicker === "FP");
+		const rat_recipes = recipes.filter((f) => f.building_ticker === "FP");
 
 		const node = new ProductionNode("RAT");
 		rat_recipes.forEach((r) => node.addRecipe(r));
@@ -135,7 +135,7 @@ describe("productionNode", async () => {
 	});
 
 	it("getRecipe, single match", async () => {
-		const rat_recipes = recipes.filter((f) => f.BuildingTicker === "FP");
+		const rat_recipes = recipes.filter((f) => f.building_ticker === "FP");
 
 		const node = new ProductionNode("RAT");
 		rat_recipes.forEach((r) => node.addRecipe(r));
@@ -145,18 +145,18 @@ describe("productionNode", async () => {
 	});
 
 	it("getRecipe, exclusion", async () => {
-		const rat_recipes = recipes.filter((f) => f.BuildingTicker === "FP");
+		const rat_recipes = recipes.filter((f) => f.building_ticker === "FP");
 
 		const node = new ProductionNode("O");
 		rat_recipes.forEach((r) => node.addRecipe(r));
 
 		const result = node.getRecipe([]);
 		expect(result).toBeDefined();
-		expect(result?.BuildingTicker).toBe("COL");
+		expect(result?.building_ticker).toBe("COL");
 	});
 
 	it("getRecipe, multiple match error", async () => {
-		const rat_recipes = recipes.filter((f) => f.BuildingTicker === "FP");
+		const rat_recipes = recipes.filter((f) => f.building_ticker === "FP");
 
 		const node = new ProductionNode("RAT");
 		rat_recipes.forEach((r) => node.addRecipe(r));
@@ -170,7 +170,7 @@ describe("productionNode", async () => {
 	});
 
 	it("getBuildingData", async () => {
-		const rat_recipes = recipes.filter((f) => f.BuildingTicker === "FP");
+		const rat_recipes = recipes.filter((f) => f.building_ticker === "FP");
 
 		const node = new ProductionNode("RAT");
 		rat_recipes.forEach((r) => node.addRecipe(r));

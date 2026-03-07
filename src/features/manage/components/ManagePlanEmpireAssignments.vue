@@ -136,7 +136,7 @@
 		// prepare flatmap of all plan uuids within an empire
 		const empirePlans: Record<string, string[]> = localEmpires.value.reduce(
 			(acc, item) => (
-				(acc[item.uuid] = item.baseplanners.map((p) => p.uuid)), acc
+				(acc[item.uuid] = item.plans.map((p) => p.uuid)), acc
 			),
 			{} as Record<string, string[]>
 		);
@@ -145,9 +145,9 @@
 		localPlans.value.forEach((plan) => {
 			matrix.value.push({
 				// all plans coming from backend have a name and uuid, force it
-				planName: plan.name!,
+				planName: plan.plan_name!,
 				planUuid: plan.uuid!,
-				planetId: plan.planet_id,
+				planetId: plan.planet_natural_id,
 				empires: localEmpires.value.reduce(
 					(acc, item) => (
 						(acc[item.uuid] = empirePlans[item.uuid].includes(
@@ -199,7 +199,7 @@
 
 				matrix.value.forEach((mp) => {
 					if (mp.empires[me.empireUuid]) {
-						indJunction.baseplanners.push({
+						indJunction.plans.push({
 							baseplanner_uuid: mp.planUuid,
 						});
 					}

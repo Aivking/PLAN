@@ -110,8 +110,8 @@ describe("useBuildingData", async () => {
 
 			const result = getBuildingRecipes("COL", fakePlanetResources);
 			expect(result.length).toBe(1);
-			expect(result[0].BuildingTicker).toBe("COL");
-			expect(result[0].RecipeId).toBe("COL#O");
+			expect(result[0].building_ticker).toBe("COL");
+			expect(result[0].recipe_id).toBe("COL#O");
 		});
 
 		it("Production Building, error", async () => {
@@ -125,7 +125,7 @@ describe("useBuildingData", async () => {
 			const result = getBuildingRecipes("BMP");
 
 			expect(result.length).toBe(20);
-			expect(result[0].BuildingTicker).toBe("BMP");
+			expect(result[0].building_ticker).toBe("BMP");
 		});
 	});
 

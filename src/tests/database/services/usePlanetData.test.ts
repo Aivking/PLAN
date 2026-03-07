@@ -57,7 +57,7 @@ describe("usePlanetData", () => {
 	it("getPlanet returns the planet", async () => {
 		const { getPlanet } = usePlanetData();
 		const planet = await getPlanet("P1");
-		expect(planet.PlanetName).toBe("Earth");
+		expect(planet.planet_name).toBe("Earth");
 		expect(getMock).toHaveBeenCalledWith("P1");
 	});
 

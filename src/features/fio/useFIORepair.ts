@@ -66,7 +66,7 @@ export function useFIORepair(
 					// Increase the building amounts and handle conditions
 					buildingAmount += 1;
 					if (
-						isInfrastructureBuilding(planetBuilding.BuildingTicker)
+						isInfrastructureBuilding(planetBuilding.building_ticker)
 					) {
 						infrastructureBuildingAmount += 1;
 					} else {

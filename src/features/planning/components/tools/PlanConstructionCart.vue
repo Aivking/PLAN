@@ -77,8 +77,8 @@
 		)?.Buildings;
 		if (constructedArray) {
 			for (const building of constructedArray) {
-				const count = constructedMap.get(building.BuildingTicker) ?? 0;
-				constructedMap.set(building.BuildingTicker, count + 1);
+				const count = constructedMap.get(building.building_ticker) ?? 0;
+				constructedMap.set(building.building_ticker, count + 1);
 			}
 		}
 	}

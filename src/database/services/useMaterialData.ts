@@ -16,7 +16,7 @@ export function useMaterialData() {
 	const materialsMap = computed((): Record<string, IMaterial> => {
 		return allData.value
 			? allData.value.reduce((acc, mat) => {
-					acc[mat.Ticker] = mat;
+					acc[mat.ticker] = mat;
 					return acc;
 			  }, {} as Record<string, IMaterial>)
 			: {};
@@ -37,7 +37,7 @@ export function useMaterialData() {
 
 	const materialSelectOptions: ComputedRef<PSelectOption[]> = computed(() =>
 		allData.value
-			? allData.value.map((m) => ({ label: m.Ticker, value: m.Ticker }))
+			? allData.value.map((m) => ({ label: m.ticker, value: m.ticker }))
 			: []
 	);
 

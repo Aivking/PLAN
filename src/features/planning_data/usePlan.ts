@@ -103,85 +103,31 @@ export function usePlan() {
 		cogc: PLANET_COGCPROGRAM_TYPE | null
 	): IPlan {
 		return {
-			name: undefined,
+			plan_name: undefined,
 			uuid: undefined,
-			planet_id: planetNaturalId,
-			faction: "NONE",
-			permits_used: 1,
-			permits_total: 3,
-			override_empire: false,
-			baseplanner_data: {
-				planet: {
-					planetid: planetNaturalId,
-					permits: 1,
-					corphq: false,
-					cogc: mapPlanetToPlanType(cogc),
-					experts: [
-						{
-							type: "Agriculture",
-							amount: 0,
-						},
-						{
-							type: "Chemistry",
-							amount: 0,
-						},
-						{
-							type: "Construction",
-							amount: 0,
-						},
-						{
-							type: "Electronics",
-							amount: 0,
-						},
-						{
-							type: "Food_Industries",
-							amount: 0,
-						},
-						{
-							type: "Fuel_Refining",
-							amount: 0,
-						},
-						{
-							type: "Manufacturing",
-							amount: 0,
-						},
-						{
-							type: "Metallurgy",
-							amount: 0,
-						},
-						{
-							type: "Resource_Extraction",
-							amount: 0,
-						},
-					],
-					workforce: [
-						{
-							type: "pioneer",
-							lux1: true,
-							lux2: true,
-						},
-						{
-							type: "settler",
-							lux1: true,
-							lux2: true,
-						},
-						{
-							type: "technician",
-							lux1: true,
-							lux2: true,
-						},
-						{
-							type: "engineer",
-							lux1: true,
-							lux2: true,
-						},
-						{
-							type: "scientist",
-							lux1: true,
-							lux2: true,
-						},
-					],
-				},
+			planet_natural_id: planetNaturalId,
+			plan_permits_used: 1,
+			plan_corphq: false,
+			plan_cogc: mapPlanetToPlanType(cogc),
+			plan_data: {
+				experts: [
+					{ type: "Agriculture", amount: 0 },
+					{ type: "Chemistry", amount: 0 },
+					{ type: "Construction", amount: 0 },
+					{ type: "Electronics", amount: 0 },
+					{ type: "Food_Industries", amount: 0 },
+					{ type: "Fuel_Refining", amount: 0 },
+					{ type: "Manufacturing", amount: 0 },
+					{ type: "Metallurgy", amount: 0 },
+					{ type: "Resource_Extraction", amount: 0 },
+				],
+				workforce: [
+					{ type: "pioneer", lux1: true, lux2: true },
+					{ type: "settler", lux1: true, lux2: true },
+					{ type: "technician", lux1: true, lux2: true },
+					{ type: "engineer", lux1: true, lux2: true },
+					{ type: "scientist", lux1: true, lux2: true },
+				],
 				infrastructure: [],
 				buildings: [],
 			},
@@ -276,7 +222,7 @@ export function usePlan() {
 			data: [
 				{
 					uuid: planUuid,
-					planet_id: planetNaturalId,
+					planet_natural_id: planetNaturalId,
 					material_io: materialio.map((e) => ({
 						ticker: e.ticker,
 						input: e.input,
@@ -320,8 +266,8 @@ export function usePlan() {
 
 		if (findPlan)
 			return {
-				planetId: findPlan.planet_id,
-				planName: findPlan.name ?? "Unnamed",
+				planetId: findPlan.planet_natural_id,
+				planName: findPlan.plan_name ?? "Unnamed",
 			};
 
 		throw new Error(

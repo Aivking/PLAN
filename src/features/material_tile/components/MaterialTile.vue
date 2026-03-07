@@ -274,7 +274,7 @@
 					<div
 						:class="categoryCssClass"
 						class="text-nowrap p-2 px-4 text-2xl text-shadow-[0_1px_1px_rgb(34,34,34)]">
-						{{ material.Ticker }}
+						{{ material.ticker }}
 					</div>
 				</div>
 				<div class="grow">

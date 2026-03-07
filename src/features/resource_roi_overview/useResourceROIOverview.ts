@@ -149,18 +149,18 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 
 		const definition = ref(
 			createBlankDefinition(
-				planet.PlanetNaturalId,
-				planet.COGCProgramActive
+				planet.planet_natural_id,
+				planet.cogc_program_active
 			)
 		);
 
 		// set all the experts to 5
-		definition.value.baseplanner_data.planet.experts.forEach(
+		definition.value.plan_data.experts.forEach(
 			(expert) => (expert.amount = 5)
 		);
 
 		// set infrastructure
-		definition.value.baseplanner_data.infrastructure = [
+		definition.value.plan_data.infrastructure = [
 			{ building: "HB1", amount: optimal.HB1 },
 			{ building: "HB2", amount: optimal.HB2 },
 			{ building: "HB3", amount: optimal.HB3 },
@@ -178,7 +178,7 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 		];
 
 		// artificially set cogc to resource extraction
-		definition.value.baseplanner_data.planet.cogc = "RESOURCE_EXTRACTION";
+		definition.value.plan_cogc = "RESOURCE_EXTRACTION";
 
 		const { handleCreateBuilding, calculateOverview, calculate } =
 			await usePlanCalculation(definition, undefined, undefined, cxUuid);
@@ -190,15 +190,15 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 		for (const productionBuilding of resultData.production.buildings) {
 			if (
 				productionBuilding.recipeOptions
-					.map((e) => e.Outputs.map((m) => m.Ticker))
+					.map((e) => e.outputs.map((m) => m.ticker))
 					.flat()
 					.includes(materialTicker)
 			) {
 				// manipulate definition daata
 
-				definition.value.baseplanner_data.buildings[0].amount =
+				definition.value.plan_data.buildings[0].amount =
 					optimal.amount;
-				definition.value.baseplanner_data.buildings[0].active_recipes =
+				definition.value.plan_data.buildings[0].active_recipes =
 					[
 						{
 							recipeid: `${productionBuilding.name}#${materialTicker}`,
@@ -222,8 +222,8 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 
 				// all matches, push the result
 				results.push({
-					planetNaturalId: planet.PlanetNaturalId,
-					planetName: planetNames.value[planet.PlanetNaturalId],
+					planetNaturalId: planet.planet_natural_id,
+					planetName: planetNames.value[planet.planet_natural_id],
 					buildingTicker: productionBuilding.name,
 					dailyYield,
 					percentMaxDailyYield: 0,
@@ -257,7 +257,7 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 					planetGravity: gravity,
 					planetPressure: pressure,
 					planetTemperature: temperature,
-					planetCOGC: planet.COGCProgramActive,
+					planetCOGC: planet.cogc_program_active,
 					planetInfrastructures: infrastructures,
 				});
 			}
