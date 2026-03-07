@@ -136,7 +136,7 @@
 				<router-link
 					:to="`/exchanges/${rowData.uuid}`"
 					class="text-link-primary font-bold hover:underline">
-					{{ rowData.name }}
+					{{ rowData.cx_name }}
 				</router-link>
 			</template>
 		</x-n-data-table-column>

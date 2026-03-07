@@ -43,7 +43,7 @@
 					<router-link
 						:to="`/plan/${rowData.planet}/${rowData.uuid}`"
 						class="text-link-primary font-bold hover:underline">
-						{{ rowData.name }}
+						{{ rowData.plan_name }}
 					</router-link>
 				</div>
 			</template>

@@ -89,12 +89,12 @@
 
 	const filterOptionsPlanNames: ComputedRef<PSelectOption[]> = computed(() =>
 		localPlans.value.map((e) => ({
-			label: e.name ?? t("empire.unknown_plan_name"),
+			label: e.empire_name ?? t("empire.unknown_plan_name"),
 			value: e.uuid,
 		}))
 	);
 	const filterOptionsEmpires: ComputedRef<PSelectOption[]> = computed(() =>
-		localEmpires.value.map((e) => ({ label: e.name, value: e.uuid }))
+		localEmpires.value.map((e) => ({ label: e.empire_name, value: e.uuid }))
 	);
 
 	// generate initial matrix upon props passing
@@ -132,7 +132,7 @@
 			.map((e) => {
 				return {
 					empireUuid: e.uuid,
-					empireName: e.name,
+					empireName: e.empire_name,
 				};
 			})
 			.sort((a, b) => (a.empireName > b.empireName ? 1 : -1));
@@ -149,9 +149,9 @@
 		localPlans.value.forEach((plan) => {
 			matrix.value.push({
 				// all plans coming from backend have a name and uuid, force it
-				planName: plan.name!,
+				planName: plan.plan_name!,
 				planUuid: plan.uuid!,
-				planetId: plan.planet_id,
+				planetId: plan.planet_natural_id,
 				empires: localEmpires.value.reduce(
 					(acc, item) => (
 						(acc[item.uuid] = empirePlans[item.uuid].includes(

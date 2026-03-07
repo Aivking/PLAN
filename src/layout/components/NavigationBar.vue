@@ -61,7 +61,6 @@
 		(newValue: boolean) => {
 			if (newValue) {
 				useQuery("GetFIOStorage").execute();
-				useQuery("GetFIOSites").execute();
 			} else {
 				queryStore.invalidateKey(["gamedata", "fio"], {
 					exact: false,

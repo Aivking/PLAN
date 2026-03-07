@@ -143,7 +143,7 @@
 		handleChangePlanName,
 	} = calculation;
 
-	const planetData: IPlanet = await getPlanet(props.planData.planet_id);
+	const planetData: IPlanet = await getPlanet(props.planData.planet_natural_id);
 
 	const refMaterialIOShowBasked: Ref<boolean> = ref(false);
 	const refMaterialIOSplitted: Ref<boolean> = ref(false);
@@ -431,7 +431,7 @@
 		title: computed(() =>
 			planName.value
 				? `${planName.value} | PRUNplanner`
-				: `${props.planData.planet_id} | PRUNplanner`
+				: `${props.planData.planet_natural_id} | PRUNplanner`
 		),
 	});
 
