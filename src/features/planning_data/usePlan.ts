@@ -298,6 +298,15 @@ export function usePlan() {
 		}
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async function patchMaterialIO(
+		_planUuid: string,
+		_planetNaturalId: string,
+		_materialio: unknown
+	): Promise<void> {
+		// not yet implemented on backend
+	}
+
 	return {
 		isEditDisabled,
 		mapPlanetToPlanType,
@@ -307,5 +316,6 @@ export function usePlan() {
 		reloadExistingPlan,
 		getPlanNamePlanet,
 		cloneSharedPlan,
+		patchMaterialIO,
 	};
 }
