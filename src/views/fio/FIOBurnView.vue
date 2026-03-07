@@ -194,7 +194,7 @@
 										:options="
 											empireList.map((e) => {
 												return {
-													label: e.name,
+													label: e.empire_name,
 													value: e.uuid,
 												};
 											})

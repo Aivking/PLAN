@@ -36,7 +36,7 @@
 	}
 
 	const empireSelectOptions = computed(() =>
-		empireList.value.map((e) => ({ label: e.name, value: e.uuid }))
+		empireList.value.map((e) => ({ label: e.empire_name, value: e.uuid }))
 	);
 
 	const apiKeySelectOptions = computed(() =>

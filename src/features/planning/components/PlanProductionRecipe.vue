@@ -191,7 +191,7 @@
 							<div class="flex flex-row gap-1">
 								<span
 									v-if="
-										rowData.RecipeId ===
+										rowData.recipe_id ===
 										localRecipeData.recipe.recipe_id
 									"
 									class="w-2 h-2 bg-prunplanner animate-pulse rounded-full my-auto mr-1" />
