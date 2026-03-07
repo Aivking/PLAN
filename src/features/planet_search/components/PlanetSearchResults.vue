@@ -46,14 +46,15 @@
 	function prepareTableData(): void {
 		tableSearchMaterials.value = [...props.searchMaterials];
 
-		tableResults.value = usePlanetSearchResults(
+		const { results } = usePlanetSearchResults(
 			localResults.value,
-			localSearchMaterials.value
-		).results.value;
-		tableCheckDistances.value = usePlanetSearchResults(
-			localResults.value,
-			localSearchMaterials.value
-		).hasCheckDistance.value;
+			localSearchMaterials.value,
+			{},
+			undefined,
+			undefined
+		);
+		tableResults.value = results.value;
+		tableCheckDistances.value = null;
 	}
 
 	watch(
