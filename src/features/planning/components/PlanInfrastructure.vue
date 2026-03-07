@@ -67,6 +67,10 @@
 		"HBL",
 		"HB5",
 		"STO",
+		"STA",
+		"STE",
+		"STV",
+		"STW",
 	];
 
 	const localAutoOptimizeHabs: WritableComputedRef<boolean> = computed({
