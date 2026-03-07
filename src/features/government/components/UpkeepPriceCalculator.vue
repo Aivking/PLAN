@@ -123,7 +123,7 @@
 				</XNDataTableColumn>
 				<XNDataTableColumn
 					key="buildingTicker"
-					title="建筑"
+					title="Building"
 					sorter="default">
 					<template #render-cell="{ rowData }">
 						<span class="font-bold">{{
@@ -153,7 +153,7 @@
 				</XNDataTableColumn>
 				<XNDataTableColumn
 					key="cxPrice"
-					title="交易所价格"
+					title="CX Price"
 					sorter="default">
 					<template #title>
 						<div class="text-end">CX Price</div>
@@ -177,7 +177,7 @@
 
 				<XNDataTableColumn
 					key="qtyPerDay"
-					title="每日数量"
+					title="Qty/Day"
 					sorter="default">
 					<template #title>
 						<div class="text-end">Qty/Day</div>

@@ -126,20 +126,20 @@
 			<div class="mb-3 grid grid-cols-1 xl:grid-cols-[60%_auto] gap-3">
 				<div>
 					<PForm>
-						<PFormItem label="出发点">
+						<PFormItem label="Origin">
 							<PSelect
 								v-model:value="burnOrigin"
 								:options="XITSTATIONWAREHOUSES"
 								class="w-full" />
 						</PFormItem>
-						<PFormItem label="目标天数">
+						<PFormItem label="Target Days">
 							<PInputNumber
 								v-model:value="burnResupplyDays"
 								:min="0"
 								show-buttons
 								class="w-full" />
 						</PFormItem>
-						<PFormItem label="从交易所购买">
+						<PFormItem label="Buy From CX">
 							<p
 								v-if="burnOrigin === 'Configure on Execution'"
 								class="text-xs text-negative">
@@ -152,7 +152,7 @@
 									burnOrigin === 'Configure on Execution'
 								" />
 						</PFormItem>
-						<PFormItem label="装配飞船">
+						<PFormItem label="Fit Ship">
 							<PButtonGroup>
 								<PButton
 									v-for="fitOption in fitOptions"
@@ -173,7 +173,7 @@
 								</PButton>
 							</PButtonGroup>
 						</PFormItem>
-						<PFormItem label="隐藏无限值">
+						<PFormItem label="Hide Infinite">
 							<PCheckbox v-model:checked="refHideInfinite" />
 						</PFormItem>
 					</PForm>
@@ -244,11 +244,11 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>代码</th>
-						<th>库存</th>
+						<th>Ticker</th>
+						<th>Stock</th>
 						<th>Delta</th>
 						<th>Burn</th>
-						<th>数量</th>
+						<th>Amount</th>
 						<th>Override</th>
 					</tr>
 				</thead>

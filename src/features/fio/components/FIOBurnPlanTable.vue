@@ -36,7 +36,7 @@
 				</router-link>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planetId" title="星球">
+		<XNDataTableColumn key="planetId" title="Planet">
 			<template #render-cell="{ rowData }">
 				{{
 					planetNames[rowData.planetId] ||
@@ -45,7 +45,7 @@
 				}}
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="minDays" title="消耗" sorter="default">
+		<XNDataTableColumn key="minDays" title="Burn" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="text-center">
 					<span

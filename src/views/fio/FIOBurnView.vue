@@ -11,7 +11,7 @@
 	// Unhead
 	import { useHead } from "@unhead/vue";
 	useHead({
-		title: "FIO 消耗 | PRUNplanner",
+		title: "Burn | PRUNplanner",
 	});
 
 	// Stores
@@ -163,13 +163,15 @@
 				<div v-else class="min-h-screen flex flex-col">
 					<div
 						class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
-						<h1 class="text-2xl font-bold my-auto">FIO 消耗</h1>
+						<h1 class="text-2xl font-bold my-auto">FIO Burn</h1>
 						<div class="flex flex-row gap-x-3">
 							<div class="my-auto">
 								FIO Data Update:
 								{{
 									relativeFromDate(
-										planningStore.fio_sites_timestamp ?? 0
+										planningStore.fio_storage_timestamp ??
+											0,
+										true
 									)
 								}}
 							</div>
@@ -192,17 +194,17 @@
 										:options="
 											empireList.map((e) => {
 												return {
-													label: e.name,
+													label: e.empire_name,
 													value: e.uuid,
 												};
 											})
 										"
 										@update-value="
-									(value: string) => {
-										selectedEmpireUuid = value;
-										defaultEmpireUuid = value;
-									}
-								" />
+											(value: string) => {
+												selectedEmpireUuid = value;
+												defaultEmpireUuid = value;
+											}
+										" />
 								</div>
 								<div>
 									<h2
@@ -211,14 +213,14 @@
 									</h2>
 
 									<PForm>
-										<PFormItem label="红色">
+										<PFormItem label="Red">
 											<PInputNumber
 												v-model:value="burnDaysRed"
 												show-buttons
 												:min="1"
 												class="w-full max-w-100" />
 										</PFormItem>
-										<PFormItem label="黄色">
+										<PFormItem label="Yellow">
 											<PInputNumber
 												v-model:value="burnDaysYellow"
 												show-buttons

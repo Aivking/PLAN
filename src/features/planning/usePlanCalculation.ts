@@ -100,16 +100,12 @@ export async function usePlanCalculation(
 	// data references
 
 	const planName: Ref<string | undefined> = toRef(plan.value.plan_name);
-	const data: ComputedRef<IPlanData> = computed(
-		() => plan.value.plan_data
-	);
-	const planetNaturalId: ComputedRef<string> = computed(
-		() => plan.value.planet_natural_id
-	);
+	const data: ComputedRef<IPlanData> = computed(() => plan.value.plan_data);
 	const empires: Ref<IPlanEmpire[]> = toRef([]);
-	const planEmpires: ComputedRef<IPlanEmpire[]> = computed(
-		() => plan.value.empires ?? []
+	const planEmpires: ComputedRef<IPlanEmpire[]> = computed(() =>
+		plan.value.empires ? plan.value.empires : []
 	);
+	const planetNaturalId: Ref<string> = toRef(plan.value.planet_natural_id);
 	const planetData: IPlanet = await getPlanet(plan.value.planet_natural_id);
 	const buildings: ComputedRef<IPlanDataBuilding[]> = computed(
 		() => data.value.buildings
@@ -512,8 +508,8 @@ export async function usePlanCalculation(
 
 					return {
 						recipe_id: br.recipe_id,
-						building_ticker: br.building_ticker,
 						recipe_name: br.recipe_name,
+						building_ticker: br.building_ticker,
 						time_ms: br.time_ms / totalEfficiency,
 						inputs: br.inputs,
 						outputs: br.outputs,
@@ -550,7 +546,10 @@ export async function usePlanCalculation(
 
 				const inputCost: ICOGMMaterialCost[] = await Promise.all(
 					ar.recipe.inputs.map(async (inputMat) => {
-						const price = await getPrice(inputMat.material_ticker, "BUY");
+						const price = await getPrice(
+							inputMat.material_ticker,
+							"BUY"
+						);
 						return {
 							ticker: inputMat.material_ticker,
 							amount: inputMat.material_amount,
@@ -569,7 +568,10 @@ export async function usePlanCalculation(
 
 				const outputRevenueArray = await Promise.all(
 					ar.recipe.outputs.map(async (current) => {
-						const price = await getPrice(current.material_ticker, "SELL");
+						const price = await getPrice(
+							current.material_ticker,
+							"SELL"
+						);
 						return price * current.material_amount;
 					})
 				);
@@ -589,14 +591,14 @@ export async function usePlanCalculation(
 
 				const totalProfit: number = outputRevenue - totalCost;
 
-				const outputCOGM: ICOGMMaterialReturn[] = ar.recipe.outputs.map(
-					(outputMat) => ({
+				const outputCOGM: ICOGMMaterialReturn[] = ar.recipe.outputs
+					.map((outputMat) => ({
 						ticker: outputMat.material_ticker,
 						amount: outputMat.material_amount,
 						costSplit: totalCost / sumOutputs,
 						costTotal: totalCost / outputMat.material_amount,
-					})
-				).sort((a, b) => (a.ticker > b.ticker ? 1 : -1));
+					}))
+					.sort((a, b) => (a.ticker > b.ticker ? 1 : -1));
 
 				ar.cogm = {
 					visible: cxUuid.value !== undefined,
@@ -713,8 +715,7 @@ export async function usePlanCalculation(
 		const areaResult: IAreaResult = await calculateAreaResult();
 		const infrastructureResult: IInfrastructureRecord =
 			calculateInfrastructureResult();
-		const storageResult: IStorageRecord =
-		    calculateStorageResult();
+		const storageResult: IStorageRecord = calculateStorageResult();
 		const expertResult: IExpertRecord = calculateExpertResult();
 		const productionResult: IProductionResult = await calculateProduction(
 			corpHQResult,
@@ -879,7 +880,7 @@ export async function usePlanCalculation(
 
 	/**
 	 * Calculates the total weight of the plan's storage
-	 * 
+	 *
 	 * @type {ComputedRef<number>}
 	 */
 	const totalWeight: ComputedRef<number> = computed(() => {
@@ -888,7 +889,7 @@ export async function usePlanCalculation(
 
 	/**
 	 * Calculates the total volume of the plan's storage
-	 * 
+	 *
 	 * @type {ComputedRef<number>}
 	 */
 	const totalVolume: ComputedRef<number> = computed(() => {
@@ -946,13 +947,18 @@ export async function usePlanCalculation(
 	 */
 	const backendData: ComputedRef<IPlanCreateData> = computed(() => {
 		return {
+			empire_uuid: empireUuid.value,
 			plan_name: planName.value ?? "missing name",
 			planet_natural_id: plan.value.planet_natural_id,
 			plan_permits_used: plan.value.plan_permits_used,
-			plan_corphq: plan.value.plan_corphq,
 			plan_cogc: plan.value.plan_cogc,
-			plan_data: plan.value.plan_data,
-			empire_uuid: empireUuid.value,
+			plan_corphq: plan.value.plan_corphq,
+			plan_data: {
+				experts: data.value.experts,
+				buildings: data.value.buildings,
+				workforce: data.value.workforce,
+				infrastructure: data.value.infrastructure,
+			},
 		};
 	});
 

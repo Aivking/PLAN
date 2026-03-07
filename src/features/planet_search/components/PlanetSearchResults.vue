@@ -95,7 +95,7 @@
 				</router-link>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planetName" title="星球" sorter="default">
+		<XNDataTableColumn key="planetName" title="Planet" sorter="default">
 			<template #render-cell="{ rowData }">
 				<span
 					v-if="rowData.planetName === rowData.planetId"
@@ -137,7 +137,7 @@
 				</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="additionalResources" title="资源">
+		<XNDataTableColumn key="additionalResources" title="Resources">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1 child:text-nowrap">
 					<MaterialTile
@@ -158,7 +158,7 @@
 		</XNDataTableColumn>
 		<XNDataTableColumn
 			key="cogcProgram"
-			title="COGC 项目"
+			title="COGC Program"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{
@@ -168,7 +168,7 @@
 				}}
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="environment" title="环境">
+		<XNDataTableColumn key="environment" title="Environment">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1">
 					<PTooltip v-if="rowData.environmentSurface.length !== 0">

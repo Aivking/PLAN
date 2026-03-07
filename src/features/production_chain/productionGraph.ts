@@ -82,11 +82,13 @@ export class ProductionGraph {
 
 			if (planets.value && planets.value.length > 0) {
 				planets.value.forEach((planet: IPlanet) => {
-					planet.Resources.forEach((resource) => {
+					planet.resources.forEach((resource) => {
 						const buildingTicker =
-							resourceTypeToBuildingTicker[resource.ResourceType];
+							resourceTypeToBuildingTicker[
+								resource.resource_type
+							];
 						if (buildingTicker) {
-							extractableMaterialsMap[resource.MaterialTicker] =
+							extractableMaterialsMap[resource.material_ticker] =
 								buildingTicker;
 						}
 					});

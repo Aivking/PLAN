@@ -5,13 +5,11 @@ import { usePlanningStore } from "@/stores/planningStore";
 // Types & Interfaces
 import {
 	IPlanCreateData,
-	IPlanPatchMaterialIOElement,
 	IPlanRouteParams,
 	IPlanSaveCreateResponse,
 } from "@/features/planning_data/usePlan.types";
 import { PLANET_COGCPROGRAM_TYPE } from "@/features/api/gameData.types";
 import { IPlan, PLAN_COGCPROGRAM_TYPE } from "@/stores/planningStore.types";
-import { IMaterialIO } from "@/features/planning/usePlanCalculation.types";
 
 const cogcValues: string[] = [
 	"---",
@@ -111,22 +109,69 @@ export function usePlan() {
 			plan_cogc: mapPlanetToPlanType(cogc),
 			plan_data: {
 				experts: [
-					{ type: "Agriculture", amount: 0 },
-					{ type: "Chemistry", amount: 0 },
-					{ type: "Construction", amount: 0 },
-					{ type: "Electronics", amount: 0 },
-					{ type: "Food_Industries", amount: 0 },
-					{ type: "Fuel_Refining", amount: 0 },
-					{ type: "Manufacturing", amount: 0 },
-					{ type: "Metallurgy", amount: 0 },
-					{ type: "Resource_Extraction", amount: 0 },
+					{
+						type: "Agriculture",
+						amount: 0,
+					},
+					{
+						type: "Chemistry",
+						amount: 0,
+					},
+					{
+						type: "Construction",
+						amount: 0,
+					},
+					{
+						type: "Electronics",
+						amount: 0,
+					},
+					{
+						type: "Food_Industries",
+						amount: 0,
+					},
+					{
+						type: "Fuel_Refining",
+						amount: 0,
+					},
+					{
+						type: "Manufacturing",
+						amount: 0,
+					},
+					{
+						type: "Metallurgy",
+						amount: 0,
+					},
+					{
+						type: "Resource_Extraction",
+						amount: 0,
+					},
 				],
 				workforce: [
-					{ type: "pioneer", lux1: true, lux2: true },
-					{ type: "settler", lux1: true, lux2: true },
-					{ type: "technician", lux1: true, lux2: true },
-					{ type: "engineer", lux1: true, lux2: true },
-					{ type: "scientist", lux1: true, lux2: true },
+					{
+						type: "pioneer",
+						lux1: true,
+						lux2: true,
+					},
+					{
+						type: "settler",
+						lux1: true,
+						lux2: true,
+					},
+					{
+						type: "technician",
+						lux1: true,
+						lux2: true,
+					},
+					{
+						type: "engineer",
+						lux1: true,
+						lux2: true,
+					},
+					{
+						type: "scientist",
+						lux1: true,
+						lux2: true,
+					},
 				],
 				infrastructure: [],
 				buildings: [],
@@ -203,37 +248,6 @@ export function usePlan() {
 	}
 
 	/**
-	 * Patch material i/o values for given plan and planet
-	 *
-	 * @author jplacht
-	 *
-	 * @async
-	 * @param {string} planUuid Plan Uuid
-	 * @param {string} planetNaturalId Planet Natural Id
-	 * @param {IMaterialIO[]} materialio Calculated Material IO
-	 * @returns {Promise<boolean>} Patch Result
-	 */
-	async function patchMaterialIO(
-		planUuid: string,
-		planetNaturalId: string,
-		materialio: IMaterialIO[]
-	): Promise<boolean> {
-		return await useQuery("PatchMaterialIO", {
-			data: [
-				{
-					uuid: planUuid,
-					planet_natural_id: planetNaturalId,
-					material_io: materialio.map((e) => ({
-						ticker: e.ticker,
-						input: e.input,
-						output: e.output,
-					})),
-				} as IPlanPatchMaterialIOElement,
-			],
-		}).execute();
-	}
-
-	/**
 	 * Reloading an existing plan is fetching the plan data from
 	 * planning store again. The planning view won't persist changes
 	 * to the stores data itself.
@@ -292,7 +306,6 @@ export function usePlan() {
 		saveExistingPlan,
 		reloadExistingPlan,
 		getPlanNamePlanet,
-		patchMaterialIO,
 		cloneSharedPlan,
 	};
 }

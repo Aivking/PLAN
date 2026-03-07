@@ -43,20 +43,26 @@ export async function useBuildingData() {
 	const { calculateWorkforceConsumption } = await useWorkforceCalculation();
 
 	const buildingsMap = computed((): Record<string, IBuilding> => {
-		return (allDataBuildings.value ?? []).reduce((acc, building) => {
-			acc[building.building_ticker] = building;
-			return acc;
-		}, {} as Record<string, IBuilding>);
+		return (allDataBuildings.value ?? []).reduce(
+			(acc, building) => {
+				acc[building.building_ticker] = building;
+				return acc;
+			},
+			{} as Record<string, IBuilding>
+		);
 	});
 
 	const recipeBuildingMap = computed((): Record<string, IRecipe[]> => {
-		return (allDataRecipes.value ?? []).reduce((acc, recipe) => {
-			if (acc[recipe.building_ticker])
-				acc[recipe.building_ticker].push(recipe);
-			else acc[recipe.building_ticker] = [recipe];
+		return (allDataRecipes.value ?? []).reduce(
+			(acc, recipe) => {
+				if (acc[recipe.building_ticker])
+					acc[recipe.building_ticker].push(recipe);
+				else acc[recipe.building_ticker] = [recipe];
 
-			return acc;
-		}, {} as Record<string, IRecipe[]>);
+				return acc;
+			},
+			{} as Record<string, IRecipe[]>
+		);
 	});
 
 	async function getBuilding(buildingTicker: string): Promise<IBuilding> {
@@ -102,11 +108,13 @@ export async function useBuildingData() {
 						label:
 							building.building_ticker +
 							" (" +
-							building.building_name.replace(/([A-Z])/g, " $1")
+							building.building_name
+								.replace(/([A-Z])/g, " $1")
 								.trim()
 								.charAt(0)
 								.toUpperCase() +
-							building.building_name.replace(/([A-Z])/g, " $1")
+							building.building_name
+								.replace(/([A-Z])/g, " $1")
 								.trim()
 								.slice(1) +
 							")",

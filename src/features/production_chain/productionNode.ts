@@ -114,10 +114,7 @@ export class ProductionNode {
 
 	getRecipe(selectedRecipes: string[]): IRecipe | undefined {
 		// skip if there is no recipe and not extractable
-		if (
-			!isExtractable(this.materialTicker) &&
-			this.recipes.length === 0
-		)
+		if (!isExtractable(this.materialTicker) && this.recipes.length === 0)
 			return undefined;
 
 		// Build the extraction recipe if this material is extractable
@@ -126,13 +123,18 @@ export class ProductionNode {
 		)
 			? {
 					recipe_id: `${getExtractionBuilding(this.materialTicker) ?? "EXT"}#=>${this.materialTicker}`,
-					BuildingTicker:
+					building_ticker:
 						getExtractionBuilding(this.materialTicker) ?? "EXT",
 					recipe_name: `=>${this.materialTicker}`,
 					time_ms: 0,
 					inputs: [],
-					outputs: [{ material_amount: 1, material_ticker: this.materialTicker }],
-			  }
+					outputs: [
+						{
+							material_amount: 1,
+							material_ticker: this.materialTicker,
+						},
+					],
+				}
 			: undefined;
 
 		// Check if user selected a specific recipe

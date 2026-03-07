@@ -164,27 +164,35 @@ export async function useGraph() {
 		const expertiseAnalysis = flowNodes
 			.map((fn) => fn.data.buildingExpertise)
 			.filter((e) => e && e !== null)
-			.reduce((sum, current) => {
-				if (!current) return sum;
-				sum[current] = (sum[current] ?? 0) + 1;
-				return sum;
-			}, {} as Record<Partial<BUILDING_EXPERTISE_TYPE>, number>);
+			.reduce(
+				(sum, current) => {
+					if (!current) return sum;
+					sum[current] = (sum[current] ?? 0) + 1;
+					return sum;
+				},
+				{} as Record<Partial<BUILDING_EXPERTISE_TYPE>, number>
+			);
 
 		const workforceAnalysis = Object.entries(
 			flowNodes
 				.map((fn) => fn.data.buildingWorkforce)
-				.reduce((sum, current) => {
-					sum["pioneers"] = (sum["pioneers"] ?? 0) + current.pioneers;
-					sum["settlers"] = (sum["settlers"] ?? 0) + current.settlers;
-					sum["technicians"] =
-						(sum["technicians"] ?? 0) + current.technicians;
-					sum["engineers"] =
-						(sum["engineers"] ?? 0) + current.engineers;
-					sum["scientists"] =
-						(sum["scientists"] ?? 0) + current.scientists;
+				.reduce(
+					(sum, current) => {
+						sum["Pioneers"] =
+							(sum["Pioneers"] ?? 0) + current.Pioneers;
+						sum["Settlers"] =
+							(sum["Settlers"] ?? 0) + current.Settlers;
+						sum["Technicians"] =
+							(sum["Technicians"] ?? 0) + current.Technicians;
+						sum["Engineers"] =
+							(sum["Engineers"] ?? 0) + current.Engineers;
+						sum["Scientists"] =
+							(sum["Scientists"] ?? 0) + current.Scientists;
 
-					return sum;
-				}, {} as Record<string, number>)
+						return sum;
+					},
+					{} as Record<string, number>
+				)
 		)
 			.filter(([_, value]) => value > 0)
 			.map(([key, value]) => ({ workforce: key, value }));

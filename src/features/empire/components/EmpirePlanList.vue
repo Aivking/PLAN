@@ -48,7 +48,7 @@
 				</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planet" title="星球" sorter="default">
+		<XNDataTableColumn key="planet" title="Planet" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="test-wrap">
 					{{ planetNames[rowData.planet] || "Loading..." }}
@@ -62,7 +62,7 @@
 				</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="permits" title="许可证" sorter="default">
+		<XNDataTableColumn key="permits" title="Permits" sorter="default">
 			<template #title>
 				<div class="text-nowrap">#</div>
 			</template>
@@ -70,7 +70,7 @@
 				<div class="text-center">{{ rowData.permits }}</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="profit" title="利润" sorter="default">
+		<XNDataTableColumn key="profit" title="Profit" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="text-nowrap text-end">
 					<span
@@ -99,7 +99,7 @@
 					<router-link
 						to="/search"
 						class="text-link-primary hover:underline">
-						星球搜索
+						Planet Search
 					</router-link>
 					to create one.
 				</div>

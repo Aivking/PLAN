@@ -34,8 +34,8 @@
 		trackEvent("user_password_change");
 
 		await useQuery("PatchUserChangePassword", {
-			old: refCurrentPassword.value,
-			new: refNewPassword.value,
+			old_password: refCurrentPassword.value,
+			new_password: refNewPassword.value,
 		})
 			.execute()
 			.then((result: boolean) => {
@@ -76,13 +76,13 @@
 			</div>
 		</template>
 		<PForm>
-			<PFormItem label="当前密码">
+			<PFormItem label="Current Password">
 				<PInput
 					v-model:value="refCurrentPassword"
 					type="password"
 					class="w-full min-w-50 max-w-[50%]" />
 			</PFormItem>
-			<PFormItem label="新密码">
+			<PFormItem label="New Password">
 				<PInput
 					v-model:value="refNewPassword"
 					type="password"

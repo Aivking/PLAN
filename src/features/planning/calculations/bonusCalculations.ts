@@ -170,14 +170,18 @@ export async function useBonusCalculation() {
 		building: IBuilding,
 		empire: IPlanEmpire | undefined
 	): IBuildingEfficiency | undefined {
-		if (!empire || building.expertise === null) return undefined;
+		if (!empire || building.Expertise === null) return undefined;
 
 		// multiplier using share of used and total available permits
 		const multiplier: number =
-			2 * (-2 * (empire.empire_permits_used / empire.empire_permits_total) + 3);
+			2 *
+			(-2 * (empire.empire_permits_used / empire.empire_permits_total) +
+				3);
 
 		const efficiency: number | undefined =
-			FACTION_BONUS_MAP[empire.empire_faction]?.[building.expertise];
+			FACTION_BONUS_MAP[empire.empire_faction]?.[
+				building.expertise as BUILDING_EXPERTISE_TYPE
+			];
 
 		if (!efficiency) return undefined;
 
@@ -225,8 +229,8 @@ export async function useBonusCalculation() {
 			elements.push({
 				efficiencyType: "FERTILITY",
 				value:
-					planet.Fertility != -1.0
-						? 1 + planet.Fertility * (10 / 33)
+					planet.fertility != -1.0
+						? 1 + planet.fertility * (10 / 33)
 						: 0,
 			});
 		}
@@ -240,7 +244,7 @@ export async function useBonusCalculation() {
 		}
 
 		// Expert + Advertising COGC
-		if (building.expertise !== null) {
+		if (building.Expertise !== null) {
 			// COGC on programs
 			if (cogc === building.expertise) {
 				elements.push({
@@ -250,7 +254,11 @@ export async function useBonusCalculation() {
 			}
 
 			const expertElement: IExpertElement =
-				experts[MAP_BUILDING_EXPERTISE_EXPERTS[building.expertise]];
+				experts[
+					MAP_BUILDING_EXPERTISE_EXPERTS[
+						building.expertise as BUILDING_EXPERTISE_TYPE
+					]
+				];
 
 			if (expertElement.amount > 0) {
 				elements.push({

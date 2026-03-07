@@ -3,7 +3,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "帮助 | PRUNplanner",
+		title: "Help | PRUNplanner",
 	});
 
 	import HelpTutorial from "@/features/help/components/HelpTutorial.vue";
@@ -32,7 +32,7 @@
 	<div class="min-h-screen flex flex-col">
 		<div
 			class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
-			<h1 class="text-2xl font-bold my-auto">Help & 更新日志</h1>
+			<h1 class="text-2xl font-bold my-auto">Help & Changelog</h1>
 		</div>
 
 		<div
@@ -73,7 +73,7 @@
 					</p>
 				</section>
 
-				<h2 class="text-xl font-bold pb-3">更新日志</h2>
+				<h2 class="text-xl font-bold pb-3">Changelog</h2>
 				<div
 					v-if="markdownContent != ''"
 					id="markdown"

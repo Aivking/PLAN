@@ -272,7 +272,7 @@
 						v-if="searchable"
 						ref="searchInputRef"
 						v-model:value="searchString"
-						placeholder="搜索"
+						placeholder="Search"
 						@keydown="onKeyDown" />
 					<PSelectElement
 						v-for="(option, idx) in filteredOptions"

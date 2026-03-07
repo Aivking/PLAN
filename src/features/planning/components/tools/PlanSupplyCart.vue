@@ -223,7 +223,7 @@
 				:min="0"
 				class="w-25!" />
 			<template v-if="hasStorage">
-				<div class="my-auto font-bold">存储</div>
+				<div class="my-auto font-bold">Storage</div>
 				<PSelect
 					v-model:value="refSelectedStorage"
 					searchable
@@ -237,19 +237,19 @@
 	</div>
 
 	<XNDataTable :data="filteredMaterialIO" striped>
-		<XNDataTableColumn key="ticker" title="代码" sorter="default">
+		<XNDataTableColumn key="ticker" title="Ticker" sorter="default">
 			<template #render-cell="{ rowData }">
 				<MaterialTile
 					:key="`SUPPLYCART#Material#${rowData.ticker}`"
 					:ticker="rowData.ticker" />
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="delta" title="每日需求" sorter="default">
+		<XNDataTableColumn key="delta" title="Daily Need" sorter="default">
 			<template #render-cell="{ rowData }">
 				{{ formatNumber(rowData.delta * -1) }}
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="price" title="每日成本" sorter="default">
+		<XNDataTableColumn key="price" title="Daily Cost" sorter="default">
 			<template #render-cell="{ rowData }">
 				{{ formatNumber(rowData.price * -1) }}
 			</template>
@@ -257,7 +257,7 @@
 		<XNDataTableColumn
 			v-if="hasStorage"
 			key="stock"
-			title="库存"
+			title="Stock"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{ formatAmount(rowData.stock) }}
@@ -283,7 +283,7 @@
 				{{ formatNumber(rowData.needVolume) }}
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="workforce" title="劳动力" sorter="default">
+		<XNDataTableColumn key="workforce" title="Workforce" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="text-center">
 					<PIcon
@@ -298,7 +298,7 @@
 				</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="producton" title="生产" sorter="default">
+		<XNDataTableColumn key="producton" title="Production" sorter="default">
 			<template #render-cell="{ rowData }">
 				<div class="text-center">
 					<PIcon

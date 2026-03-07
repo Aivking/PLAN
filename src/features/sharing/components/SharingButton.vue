@@ -127,7 +127,7 @@
 
 		<template v-if="buttonSize !== 'sm'">
 			<template v-if="isShared"> Views</template>
-			<template v-else>分享</template>
+			<template v-else>Share</template>
 		</template>
 	</PButton>
 </template>

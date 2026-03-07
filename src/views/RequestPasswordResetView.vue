@@ -2,7 +2,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "重置密码 | PRUNplanner",
+		title: "Password Reset | PRUNplanner",
 	});
 
 	import RequestPasswordReset from "@/features/account/components/RequestPasswordReset.vue";

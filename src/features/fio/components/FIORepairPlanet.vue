@@ -40,7 +40,7 @@
 		</x-n-data-table-column>
 		<x-n-data-table-column
 			key="minCondition"
-			title="最低状态"
+			title="Min. Condition"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{ formatNumber(rowData.minCondition * 100) }} %
@@ -48,7 +48,7 @@
 		</x-n-data-table-column>
 		<x-n-data-table-column
 			key="maxLastRepairDays"
-			title="修复年限"
+			title="Repair Age"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{ formatAmount(rowData.maxLastRepairDays) }}

@@ -41,10 +41,10 @@ interface IEmpirePlanMaterialIO {
 }
 
 interface IEmpirePatchPayload {
+	empire_name: string;
 	empire_faction: PLAN_FACTION;
 	empire_permits_used: number;
 	empire_permits_total: number;
-	empire_name: string;
 }
 
 type IEmpireCreatePayload = IEmpirePatchPayload;

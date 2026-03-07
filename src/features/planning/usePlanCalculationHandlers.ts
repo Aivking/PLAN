@@ -30,7 +30,7 @@ import { clamp } from "@/util/numbers";
  * @author jplacht
  *
  * @export
- * @param {Ref<IPlan>} plan Plan
+ * @param {Ref<IPlanDataPlanet>} planet Planet Data
  * @param {Ref<IPlanData>} planData Plan Data
  * @param {Ref<string | undefined>} planName Plan Name
  * @param {Ref<IPlanResult>} planResult Plan Calculation Result

@@ -4,7 +4,7 @@
 	// Unhead
 	import { useHead } from "@unhead/vue";
 	useHead({
-		title: "生产链 | PRUNplanner",
+		title: "Production Chain | PRUNplanner",
 	});
 
 	// Components
@@ -79,15 +79,15 @@
 		<div class="min-h-screen flex flex-col">
 			<div
 				class="px-6 py-3 border-b border-white/10 flex flex-row justify-between gap-x-3">
-				<h1 class="text-2xl font-bold my-auto">生产链s</h1>
+				<h1 class="text-2xl font-bold my-auto">Production Chains</h1>
 				<HelpDrawer file-name="tools_production_chain" />
 			</div>
 			<div
 				class="grow grid grid-cols-1 xl:grid-cols-[400px_auto_300px] gap-3 divide-x divide-white/10">
 				<div class="px-6 py-3">
-					<h3 class="font-bold pb-3">配置</h3>
+					<h3 class="font-bold pb-3">Configuration</h3>
 					<PForm>
-						<PFormItem label="物资">
+						<PFormItem label="Material">
 							<PSelect
 								v-model:value="selectedMaterial"
 								:options="materialSelectOptions"
@@ -95,7 +95,7 @@
 								class="w-full"
 								@update:value="generate(true)" />
 						</PFormItem>
-						<PFormItem label="配方运行次数">
+						<PFormItem label="Recipe Runs">
 							<PInputNumber
 								v-model:value="selectedAmount"
 								:min="1"
@@ -103,7 +103,7 @@
 								class="w-full"
 								@update:value="generate()" />
 						</PFormItem>
-						<PFormItem label="节点颜色">
+						<PFormItem label="Node Color">
 							<PSelect
 								v-model:value="selectedNodeColorType"
 								:options="NodeColorTypeOptions"
@@ -111,10 +111,10 @@
 								class="w-full"
 								@update:value="generate(true)" />
 						</PFormItem>
-						<PFormItem label="终端">
+						<PFormItem label="Terminals">
 							<PInput
 								v-model:value="selectedTerminals"
-								placeholder="以逗号分隔的物资代码"
+								placeholder="Comma-separated Material Tickers"
 								class="w-full"
 								@update:value="generate()" />
 						</PFormItem>

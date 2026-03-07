@@ -46,7 +46,10 @@ export async function useBuildingCalculation() {
 						[
 							{
 								ticker: arInput.material_ticker,
-								input: arInput.material_amount * ar.amount * batchRuns,
+								input:
+									arInput.material_amount *
+									ar.amount *
+									batchRuns,
 								output: 0,
 							},
 						],
@@ -60,7 +63,10 @@ export async function useBuildingCalculation() {
 							{
 								ticker: arOutput.material_ticker,
 								input: 0,
-								output: arOutput.material_amount * ar.amount * batchRuns,
+								output:
+									arOutput.material_amount *
+									ar.amount *
+									batchRuns,
 							},
 						],
 					]);

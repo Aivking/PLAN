@@ -63,7 +63,7 @@
 		<div>
 			<PInput
 				v-model:value="refVerificationCode"
-				placeholder="验证码"
+				placeholder="Verification Code"
 				class="w-full" />
 		</div>
 		<div class="pt-3">
@@ -71,7 +71,7 @@
 				:disabled="!canVerify"
 				:loading="isVerifying"
 				@click="verifyEmail">
-				验证邮箱
+				Verify Email
 			</PButton>
 		</div>
 	</div>

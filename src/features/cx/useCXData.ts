@@ -43,7 +43,7 @@ export function useCXData() {
 
 		// usePrice has a PP30D Universe default, if no cxuuid is given
 		if (includeNone) {
-			options.push({ label: "None - PP30D Universe", value: undefined });
+			options.push({ label: "None - Universe 30D", value: undefined });
 		}
 
 		// add actual cx options from planning store

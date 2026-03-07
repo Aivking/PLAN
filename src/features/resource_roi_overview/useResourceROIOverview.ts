@@ -51,22 +51,22 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 
 		await useQuery("PostPlanetSearch", {
 			searchData: {
-				Materials: [materialTicker],
-				COGC: [],
-				IncludeRocky: true,
-				IncludeGaseous: true,
-				IncludeLowGravity: true,
-				IncludeHighGravity: true,
-				IncludeLowPressure: true,
-				IncludeHighPressure: true,
-				IncludeLowTemperature: true,
-				IncludeHighTemperature: true,
-				MustBeFertile: false,
-				MustHaveLocalMarket: false,
-				MustHaveChamberOfCommerce: false,
-				MustHaveWarehouse: false,
-				MustHaveAdministrationCenter: false,
-				MustHaveShipyard: false,
+				materials: [materialTicker],
+				cogc_programs: [],
+				environment_rocky: true,
+				environment_gaseous: true,
+				environment_low_gravity: true,
+				environment_high_gravity: true,
+				environment_low_pressure: true,
+				environment_high_pressure: true,
+				environment_low_temperature: true,
+				environment_high_temperature: true,
+				must_be_fertile: false,
+				must_have_localmarket: false,
+				must_have_chamberofcommerce: false,
+				must_have_warehouse: false,
+				must_have_administrationcenter: false,
+				must_have_shipyard: false,
 			},
 		})
 			.execute()
@@ -83,10 +83,10 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 	}
 
 	function getPlanetEnvironment(planet: IPlanet) {
-		const surface = planet.Surface ? ["MCG"] : ["AEF"];
+		const surface = planet.surface ? ["MCG"] : ["AEF"];
 
 		const gravityType = boundaryDescriptor(
-			planet.Gravity,
+			planet.gravity,
 			boundaryGravityLow,
 			boundaryGravityHigh
 		);
@@ -94,11 +94,11 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 			gravityType === "LOW"
 				? ["MGC"]
 				: gravityType === "HIGH"
-				? ["BL"]
-				: [];
+					? ["BL"]
+					: [];
 
 		const pressureType = boundaryDescriptor(
-			planet.Pressure,
+			planet.pressure,
 			boundaryPressureLow,
 			boundaryPressureHigh
 		);
@@ -106,11 +106,11 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 			pressureType === "LOW"
 				? ["SEA"]
 				: pressureType === "HIGH"
-				? ["HSE"]
-				: [];
+					? ["HSE"]
+					: [];
 
 		const temperatureType = boundaryDescriptor(
-			planet.Temperature,
+			planet.temperature,
 			boundaryTemperatureLow,
 			boundaryTemperatureHigh
 		);
@@ -118,17 +118,17 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 			temperatureType === "LOW"
 				? ["INS"]
 				: temperatureType === "HIGH"
-				? ["TSH"]
-				: [];
+					? ["TSH"]
+					: [];
 
 		// infrastructures
 		const infrastructures: string[] = [];
 
-		if (planet.HasLocalMarket) infrastructures.push("LM");
-		if (planet.HasChamberOfCommerce) infrastructures.push("COGC");
-		if (planet.HasWarehouse) infrastructures.push("WAR");
-		if (planet.HasAdministrationCenter) infrastructures.push("ADM");
-		if (planet.HasShipyard) infrastructures.push("SHY");
+		if (planet.has_localmarket) infrastructures.push("LM");
+		if (planet.has_chamberofcommerce) infrastructures.push("COGC");
+		if (planet.has_warehouse) infrastructures.push("WAR");
+		if (planet.has_administrationcenter) infrastructures.push("ADM");
+		if (planet.has_shipyard) infrastructures.push("SHY");
 
 		infrastructures.sort((a, b) => (a > b ? 1 : -1));
 
@@ -150,7 +150,7 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 		const definition = ref(
 			createBlankDefinition(
 				planet.planet_natural_id,
-				planet.cogc_program_active
+				planet.active_cogc_program_type
 			)
 		);
 
@@ -190,21 +190,19 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 		for (const productionBuilding of resultData.production.buildings) {
 			if (
 				productionBuilding.recipeOptions
-					.map((e) => e.outputs.map((m) => m.ticker))
+					.map((e) => e.outputs.map((m) => m.material_ticker))
 					.flat()
 					.includes(materialTicker)
 			) {
 				// manipulate definition daata
 
-				definition.value.plan_data.buildings[0].amount =
-					optimal.amount;
-				definition.value.plan_data.buildings[0].active_recipes =
-					[
-						{
-							recipeid: `${productionBuilding.name}#${materialTicker}`,
-							amount: 1,
-						},
-					];
+				definition.value.plan_data.buildings[0].amount = optimal.amount;
+				definition.value.plan_data.buildings[0].active_recipes = [
+					{
+						recipeid: `${productionBuilding.name}#${materialTicker}`,
+						amount: 1,
+					},
+				];
 
 				const newResult = await calculate();
 
@@ -238,26 +236,11 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 					planArea: newResult.area.areaUsed,
 					planProfitArea:
 						overviewData.profit / newResult.area.areaUsed,
-					distanceAI1:
-						planet.Distances.find(
-							(e) => e.name === "Antares Station"
-						)?.distance ?? 0,
-					distanceCI1:
-						planet.Distances.find(
-							(e) => e.name === "Benten Station"
-						)?.distance ?? 0,
-					distanceIC1:
-						planet.Distances.find(
-							(e) => e.name === "Hortus Station"
-						)?.distance ?? 0,
-					distanceNC1:
-						planet.Distances.find((e) => e.name === "Moria Station")
-							?.distance ?? 0,
 					planetSurface: surface,
 					planetGravity: gravity,
 					planetPressure: pressure,
 					planetTemperature: temperature,
-					planetCOGC: planet.cogc_program_active,
+					planetCOGC: planet.active_cogc_program_type,
 					planetInfrastructures: infrastructures,
 				});
 			}
@@ -306,7 +289,7 @@ export function useResourceROIOverview(cxUuid: Ref<string | undefined>) {
 		progressTotal.value = planets.length;
 
 		// trigger planet name loading and wait on it
-		await loadPlanetNames(planets.map((p) => p.PlanetNaturalId));
+		await loadPlanetNames(planets.map((p) => p.planet_natural_id));
 
 		// limit parallel execution
 		const limit = pLimit(calculatePLimit);

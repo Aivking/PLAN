@@ -35,7 +35,6 @@
 		ProductionQuantityLimitsSharp,
 		PersonSharp,
 		HelpOutlineSharp,
-		ExtensionSharp,
 		LocalFireDepartmentSharp,
 		AutoFixNormalSharp,
 		MoneySharp,
@@ -59,7 +58,6 @@
 		(newValue: boolean) => {
 			if (newValue) {
 				useQuery("GetFIOStorage").execute();
-				// useQuery("GetFIOSites").execute();
 			} else {
 				queryStore.invalidateKey(["gamedata", "fio"], {
 					exact: false,
@@ -75,14 +73,8 @@
 			queryStore.peekQueryState(["gamedata", "fio", "storage"])
 				?.timestamp ?? 0
 	);
-	const sitesTimestamp = computed(
-		() =>
-			queryStore.peekQueryState(["gamedata", "fio", "sites"])
-				?.timestamp ?? 0
-	);
 
 	const storageAge = computed(() => planningStore.fio_storage_timestamp ?? 0);
-	const sitesAge = computed(() => planningStore.fio_sites_timestamp ?? 0);
 
 	const menuItems: ComputedRef<IMenuSection[]> = computed(() => [
 		{
@@ -97,7 +89,7 @@
 					icon: HomeSharp,
 				},
 				{
-					label: "星球搜索",
+					label: "Planet Search",
 					display: true,
 					routerLink: "/search",
 					icon: SearchRound,
@@ -137,7 +129,7 @@
 			display: true,
 			children: [
 				{
-					label: "市场探索",
+					label: "Market Exploration",
 					display: true,
 					routerLink: "/market-exploration",
 					icon: ExploreSharp,
@@ -187,7 +179,7 @@
 					icon: ProductionQuantityLimitsSharp,
 				},
 				{
-					label: "生产链s",
+					label: "Production Chains",
 					display: true,
 					routerLink: "/production-chain",
 					icon: CompareSharp,
@@ -211,13 +203,13 @@
 				// 	icon: StarsSharp,
 				// },
 				{
-					label: "FIO 消耗",
+					label: "FIO Burn",
 					display: userStore.hasFIO,
 					routerLink: "/fio/burn",
 					icon: LocalFireDepartmentSharp,
 				},
 				{
-					label: "FIO 修复",
+					label: "FIO Repair",
 					display: userStore.hasFIO,
 					routerLink: "/fio/repair",
 					icon: AutoFixNormalSharp,
@@ -259,12 +251,12 @@
 			labelShort: "Acc",
 			display: true,
 			children: [
-				{
-					label: "API",
-					display: true,
-					routerLink: "/api",
-					icon: ExtensionSharp,
-				},
+				// {
+				// 	label: "API",
+				// 	display: true,
+				// 	routerLink: "/api",
+				// 	icon: ExtensionSharp,
+				// },
 				{
 					label: "Profile",
 					display: true,
@@ -278,7 +270,7 @@
 					icon: HelpOutlineSharp,
 				},
 				{
-					label: "退出登录",
+					label: "Logout",
 					display: true,
 					icon: LogOutRound,
 					functionCall: () => {
@@ -290,7 +282,7 @@
 		},
 	]);
 
-	const app版本 = __APP_VERSION__;
+	const appVersion = __APP_VERSION__;
 
 	function toggleNavigationSize(): void {
 		layoutNavigationStyle.value === "full"
@@ -333,7 +325,9 @@
 					</router-link>
 				</div>
 				<div v-if="isFull" class="text-end text-[10px] text-white/40">
-					{{ app版本 }}
+					<RouterLink to="/debug">
+						{{ appVersion }}
+					</RouterLink>
 				</div>
 			</div>
 		</div>
@@ -521,12 +515,7 @@
 				class="flex gap-1 justify-between items-center"
 				:class="isFull ? 'flex-row' : 'flex-col'">
 				<div>
-					<PTooltip
-						v-if="
-							userStore.hasFIO &&
-							storageTimestamp !== 0 &&
-							sitesTimestamp !== 0
-						">
+					<PTooltip v-if="userStore.hasFIO && storageTimestamp !== 0">
 						<template #trigger>
 							<PTag size="sm" type="success" :bordered="false">
 								{{ isFull ? "FIO Active" : "FIO" }}
@@ -535,23 +524,12 @@
 						<PTable striped>
 							<thead>
 								<tr>
-									<th>类型</th>
-									<th>返回end</th>
+									<th>Backend</th>
 									<th>FIO</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>Sites</td>
-									<td>
-										{{ relativeFromDate(sitesTimestamp) }}
-									</td>
-									<td>
-										{{ relativeFromDate(sitesAge) }}
-									</td>
-								</tr>
-								<tr>
-									<td>存储</td>
 									<td>
 										{{ relativeFromDate(storageTimestamp) }}
 									</td>
@@ -562,7 +540,7 @@
 							</tbody>
 						</PTable>
 					</PTooltip>
-					<RouterLink v-else to="profile">
+					<RouterLink v-else to="/profile">
 						<PTag size="sm" type="warning" :bordered="false">
 							{{ isFull ? "FIO Inactive" : "FIO" }}
 						</PTag>

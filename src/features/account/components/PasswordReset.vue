@@ -19,6 +19,7 @@
 		},
 	});
 
+	const inputEmail: Ref<string | null> = ref(null);
 	const inputCode: Ref<string | null> = ref(props.resetCode);
 	const inputPassword: Ref<string | null> = ref(null);
 	const isLoading: Ref<boolean> = ref(false);
@@ -28,6 +29,8 @@
 	const canSend = computed(
 		() =>
 			!!(
+				inputEmail.value &&
+				inputEmail.value != "" &&
 				inputCode.value &&
 				inputCode.value !== "" &&
 				inputPassword.value &&
@@ -44,8 +47,9 @@
 		trackEvent("user_password_reset");
 
 		await useQuery("PostUserPasswordReset", {
+			email: inputEmail.value!,
 			code: inputCode.value!,
-			password: inputPassword.value!,
+			new_password: inputPassword.value!,
 		})
 			.execute()
 			.then((result) => (requestResponse.value = result))
@@ -55,39 +59,35 @@
 
 <template>
 	<h2 class="text-white/80 font-bold text-lg font-mono">
-		重置密码
+		Reset your Password
 	</h2>
 	<div class="py-3 text-xs font-mono text-white/60">
-		请输入发送到您邮箱的验证码以及新密码。
+		Please enter the code sent to your email, along with your new password.
 	</div>
-	<div
-		v-if="requestResponse"
-		class="pb-3 text-xs font-mono"
-		:class="
-			requestResponse.status_code === 200
-				? 'text-prunplanner'
-				: 'text-red-600'
-		">
-		{{ requestResponse.message }}.
+	<div v-if="requestResponse" class="pb-3 text-xs font-mono text-prunplanner">
+		{{ requestResponse.detail }}
 	</div>
 	<div>
 		<PForm>
-			<PFormItem label="验证码">
+			<PFormItem label="Email">
+				<PInput v-model:value="inputEmail" class="w-full" />
+			</PFormItem>
+			<PFormItem label="Code">
 				<PInput v-model:value="inputCode" class="w-full" />
 			</PFormItem>
-			<PFormItem label="新密码">
+			<PFormItem label="Password">
 				<PInput
 					v-model:value="inputPassword"
 					type="password"
 					class="w-full" />
-				<template #info> 至少 8 个字符。 </template>
+				<template #info> Must be at least 8 characters long. </template>
 			</PFormItem>
 			<PFormItem label="">
 				<PButton
 					:disabled="!canSend"
 					:loading="isLoading"
 					@click="requestReset">
-					提交请求
+					Send Request
 				</PButton>
 			</PFormItem>
 		</PForm>

@@ -89,7 +89,7 @@
 				</tr>
 			</template>
 			<tr>
-				<td class="border-r">劳动力</td>
+				<td class="border-r">Workforce</td>
 				<td class="font-bold">
 					{{ formatNumber(data.workforceCost) }}
 					<span class="pl-1 font-light text-white/50"> $ </span>
@@ -115,7 +115,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th colspan="4">生产成本</th>
+				<th colspan="4">Cost of Goods Manufactured</th>
 			</tr>
 			<tr>
 				<td
@@ -123,7 +123,7 @@
 					class="border-b-0! border-r">
 					COGM
 				</td>
-				<td>物资</td>
+				<td>Material</td>
 				<td>Cost Split</td>
 				<td class="text-end">Cost Total</td>
 			</tr>

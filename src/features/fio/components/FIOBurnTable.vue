@@ -41,7 +41,7 @@
 				<XNDataTable :data="rowData.burnMaterials" striped>
 					<XNDataTableColumn
 						key="ticker"
-						title="代码"
+						title="Ticker"
 						sorter="default">
 						<template #render-cell="data">
 							<MaterialTile
@@ -51,7 +51,7 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="input"
-						title="消耗"
+						title="Consumption"
 						sorter="default">
 						<template #render-cell="data">
 							<span
@@ -66,7 +66,7 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="output"
-						title="生产"
+						title="Production"
 						sorter="default">
 						<template #render-cell="data">
 							<span
@@ -81,7 +81,7 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="delta"
-						title="变化量"
+						title="Delta"
 						sorter="default">
 						<template #render-cell="data">
 							<span
@@ -96,7 +96,7 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="stock"
-						title="库存"
+						title="Stock"
 						sorter="default">
 						<template #render-cell="data">
 							{{ formatAmount(data.rowData.stock) }}
@@ -104,7 +104,7 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="exhaustion"
-						title="消耗"
+						title="Burn"
 						sorter="default">
 						<template #render-cell="data">
 							<span
@@ -120,10 +120,10 @@
 				</XNDataTable>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planName" title="规划">
+		<XNDataTableColumn key="planName" title="Plan">
 			<template #title>
 				<div class="flex flex-row justify-between">
-					<div>规划</div>
+					<div>Plan</div>
 					<div>Exhaustion</div>
 				</div>
 			</template>

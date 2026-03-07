@@ -1,7 +1,4 @@
-import {
-	IPlanData,
-	PLAN_COGCPROGRAM_TYPE,
-} from "@/stores/planningStore.types";
+import { IPlanData, PLAN_COGCPROGRAM_TYPE } from "@/stores/planningStore.types";
 
 export interface IPlanRouteParams {
 	planetNaturalId: string | undefined;
@@ -25,14 +22,4 @@ export interface IPlanSaveData extends IPlanCreateData {
 
 export interface IPlanSaveCreateResponse {
 	uuid: string;
-}
-
-export interface IPlanPatchMaterialIOElement {
-	uuid: string;
-	planet_natural_id: string;
-	material_io: {
-		ticker: string;
-		input: number;
-		output: number;
-	}[];
 }

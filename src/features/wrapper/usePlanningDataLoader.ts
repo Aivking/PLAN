@@ -123,7 +123,7 @@ export function usePlanningDataLoader(
 									}
 								)
 							)!.data as IPlanShare
-					  ).plan_details.planet_natural_id
+						).plan_details.planet_natural_id
 					: props.planetNaturalId!;
 				return queryStore.execute("GetPlanet", {
 					planetNaturalId: id,
@@ -269,8 +269,11 @@ export function usePlanningDataLoader(
 				const empireList = steps.find((s) => s.cfg.key === "empireList")
 					?.data as undefined | IPlanEmpireElement[];
 
-				if (empirePlans)
-					return [...new Set(empirePlans.map((p) => p.planet_natural_id))];
+				if (empirePlans) {
+					return [
+						...new Set(empirePlans.map((p) => p.planet_natural_id)),
+					];
+				}
 				if (empireList) {
 					return [
 						...new Set(
@@ -298,13 +301,13 @@ export function usePlanningDataLoader(
 		const planDefinition = props.sharedPlanUuid
 			? data.sharedPlan.plan_details
 			: props.planUuid
-			? data.planData
-			: data.planetData
-			? createBlankDefinition(
-					data.planetData.planet_natural_id,
-					data.planetData.cogc_program_active
-			  )
-			: undefined;
+				? data.planData
+				: data.planetData
+					? createBlankDefinition(
+							data.planetData.planet_natural_id,
+							data.planetData.active_cogc_program_type
+						)
+					: undefined;
 
 		// if there is a shared plan uuid, the plan editing is disabled
 		const disabled: boolean = props.sharedPlanUuid ? true : false;

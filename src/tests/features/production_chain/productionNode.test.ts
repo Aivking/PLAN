@@ -45,11 +45,11 @@ describe("productionNode", async () => {
 		const extractableMaterialsMap: Record<string, string> = {};
 		if (planetsData.value) {
 			planetsData.value.forEach((planet: IPlanet) => {
-				planet.Resources.forEach((resource) => {
+				planet.resources.forEach((resource) => {
 					const buildingTicker =
-						resourceTypeToBuildingTicker[resource.ResourceType];
+						resourceTypeToBuildingTicker[resource.resource_type];
 					if (buildingTicker) {
-						extractableMaterialsMap[resource.MaterialTicker] =
+						extractableMaterialsMap[resource.material_ticker] =
 							buildingTicker;
 					}
 				});
@@ -120,7 +120,7 @@ describe("productionNode", async () => {
 		const selected = node.getInput(["FP#1xGRN 1xALG 1xNUT=>10xRAT"]);
 		expect(selected).toStrictEqual([
 			{
-				materialTicker: "ALG",
+				materialTicker: "GRN",
 				quantity: 1,
 			},
 			{
@@ -128,7 +128,7 @@ describe("productionNode", async () => {
 				quantity: 1,
 			},
 			{
-				materialTicker: "GRN",
+				materialTicker: "ALG",
 				quantity: 1,
 			},
 		]);
@@ -176,7 +176,7 @@ describe("productionNode", async () => {
 		rat_recipes.forEach((r) => node.addRecipe(r));
 
 		const result = await node.getBuildingData([]);
-		expect(result?.Ticker).toBe("FP");
+		expect(result?.building_ticker).toBe("FP");
 
 		node.recipes = [];
 		const building = await node.getBuildingData(["foo"]);

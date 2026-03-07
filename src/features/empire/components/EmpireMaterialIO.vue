@@ -55,7 +55,7 @@
 				<MaterialTile :key="rowData.ticker" :ticker="rowData.ticker" />
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="delta" title="变化量" sorter="default">
+		<x-n-data-table-column key="delta" title="Delta" sorter="default">
 			<template #render-cell="{ rowData }">
 				<span
 					class="text-nowrap"
@@ -66,7 +66,7 @@
 				</span>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="output" title="生产" sorter="default">
+		<x-n-data-table-column key="output" title="Production" sorter="default">
 			<template #render-cell="{ rowData }">
 				<span
 					class="text-nowrap"
@@ -75,7 +75,7 @@
 				</span>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="input" title="消耗" sorter="default">
+		<x-n-data-table-column key="input" title="Consumption" sorter="default">
 			<template #render-cell="{ rowData }">
 				<span :class="rowData.input <= 0 ? 'text-white/50' : ''">
 					{{ formatNumber(rowData.input) }}
@@ -98,7 +98,7 @@
 				</span>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="outputPlanets" title="生产星球">
+		<x-n-data-table-column key="outputPlanets" title="Production Planets">
 			<template #render-cell="{ rowData }">
 				<div
 					v-for="p in rowData.outputPlanets"
@@ -114,7 +114,7 @@
 				</div>
 			</template>
 		</x-n-data-table-column>
-		<x-n-data-table-column key="inputPlanets" title="消耗星球">
+		<x-n-data-table-column key="inputPlanets" title="Consumption Planets">
 			<template #render-cell="{ rowData }">
 				<div
 					v-for="p in rowData.inputPlanets"

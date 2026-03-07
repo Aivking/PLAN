@@ -11,7 +11,7 @@
 	// Unhead
 	import { useHead } from "@unhead/vue";
 	useHead({
-		title: "帝国 | PRUNplanner",
+		title: "Empire | PRUNplanner",
 	});
 
 	// Composables
@@ -218,7 +218,7 @@
 					name: plan.plan_name,
 					planet: plan.planet_natural_id,
 					permits: plan.plan_permits_used,
-					cogc: plan!.plan_cogc,
+					cogc: plan.plan_cogc,
 					profit: planResult.profit,
 				};
 			}
@@ -301,7 +301,7 @@
 				@complete="calculateEmpire">
 				<AsyncWrapperGenericError
 					v-if="refEmpireList.length === 0"
-					message-title="无帝国"
+					message-title="No Empires"
 					message-text="You don't have any empires. Head to Management to create your first." />
 
 				<ComputingProgress
@@ -334,7 +334,7 @@
 								class="flex flex-col gap-6 justify-items-start">
 								<div>
 									<PForm>
-										<PFormItem label="切换帝国">
+										<PFormItem label="Switch Empire">
 											<PSelect
 												v-model:value="
 													selectedEmpireUuid

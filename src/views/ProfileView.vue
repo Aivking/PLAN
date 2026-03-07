@@ -2,7 +2,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "个人资料 | PRUNplanner",
+		title: "Profile | PRUNplanner",
 	});
 
 	// Components
@@ -21,7 +21,7 @@
 			<div class="min-h-screen flex flex-col">
 				<div
 					class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
-					<h1 class="text-2xl font-bold">个人资料</h1>
+					<h1 class="text-2xl font-bold">Profile</h1>
 					<HelpDrawer file-name="profile" />
 				</div>
 

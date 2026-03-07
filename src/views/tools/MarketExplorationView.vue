@@ -3,7 +3,7 @@
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: "市场探索 | PRUNplanner",
+		title: "Market Exploration | PRUNplanner",
 	});
 
 	// Stores
@@ -30,7 +30,7 @@
 	import { formatAmount } from "@/util/numbers";
 
 	const exchangeOptions: Ref<PSelectOption[]> = ref(
-		["AI1", "CI1", "CI2", "IC1", "NC1", "NC2"].map((e) => {
+		["AI1", "CI1", "IC1", "NC1"].map((e) => {
 			return { label: e, value: e };
 		})
 	);
@@ -69,16 +69,16 @@
 		<div class="min-h-screen flex flex-col">
 			<div
 				class="px-6 py-3 border-b border-white/10 flex flex-row justify-between gap-x-3">
-				<h1 class="text-2xl font-bold">市场探索</h1>
+				<h1 class="text-2xl font-bold">Market Exploration</h1>
 				<div>
 					<div class="flex flex-row gap-x-3 child:my-auto">
-						<div>交易所</div>
+						<div>Exchange</div>
 						<PSelect
 							v-model:value="selectedExchange"
 							:options="exchangeOptions"
 							class="w-25" />
 
-						<div>物资</div>
+						<div>Material</div>
 						<PSelect
 							v-model:value="selectedMaterial"
 							searchable
@@ -112,49 +112,26 @@
 						:pagination="{ pageSize: 50 }">
 						<XNDataTableColumn
 							key="Datetime"
-							title="日期"
+							title="Date"
 							sorter="default">
 							<template #render-cell="{ rowData }">
-								{{ formatDate(rowData.Datetime) }}
+								{{ formatDate(rowData.date_epoch) }}
 							</template>
 						</XNDataTableColumn>
 						<XNDataTableColumn
-							key="price_average"
-							title="平均价格"
-							sorter="default" />
-						<XNDataTableColumn
-							key="price_min"
+							key="low_p"
 							title="Lowest Price"
 							sorter="default" />
 						<XNDataTableColumn
-							key="price_max"
+							key="high_p"
 							title="Highest Price"
 							sorter="default" />
 						<XNDataTableColumn
-							key="volume_max"
-							title="交易量"
+							key="volume"
+							title="Traded Volume"
 							sorter="default">
 							<template #render-cell="{ rowData }">
-								{{ formatAmount(rowData.volume_max) }}
-							</template>
-						</XNDataTableColumn>
-						<XNDataTableColumn
-							key="delta_supply_demand"
-							title="供需变化"
-							sorter="default">
-							<template #render-cell="{ rowData }">
-								<span
-									:class="
-										rowData.delta_supply_demand >= 0
-											? 'text-positive'
-											: 'text-negative'
-									">
-									{{
-										formatAmount(
-											rowData.delta_supply_demand
-										)
-									}}
-								</span>
+								{{ formatAmount(rowData.volume) }}
 							</template>
 						</XNDataTableColumn>
 					</XNDataTable>

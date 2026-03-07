@@ -15,10 +15,13 @@ export function useMaterialData() {
 	// reactive caches
 	const materialsMap = computed((): Record<string, IMaterial> => {
 		return allData.value
-			? allData.value.reduce((acc, mat) => {
-					acc[mat.ticker] = mat;
-					return acc;
-			  }, {} as Record<string, IMaterial>)
+			? allData.value.reduce(
+					(acc, mat) => {
+						acc[mat.ticker] = mat;
+						return acc;
+					},
+					{} as Record<string, IMaterial>
+				)
 			: {};
 	});
 
@@ -50,10 +53,8 @@ export function useMaterialData() {
 		if (!material)
 			throw new Error(`Material ${ticker} not available. Preload.`);
 
-		const classString = `material-category-${material.CategoryName.replaceAll(
-			" ",
-			"-"
-		)
+		const classString = `material-category-${material.category_name
+			.replaceAll(" ", "-")
 			.replaceAll("(", "")
 			.replaceAll(")", "")}`;
 
