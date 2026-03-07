@@ -75,6 +75,7 @@
 		"vite-tsconfig-paths": "^6.1.1",
 		"vitest": "^4.0.18",
 		"vue-eslint-parser": "^10.4.0",
-		"vue-tsc": "3.2.5"
+		"vue-tsc": "3.2.5",
+		"wrangler": "^4.71.0"
 	}
 }
