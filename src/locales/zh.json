@@ -900,6 +900,13 @@
       "cx_preference": "交易所偏好",
       "calculating": "正在计算维护材料价格...",
       "material_details": "材料详情",
+      "need_types": {
+        "safety": "安全",
+        "health": "健康",
+        "comfort": "舒适",
+        "culture": "文化",
+        "education": "教育"
+      },
       "table": {
         "material": "材料",
         "building": "建筑",

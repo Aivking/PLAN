@@ -99,7 +99,7 @@
 						selectedNeedType === needType ? 'primary' : 'secondary'
 					"
 					@click="selectedNeedType = needType">
-					{{ capitalizeString(needType) }}
+					{{ $t(`manage.upkeep.need_types.${needType}`, capitalizeString(needType)) }}
 				</PButton>
 			</PButtonGroup>
 		</div>
