@@ -52,20 +52,19 @@
 
 <template>
 	<div v-if="totalExperts > 6" class="bg-red-500/50 p-2 mb-3">
-		Maximum number of experts on a base is 6. You currently have
-		{{ totalExperts }} experts assigned.
+		{{ $t("plan.experts.max_warning", { amount: totalExperts }) }}
 	</div>
 	<div
 		class="grid grid-cols-[repeat(3,auto)] sm:grid-cols-[repeat(6,auto)] gap-3 child:my-auto">
 		<template v-for="expert in expertData" :key="expert.name">
-			<div>{{ capitalizeString(expert.name) }}</div>
+			<div>{{ $t("plan.experts.mapping." + expert.name.toUpperCase()) }}</div>
 			<PInputNumber
 				v-model:value="localExpertData[expert.name].amount"
 				:disabled="disabled"
 				show-buttons
 				:min="0"
 				:max="5"
-				class="min-w-20 max-w-25"
+				class="min-w-[80px] max-w-[100px]"
 				@update:value="
 					(value) => {
 						if (value !== null && value !== undefined) {

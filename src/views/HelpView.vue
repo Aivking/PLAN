@@ -1,13 +1,16 @@
 <script setup lang="ts">
 	import { onMounted, Ref, ref } from "vue";
 	import { useHead } from "@unhead/vue";
+	import { useI18n } from "vue-i18n";
+	const { t, locale } = useI18n();
 
 	useHead({
-		title: "Help | PRUNplanner",
+		title: `${t("help.title")} | PRUNplanner`,
 	});
 
 	import HelpTutorial from "@/features/help/components/HelpTutorial.vue";
 	import { VueShowdown } from "vue-showdown";
+	import { watch } from "vue";
 
 	// markdown loader from changelog
 	async function loadMarkdown(): Promise<string> {
@@ -16,7 +19,9 @@
 			import: "default",
 		}) as Record<string, () => Promise<string>>;
 
-		const path = `/src/assets/help/changelog.md`;
+		const path = `/src/assets/help/changelog${
+			locale.value === "zh" ? ".zh" : ""
+		}.md`;
 		const loader = markdownFiles[path];
 		if (!loader) throw new Error(`Markdown file "changelog" not found.`);
 
@@ -26,54 +31,47 @@
 	const markdownContent: Ref<string> = ref("");
 
 	onMounted(async () => (markdownContent.value = await loadMarkdown()));
+
+	watch(locale, async () => {
+		markdownContent.value = await loadMarkdown();
+	});
 </script>
 
 <template>
 	<div class="min-h-screen flex flex-col">
 		<div
 			class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
-			<h1 class="text-2xl font-bold my-auto">Help & Changelog</h1>
+			<h1 class="text-2xl font-bold my-auto">{{ $t("help.heading") }}</h1>
 		</div>
 
 		<div
-			class="grow grid grid-cols-1 lg:grid-cols-[60%_auto] gap-3 divide-x divide-white/10 child:px-6 child:py-3 child:last:pl-3">
+			class="flex-grow grid grid-cols-1 lg:grid-cols-[60%_auto] gap-3 divide-x divide-white/10 child:px-6 child:py-3 child:last:pl-3">
 			<div>
 				<HelpTutorial />
 			</div>
 			<div>
-				<section class="bg-prunplanner text-black p-3 rounded mb-3">
-					<p>
-						<strong>We're leveling up!</strong> PRUNplanner will be
-						switching to a brand-new backend in the coming weeks.
-						We've open-sourced the new system—check out the
+				<section class="bg-white/10 p-3 rounded mb-3 flex flex-col gap-2">
+					<div>
+						{{ $t("help.contribution_text") }}
 						<a
-							href="https://github.com/PRUNplanner/backend"
+							href="https://github.com/PRUNplanner/frontend"
 							target="_blank"
-							class="underline"
-							>repository</a
+							class="text-link-primary font-bold hover:underline"
+							>PRUNplanner</a
 						>
-						and read more about the
+					</div>
+					<div class="text-sm border-t border-white/5 pt-2">
+						<span class="opacity-60">中文版项目：</span>
 						<a
-							href="https://github.com/PRUNplanner/frontend/issues/344#issuecomment-3973504946"
+							href="https://github.com/SupCH/PRUNplanner-zh"
 							target="_blank"
-							class="underline"
-							>migration process</a
+							class="text-link-primary font-bold hover:underline"
+							>PRUNplanner-zh</a
 						>
-						on GitHub.
-					</p>
-					<p>
-						<strong>Stay tuned:</strong> More details and an exact
-						timeline will be shared in the
-						<a
-							href="https://discord.gg/2MDR5DYSfY"
-							target="_blank"
-							class="underline"
-							>PCT Discord</a
-						>.
-					</p>
+					</div>
 				</section>
 
-				<h2 class="text-xl font-bold pb-3">Changelog</h2>
+				<h2 class="text-xl font-bold pb-3">{{ $t("help.changelog") }}</h2>
 				<div
 					v-if="markdownContent != ''"
 					id="markdown"

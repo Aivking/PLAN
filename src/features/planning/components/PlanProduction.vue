@@ -10,10 +10,7 @@
 	import PlanProductionBuilding from "@/features/planning/components/PlanProductionBuilding.vue";
 
 	// Types & Interfaces
-	import {
-		IPlanetResource,
-		PLANET_RESOURCETYPE_TYPE,
-	} from "@/features/api/gameData.types";
+	import { IPlanetResource } from "@/features/api/gameData.types";
 	import { IProductionResult } from "@/features/planning/usePlanCalculation.types";
 	import { PLAN_COGCPROGRAM_TYPE } from "@/stores/planningStore.types";
 
@@ -56,7 +53,6 @@
 		(e: "update:building:amount", index: number, value: number): void;
 		(e: "delete:building", index: number): void;
 		(e: "create:building", ticker: string): void;
-		(e: "create:building:recipe", ticker: string, recipeId: string): void;
 		(
 			e: "update:building:recipe:amount",
 			buildingIndex: number,
@@ -88,72 +84,47 @@
 	const localMatchCOGC: Ref<boolean> = ref(false);
 
 	const { getProductionBuildingOptions } = await useBuildingData();
-
-	function emitCreateBuildingWithRecipe(
-		resourceType: PLANET_RESOURCETYPE_TYPE,
-		resourceTicker: string
-	): void {
-		const buildingTicker =
-			resourceType === "MINERAL"
-				? "EXT"
-				: resourceType === "GASEOUS"
-					? "COL"
-					: "RIG";
-
-		emit(
-			"create:building:recipe",
-			buildingTicker,
-			buildingTicker + "#" + resourceTicker
-		);
-	}
 </script>
 
 <template>
-	<h2 class="text-white/80 font-bold text-lg">Production</h2>
+	<h2 class="text-white/80 font-bold text-lg">{{ $t("plan.production.heading") }}</h2>
 	<div
 		class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-3 py-3 child:my-auto">
 		<div class="flex gap-3 child:my-auto">
 			<div v-if="planetResources.length" class="text-sm">
-				Planet Resources
+				{{ $t("plan.production.planet_resources") }}
 			</div>
 			<div class="flex flex-wrap gap-1 child:my-auto">
 				<PTooltip
 					v-for="resource in planetResources"
-					:key="`PLANET#RESOURCE#${resource.material_ticker}`">
+					:key="`PLANET#RESOURCE#${resource.MaterialTicker}`">
 					<template #trigger>
-						<div
-							class="hover:cursor-pointer"
-							@click="
-								emitCreateBuildingWithRecipe(
-									resource.resource_type,
-									resource.material_ticker
-								)
-							">
+						<div class="hover:cursor-help">
 							<MaterialTile
-								:key="resource.material_ticker"
-								:ticker="resource.material_ticker"
+								:key="resource.MaterialTicker"
+								:ticker="resource.MaterialTicker"
 								:amount="
 									parseFloat(
-										formatNumber(resource.daily_extraction)
+										formatNumber(resource.DailyExtraction)
 									)
 								"
 								disable-drawer
 								:enable-popover="false" />
 						</div>
 					</template>
-					{{ resource.resource_type }} ({{
-						resource.resource_type === "MINERAL"
+					{{ $t("plan.production.resource_types." + (resource.ResourceType || "MINERAL")) }} ({{
+						resource.ResourceType === "MINERAL"
 							? "EXT"
-							: resource.resource_type === "GASEOUS"
-								? "COL"
-								: "RIG"
+							: resource.ResourceType === "GASEOUS"
+							? "COL"
+							: "RIG"
 					}})
 				</PTooltip>
 			</div>
 		</div>
 		<div class="sm:justify-self-end-safe flex child:my-auto gap-3">
 			<div class="flex gap-3">
-				<div class="text-sm text-nowrap">Match COGC</div>
+				<div class="text-sm text-nowrap">{{ $t("plan.production.match_cogc") }}</div>
 				<PCheckbox
 					v-model:checked="localMatchCOGC"
 					:disabled="disabled" />
@@ -163,8 +134,8 @@
 				v-model:value="localSelectedBuilding"
 				:disabled="disabled"
 				searchable
-				placeholder="Select Production Building(s)"
-				class="w-full sm:w-75!"
+				:placeholder="$t('plan.production.select_building_placeholder')"
+				class="w-full sm:!w-[300px]"
 				:options="
 					getProductionBuildingOptions(
 						localProductionData.buildings.map((e) => e.name),
@@ -174,10 +145,7 @@
 				@update:value="
 					(value) => {
 						emit('create:building', value as string);
-						trackEvent('plan_create_building', {
-							planetNaturalId: props.planetId,
-							buildingTicker: value as string,
-						});
+						trackEvent('plan_create_building', {planetNaturalId: props.planetId, buildingTicker: value as string})
 					}
 				" />
 		</div>
@@ -192,64 +160,49 @@
 		:cx-uuid="cxUuid"
 		:planet-id="planetId"
 		@update:building:amount="
-			(index: number, value: number) => {
-				emit('update:building:amount', index, value);
-				trackEvent('plan_update_building', {
-					planetNaturalId: props.planetId,
-					buildingTicker: building.name,
-					amount: value,
-				});
-			}
+			(index: number, value: number) =>
+				{
+					emit('update:building:amount', index, value);
+					trackEvent('plan_update_building', {planetNaturalId: props.planetId, buildingTicker: building.name, amount: value})
+				}
 		"
 		@delete:building="(index: number) => emit('delete:building', index)"
 		@update:building:recipe:amount="
-			(buildingIndex: number, recipeIndex: number, value: number) => {
-				emit(
-					'update:building:recipe:amount',
-					buildingIndex,
-					recipeIndex,
-					value
-				);
-				trackEvent('plan_update_building_recipe_amount', {
-					planetNaturalId: props.planetId,
-					buildingTicker: building.name,
-					recipeIndex: recipeIndex,
-					amount: value,
-				});
+			(buildingIndex: number, recipeIndex: number, value: number) =>
+				{
+					emit(
+						'update:building:recipe:amount',
+						buildingIndex,
+						recipeIndex,
+						value
+					);
+					trackEvent('plan_update_building_recipe_amount', {planetNaturalId: props.planetId, buildingTicker: building.name, recipeIndex: recipeIndex, amount: value})
 			}
 		"
 		@delete:building:recipe="
-			(buildingIndex: number, recipeIndex: number) => {
-				emit('delete:building:recipe', buildingIndex, recipeIndex);
-				trackEvent('plan_update_building_delete_recipe', {
-					planetNaturalId: props.planetId,
-					buildingTicker: building.name,
-					recipeIndex: recipeIndex,
-				});
-			}
+			(buildingIndex: number, recipeIndex: number) =>
+				{
+					emit('delete:building:recipe', buildingIndex, recipeIndex);
+					trackEvent('plan_update_building_delete_recipe', {planetNaturalId: props.planetId, buildingTicker: building.name, recipeIndex: recipeIndex})
+				}
 		"
 		@add:building:recipe="
-			(buildingIndex: number) => {
-				emit('add:building:recipe', buildingIndex);
-				trackEvent('plan_update_building_add_recipe', {
-					planetNaturalId: props.planetId,
-					buildingTicker: building.name,
-				});
-			}
+			(buildingIndex: number) =>
+				{
+					emit('add:building:recipe', buildingIndex);
+					trackEvent('plan_update_building_add_recipe', {planetNaturalId: props.planetId, buildingTicker: building.name})
+				}
 		"
 		@update:building:recipe="
-			(buildingIndex: number, recipeIndex: number, recipeId: string) => {
-				emit(
-					'update:building:recipe',
-					buildingIndex,
-					recipeIndex,
-					recipeId
-				);
-				trackEvent('plan_update_building_change_recipe', {
-					planetNaturalId: props.planetId,
-					buildingTicker: building.name,
-					recipeId,
-				});
-			}
+			(buildingIndex: number, recipeIndex: number, recipeId: string) =>
+				{
+					emit(
+						'update:building:recipe',
+						buildingIndex,
+						recipeIndex,
+						recipeId
+					);
+					trackEvent('plan_update_building_change_recipe', {planetNaturalId: props.planetId, buildingTicker: building.name, recipeId})
+				}
 		" />
 </template>

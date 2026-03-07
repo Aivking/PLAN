@@ -1,0 +1,926 @@
+{
+  "nav": {
+    "sections": {
+      "planning": "规划",
+      "tools": "工具",
+      "account": "账户"
+    },
+    "items": {
+      "empire": "帝国",
+      "planet_search": "星球搜索",
+      "management": "管理",
+      "exchanges": "交易所",
+      "market_exploration": "市场探索",
+      "recipe_roi": "配方投资回报率",
+      "resource_roi": "资源投资回报率",
+      "hq_calculator": "总部升级计算器",
+      "production_chains": "生产链",
+      "fio_burn": "FIO 消耗",
+      "fio_repair": "FIO 维修",
+      "api": "API",
+      "profile": "个人资料",
+      "help": "帮助",
+      "logout": "注销",
+      "login": "登录",
+      "create_account": "创建账户"
+    },
+    "status": {
+      "fio_active": "FIO Active",
+      "fio_inactive": "FIO Inactive"
+    }
+  },
+  "home": {
+    "title": "规划你的帝国。",
+    "subtitle": "统治 Prosperous Universe。",
+    "description": "告别繁杂的电子表格，轻松管理你的游戏资产。",
+    "features_title": "强大功能，全员免费",
+    "features_subtitle": "优化你的规划与资源管理，确保在星系中保持领先。",
+    "features": {
+      "base_simulation_title": "基地模拟",
+      "base_simulation_desc": "PRUNplanner 让你在不消耗游戏内资源的情况下设计和试用新基地。它模拟了基地的方方面面，从居住和生产建筑到 COGC 项目和星球资源。",
+      "empire_planning_title": "帝国规划",
+      "empire_planning_desc": "轻松组织和管理你的整个帝国。通过 PRUNplanner，你可以跨多个基地和复杂的供应链进行规划，确保你的物资流动按计划进行，帝国平稳运行。",
+      "game_data_title": "游戏数据",
+      "game_data_desc": "通过直接从社区 API (FIO) 集成的最新市场信息保持领先。根据实际市场和最佳投资回报率做出明智的规划与扩张决策。",
+      "burn_repair_title": "消耗与维修",
+      "burn_repair_desc": "通过详细的管理工具防止短缺和瓶颈。PRUNplanner 跟踪你的资源和消耗品，确保你在需要时拥有所需的一切，保持操作无缝衔接。",
+      "market_exploration_title": "市场探索",
+      "market_exploration_desc": "探索过去几年的历史市场趋势，揭示市场的真实行为。发现激动人心的机会，并毫不费力地计算每种配方和资源的投资回报率 — 为你提供更明智规划所需的战略优势。",
+      "additional_tools_title": "丰富的附加工具",
+      "additional_tools_desc": "从现在到过去几年，探索材料价格，了解维修生产建筑的最佳时间，监控专家刷新时间，并优化居住建筑以实现最小面积或成本。PRUNplanner 提供这些功能以及更多。"
+    },
+    "command_anywhere_title": "随时随地掌控你的帝国",
+    "command_anywhere_subtitle": "监控基地、管理生产，轻松掌控你的计划。凭借直观、强大的工具，无论身在何处，你都能制定战略、扩张并战胜对手。",
+    "screenshots": {
+      "empire": "帝国：跟踪你所有星球的生产、供应链和增长。",
+      "plan": "计划：无需花费游戏内资源即可制定策略并进行分析。",
+      "management": "管理：毫不费力地协调计划、扩张和你的下一步行动。",
+      "exchanges": "交易所：优化游戏内定价和交易策略。",
+      "exploration": "探索：分析多年的市场数据以获得更明智的见解。",
+      "search": "搜索：立即找到你所需的精确星球和资源。"
+    },
+    "core_concepts_title": "核心概念",
+    "core_concepts_subtitle": "PRUNplanner 由三个主要组件组成，允许你规划和管理你的 Prosperous Universe 帝国。",
+    "concepts": {
+      "plans_title": "计划",
+      "plans_desc": "计划是你在 PRUNplanner 中操作的核心。它们包含了你在 Prosperous Universe 中可以放置的所有建筑、生产和加成。你可以通过搜索想要创建基地的星球来创建新计划。此外，一个计划应该分配一个交易所偏好，并分配给一个帝国。",
+      "empires_title": "帝国",
+      "empires_desc": "帝国是计划的集合（例如，你目前在 Prosperous Universe 中定居的所有基地，或者你想要定居的基地，所有这些都相互关联）。每个帝国就像一个包含多个计划的容器。此外，每个帝国可以分配一个交易所偏好。",
+      "exchanges_title": "交易所",
+      "exchanges_desc": "交易所设置允许你定义材料定价的市场偏好。每个偏好可用于多个帝国。但是，每个帝国只能分配一个交易所偏好。这确保了作为帝国一部分的所有单个计划都能正确计算价格。"
+    },
+    "powered_by": "由我们热爱的工具驱动",
+    "open_source_title": "免费且开源",
+    "open_source_desc": "PRUNplanner 完全免费使用，其前端完全开源。喜欢它吗？如果你能有所贡献，我们将不胜感激！",
+    "made_with": "在慕尼黑用心制作，来自世界各地的贡献。"
+  },
+  "plan": {
+    "actions": {
+      "clone": "克隆计划",
+      "cloning_complete": "克隆完成",
+      "save": "保存",
+      "create": "创建",
+      "reload": "重载",
+      "must_set_name": "必须在配置中设置计划名称才能保存"
+    },
+    "overview": {
+      "heading": "概览",
+      "daily_cost": "每日成本",
+      "degradation": "折旧",
+      "plan_cost": "计划成本",
+      "daily_profit": "每日利润",
+      "roi": "投资回报率",
+      "profit_area": "单位面积利润"
+    },
+    "storage": {
+      "heading": "仓储",
+      "import": "进口",
+      "export": "出口",
+      "filled": "填满时间"
+    },
+    "leave_confirmation": "确定要离开吗？未保存的更改将会丢失。",
+    "tools": {
+      "configuration": "配置",
+      "popr": "POPR",
+      "visitation_frequency": "访问频率",
+      "construction_cart": "建筑购物车",
+      "supply_cart": "物料购物车",
+      "repair_analysis": "维修分析",
+      "construction_cart_details": {
+        "title": "建筑购物车",
+        "building_label": "建筑",
+        "amount_label": "数量",
+        "materials_sum": "物料总计",
+        "total_cost": "总成本",
+        "total_volume": "总体积",
+        "total_weight": "总重量",
+        "material_heading": "物料",
+        "storage_label": "仓库",
+        "table": {
+          "material": "物料",
+          "amount": "数量",
+          "stock": "库存",
+          "stock_override": "库存覆盖",
+          "need": "需求"
+        }
+      },
+      "supply_cart_details": {
+        "title": "物料购物车",
+        "info_text": "物料购物车结合了你的计划需求与来自 FIO 的现有库存。你可以灵活选择替代仓储位置。根据你的需求选择补给类型（劳动力和生产或特定类别），并指定补给库存应维持的天数。",
+        "fio_burn_link": "使用 FIO Burn 工具获取更多高级物料购物车选项。",
+        "filters": {
+          "all": "全部",
+          "workforce": "劳动力",
+          "production": "生产"
+        },
+        "duration_label": "库存持续时间 (天)",
+        "storage_label": "仓库",
+        "table": {
+          "ticker": "代码",
+          "daily_need": "日需求",
+          "daily_cost": "日成本",
+          "stock": "库存",
+          "full_need": "总需求",
+          "final_need": "最终需求",
+          "workforce": "劳动力",
+          "production": "生产"
+        },
+        "summary": {
+          "daily_cost": "每日成本",
+          "total_cost": "总成本",
+          "total_volume": "总体积",
+          "total_weight": "总重量"
+        }
+      },
+      "repair_analysis_details": {
+        "title": "维修分析",
+        "plan_heading": "计划",
+        "select_day": "选择天数",
+        "individual_building": "单体建筑",
+        "select_building": "选择建筑",
+        "profit_curve": "利润曲线",
+        "cost_breakdown": "维修成本拆分",
+        "chart": {
+          "profit_day": "利润 / 日",
+          "days_since_repair": "维修后天数",
+          "repair_analysis": "维修分析",
+          "last_optimal": "上一次最佳利润",
+          "day_prefix": "第",
+          "day_suffix": "天",
+          "cost": "成本",
+          "total_cost": "总成本"
+        }
+      },
+      "visitation_frequency_details": {
+        "title": "访问频率",
+        "storage_heading": "仓储",
+        "storage_info": "你的计划包含增加 <strong>{sto}</strong> 个 STO，总仓储容量为 <strong>{total}</strong>。",
+        "storage_filled": "仓储填满时间",
+        "exclusion_info": "从访问频率计算中排除本地物料（仅在星球内部处理的项目，如本地市场销售、购买或合同）。",
+        "shipping_heading": "运输",
+        "table": {
+          "ship_volume": "飞船体积 (m³)",
+          "ship_weight": "飞船重量 (t)",
+          "visitation_days": "访问周期 (天)",
+          "limit": "限制",
+          "export_frequency": "出口频率",
+          "import_frequency": "进口频率"
+        }
+      },
+      "popr_details": {
+        "title": "最新人口报告",
+        "error_loading": "加载最新人口报告时出错。该星球可能没有人口。",
+        "loading": "正在加载人口报告...",
+        "no_data": "星球 {planet} 没有人口数据。",
+        "table": {
+          "total_population": "总人口",
+          "free_population": "空闲人口",
+          "free_population_percent": "空闲人口 %",
+          "unfilled_jobs": "未填补职位",
+          "plan_need": "计划需求",
+          "plan_check": "计划检查"
+        }
+      },
+      "hq_calculator": {
+        "total_cost": "总成本",
+        "total_volume": "总体积",
+        "total_weight": "总重量",
+        "table": {
+          "material": "材料",
+          "amount": "数量",
+          "unit_cost": "单位成本"
+        }
+      }
+    },
+    "sections": {
+      "infrastructure": "基础设施",
+      "experts": "专家",
+      "workforce": "劳动力",
+      "material_io": "物料进出",
+      "production": "生产",
+      "input": "投入",
+      "output": "产出"
+    },
+    "status_bar": {
+      "area": "面积",
+      "profit": "利润",
+      "experts": "专家",
+      "none": "无"
+    },
+    "material_io": {
+      "input": "投入",
+      "output": "产出",
+      "delta": "差值",
+      "daily_value": "日价值",
+      "weight_delta": "重量差",
+      "volume_delta": "体积差"
+    },
+    "workforce": {
+      "type": "类型",
+      "required": "需求",
+      "capacity": "容量",
+      "open": "空闲",
+      "efficiency": "效率"
+    },
+    "infrastructure": {
+      "auto_optimize": "自动优化居住建筑",
+      "auto_optimize_tip": "在添加建筑时自动优化居住建筑以满足劳动力需求。",
+      "optimize_cost": "优化成本",
+      "optimize_area": "优化面积"
+    },
+    "experts": {
+      "max_warning": "基地专家的最大数量为 6。你目前已指派了 {amount} 名专家。",
+      "mapping": {
+        "AGRICULTURE": "农业",
+        "CHEMISTRY": "化工",
+        "CONSTRUCTION": "建筑",
+        "ELECTRONICS": "电子",
+        "FOOD_INDUSTRIES": "食品",
+        "FUEL_REFINING": "燃料",
+        "MANUFACTURING": "制造",
+        "METALLURGY": "冶金",
+        "RESOURCE_EXTRACTION": "资源"
+      }
+    },
+    "area": {
+      "permits": "准入证",
+      "area": "面积",
+      "free": "空闲"
+    },
+    "bonuses": {
+      "corp_hq": "公司总部",
+      "corp_hq_tip": "你所属的玩家集团在该星球设有总部（非你的个人公司）。",
+      "cogc": "COGC"
+    },
+    "configuration": {
+      "name_label": "名称",
+      "name_placeholder": "计划名称",
+      "empire_label": "所属帝国"
+    },
+    "production": {
+      "heading": "生产",
+      "material": "材料",
+      "planet_resources": "星球资源",
+      "resource_types": {
+        "MINERAL": "矿物",
+        "GASEOUS": "气态",
+        "LIQUID": "液体"
+      },
+      "match_cogc": "匹配 COGC",
+      "select_building_placeholder": "选择生产建筑",
+      "building": {
+        "recipe_button": "配方",
+        "no_active_recipes": "无激活配方",
+        "efficiency": "效率",
+        "area": "面积",
+        "revenue": "营收",
+        "construction_cost": "建筑成本"
+      },
+      "recipe": {
+        "cogm_title": "制造成本 (COGM)",
+        "table": {
+          "input": "投入",
+          "time": "时间",
+          "output": "产出",
+          "daily_revenue": "$ / 日",
+          "profit_area": "$ / 面积",
+          "roi": "ROI"
+        },
+        "info": {
+          "revenue_day": "“日营收”的计算方法：从配方产生的日收入中，减去每日劳动力成本（提供所有奢侈品）和每日建筑折旧成本（建筑成本的 1/180）。配方的收入基于投入材料成本与产出材料价值之间的差额。",
+          "dollar_area": "“$ / 面积”是指日营收除以单座生产建筑的面积，并按比例分摊该类建筑达到最佳规模时所需的 CM 和居住建筑面积。",
+          "roi_payback": "“ROI（投资回收期）”是指持续运行的配方产生足够收入以抵消建筑成本所需的时间。计算时已包含每日折旧及劳动力成本。"
+        }
+      }
+    },
+    "tips": {
+      "toggle_weight_volume": "切换重量与体积",
+      "toggle_split": "切换生产与劳动力拆分"
+    }
+  },
+  "fio": {
+    "burn": {
+      "title": "FIO 消耗",
+      "description": "FIO 消耗工具提供有关由于劳动力消耗和生产造成的仓库当前物料净消耗的综合数据。此信息源自 FIO 系统。",
+      "storage_label": "仓库",
+      "stock_duration_label": "库存持续时间 (天)",
+      "data_update": "FIO 数据更新",
+      "thresholds": "消耗阈值",
+      "red": "红色 (警告)",
+      "yellow": "黄色 (提醒)",
+      "plan_overview": "计划消耗概览",
+      "calculating": "正在计算自动消耗补给...",
+      "table": {
+        "ticker": "代码",
+        "daily_burn": "日消耗",
+        "inventory": "库存",
+        "duration": "持续时间"
+      }
+    },
+    "repair": {
+      "title": "FIO 维修",
+      "description": "FIO 维修工具整合了来自 FIO 的建筑状态数据，旨在预测你所有基地的维修需求。通过此工具，你可以有效地规划和管理由于建筑折旧而产生的维修工作。",
+      "table": {
+        "planet": "星球",
+        "building": "建筑",
+        "condition": "状态",
+        "repair_cost": "维修成本",
+        "last_repair": "上次维修"
+      }
+    }
+  },
+  "search": {
+    "title": "星球搜索",
+    "basic": {
+      "heading": "星球名称或 ID",
+      "planet_name": "星球名称",
+      "distance": "距离",
+      "system": "星系",
+      "search_button": "搜索",
+      "search_info": "搜索内容必须至少包含 3 个字符。示例搜索：\"OT-580b\"、\"Montem\"、\"OT-\" 或 \"580\"。",
+      "id_label": "ID"
+    },
+    "advanced": {
+      "heading": "高级搜索",
+      "search_button": "搜索",
+      "materials_label": "材料",
+      "cogc_label": "COGC",
+      "features_label": "星球特性",
+      "distance_label": "星系距离",
+      "environment_heading": "星球环境",
+      "env_table": {
+        "surface": "地表",
+        "gravity": "重力",
+        "temperature": "温度",
+        "pressure": "压力",
+        "rocky": "岩石",
+        "gaseous": "气态",
+        "low": "低",
+        "high": "高"
+      },
+      "env_buttons": {
+        "default": "默认",
+        "select_all": "全选"
+      }
+    },
+    "results": {
+      "heading": "搜索结果",
+      "plan": "计划",
+      "planet": "星球",
+      "fertility": "肥沃度",
+      "resources": "资源",
+      "infrastructure": "基础设施",
+      "environment": "环境",
+      "env_tips": {
+        "surface": "地表",
+        "gravity": "重力",
+        "temperature": "温度",
+        "pressure": "压力"
+      },
+      "no_results": "未找到匹配的星球",
+      "loading": "加载中..."
+    }
+  },
+  "tools": {
+    "hq_calculator": {
+      "title": "总部升级计算器",
+      "from_level": "起始总部等级",
+      "to_level": "目标总部等级",
+      "cx_preference": "交易所偏好",
+      "show_locations": "显示仓储位置",
+      "total_cost": "总成本",
+      "total_volume": "总体积",
+      "total_weight": "总重量",
+      "table": {
+        "material": "材料",
+        "amount": "数量",
+        "storage": "库存",
+        "override": "手动库存覆盖",
+        "required": "所需",
+        "unit_cost": "单位成本",
+        "total_cost_material": "总成本",
+        "storage_locations": "仓储位置"
+      }
+    },
+    "production_chain": {
+      "title": "生产链",
+      "configuration": "配置",
+      "material": "材料",
+      "recipe_runs": "配方运行次数",
+      "node_color": "节点颜色",
+      "terminals": "终点材料",
+      "terminals_placeholder": "以逗号分隔的材料代码",
+      "terminals_help": "终点材料是指其输入不包含在图表中的材料。如果你在交易所购买或在当地获取这些材料而不需要生产它们，这个功能非常有用。",
+      "recipe_selection": "配方选择",
+      "analysis": {
+        "materials": "物料分析",
+        "expertise": "专业领域分析",
+        "workforce": "劳动力分析",
+        "expertise_heading": "建筑专业领域",
+        "expertise_label": "专业领域",
+        "workforce_heading": "劳动力",
+        "workforce_label": "劳动力",
+        "required_label": "需求"
+      }
+    },
+    "market_exploration": {
+      "title": "市场探索",
+      "exchange_label": "交易所",
+      "material_label": "材料",
+      "explore_button": "探索",
+      "loading_backend": "正在从后端加载数据...",
+      "error_loading": "加载数据时出错。",
+      "data_heading": "数据",
+      "select_hint": "请选择一个交易所和材料，然后点击 “探索”。",
+      "table": {
+        "date": "日期",
+        "avg_price": "平均价格",
+        "lowest_price": "最低价格",
+        "highest_price": "最高价格",
+        "traded_volume": "成交量",
+        "delta_supply_demand": "供需差"
+      }
+    },
+    "recipe_roi": {
+      "title": "配方投资回报率",
+      "cx_preference": "交易所偏好",
+      "calculating": "正在计算建筑配方 ROI",
+      "table": {
+        "building": "建筑",
+        "optimal_setup": "最佳配置",
+        "recipe_output": "配方产出",
+        "recipe_input": "配方投入",
+        "cogc": "COGC",
+        "cogm": "COGM",
+        "plan_cost": "计划成本",
+        "daily_profit": "日利润",
+        "profit_area": "利润/面积",
+        "plan_roi": "计划 ROI"
+      },
+      "filters": {
+        "building": "建筑",
+        "cogc": "COGC",
+        "output": "产出",
+        "input": "投入",
+        "positive_roi": "正 ROI"
+      }
+    },
+    "resource_roi": {
+      "title": "资源投资回报率",
+      "select_resource": "选择资源",
+      "cx_preference": "交易所偏好",
+      "search_calculate_button": "搜索与计算",
+      "initial_hint": "选择一种资源并点击 “搜索与计算”",
+      "searching_planets": "正在搜索包含 {material} 的星球。等待后端响应...",
+      "calculating": "正在计算星球的资源 ROI。",
+      "table": {
+        "planet": "星球",
+        "production": "产量",
+        "building": "建筑",
+        "daily_yield": "日产量",
+        "percent_max": "% 最大",
+        "cogc": "COGC",
+        "environment": "环境",
+        "infrastructure": "基础设施",
+        "profit": "利润",
+        "cogm": "COGM",
+        "plan_cost": "计划成本",
+        "output_profit": "产出利润",
+        "daily_profit": "日利润",
+        "profit_area": "利润/面积",
+        "plan_roi": "计划 ROI"
+      },
+      "filters": {
+        "planet": "星球",
+        "building": "建筑",
+        "positive_roi": "正 ROI",
+        "searched_material": "搜索材料"
+      }
+    }
+  },
+  "empire": {
+    "unknown": "未知",
+    "unknown_plan_name": "未知计划名称",
+    "analysis": "帝国分析",
+    "material_io": "帝国物料进出",
+    "no_empires_title": "无帝国",
+    "no_empires_text": "你还没有任何帝国。请前往管理页面创建你的第一个帝国。",
+    "calculating": "帝国计划计算中，请稍候。",
+    "switch_empire": "切换帝国",
+    "overview": {
+      "profit": "利润",
+      "revenue": "营收",
+      "cost": "成本",
+      "profit_area": "单位面积利润"
+    },
+    "plan_list": {
+      "plan": "计划",
+      "planet": "星球",
+      "cogc": "COGC",
+      "permits": "准入证",
+      "profit": "利润",
+      "loading": "加载中...",
+      "no_plans": "帝国中没有计划。",
+      "assign_plans": "在管理页面分配现有计划，或通过星球搜索创建新计划。",
+      "total_permits": "计划准入证总数：",
+      "cogc_mapping": {
+        "---": "无",
+        "AGRICULTURE": "农业",
+        "CHEMISTRY": "化工",
+        "CONSTRUCTION": "建筑",
+        "ELECTRONICS": "电子",
+        "FOOD_INDUSTRIES": "食品",
+        "FUEL_REFINING": "燃料",
+        "MANUFACTURING": "制造",
+        "METALLURGY": "冶金",
+        "RESOURCE_EXTRACTION": "资源",
+        "PIONEERS": "先驱",
+        "PIONEER": "先驱",
+        "SETTLERS": "定居者",
+        "SETTLER": "定居者",
+        "TECHNICIANS": "技术员",
+        "TECHNICIAN": "技术员",
+        "ENGINEERS": "工程师",
+        "ENGINEER": "工程师",
+        "SCIENTISTS": "科学家",
+        "SCIENTIST": "科学家"
+      }
+    },
+    "filters": {
+      "display": "显示",
+      "all": "全部",
+      "loadbalance": "负载平衡",
+      "consumables": "消耗品",
+      "show": "显示",
+      "hide": "隐藏",
+      "materials": "材料",
+      "planets": "星球"
+    },
+    "material_io_table": {
+      "ticker": "代码",
+      "delta": "差值",
+      "production": "产量",
+      "consumption": "消耗",
+      "delta_price": "价值差值",
+      "production_planets": "生产星球",
+      "consumption_planets": "消耗星球"
+    },
+    "analysis_charts": {
+      "profitable_plans": "盈利计划",
+      "material_profits": "物料利润",
+      "material_costs": "物料成本",
+      "net_production": "净产量",
+      "net_consumption": "净消耗",
+      "exclusive_production": "仅生产",
+      "exclusive_consumption": "仅消耗"
+    },
+    "config": {
+      "heading": "配置",
+      "name": "名称",
+      "faction": "阵营",
+      "permits_total": "准入证总数",
+      "permits_used": "已用准入证",
+      "use_fio_storage": "使用 FIO 仓储？",
+      "factions": {
+        "NONE": "无阵营",
+        "ANTARES": "Antares",
+        "BENTEN": "Benten",
+        "HORTUS": "Hortus",
+        "MORIA": "Moria",
+        "OUTSIDEREGION": "区域外"
+      }
+    }
+  },
+  "profile": {
+    "title": "个人资料",
+    "preferences": {
+      "title": "偏好设置",
+      "description": "你的偏好设置保存在浏览器的本地存储中，目前尚未与后端同步。使用此面板查看并自定义你的 PRUNplanner 设置。",
+      "tools_heading": "工具偏好",
+      "default_empire": "默认帝国",
+      "default_cx": "默认交易所偏好",
+      "burn_red": "红色阈值 (天)",
+      "burn_yellow": "黄色阈值 (天)",
+      "resupply_days": "补给天数",
+      "xit_origin": "XIT 来源",
+      "xit_buy_cx": "XIT 从交易所买入",
+      "plan_settings_heading": "计划特定设置",
+      "plan_settings_description": "这些设置在单个计划中管理。本节概述了你目前为止自定义的偏好设置 —— 如需修改，请前往相应的计划。",
+      "table": {
+        "plan": "计划",
+        "preferences": "偏好设置"
+      }
+    },
+    "storage": {
+      "title": "浏览器存储",
+      "description": "PRUNplanner 通过在浏览器中本地存储数据来最大限度地减少 API 调用。数据会按设定的间隔自动刷新。",
+      "table": {
+        "storage": "存储项",
+        "records": "记录数",
+        "size": "预估大小"
+      }
+    },
+    "change_profile": {
+      "title": "个人资料",
+      "description": "FIO 数据更新由 PRUNplanner 后端自动处理。虽然不强制提供电子邮箱，但为了提高账户安全性和密码找回，强烈建议填写。",
+      "fio_key_label": "FIO API 密钥",
+      "username_label": "PrUn 用户名",
+      "email_label": "电子邮箱",
+      "email_verified_label": "邮箱已验证",
+      "update_button": "更新资料",
+      "verify_email_button": "验证邮箱",
+      "resend_code_button": "重发代码",
+      "code_requested": "代码已请求。"
+    },
+    "change_password": {
+      "title": "修改密码",
+      "description": "密码长度必须至少为 8 个字符。",
+      "current_password": "当前密码",
+      "new_password": "新密码",
+      "update_button": "更新密码",
+      "success": "密码已修改。",
+      "error": "密码修改失败。"
+    }
+  },
+  "api": {
+    "title": "API",
+    "description": "PRUNplanner 利用其自身的后端 API 安全地存储和交互数据，包括来自 FIO 的游戏数据以及用户在基地和帝国规划期间生成的数据。通过易于使用的 CSV 端点，你可以在电子表格或你选择的其他应用程序中访问和处理这些数据。访问 API 需要 API 密钥进行安全身份验证，这与你的 FIO API 密钥不同。请注意，FIO 仍然是所有 Prosperous Universe 游戏内数据的核心来源，而 PRUNplanner 是你规划需求的强大补充。",
+    "api_key_label": "API 密钥",
+    "empire_label": "所属帝国",
+    "management": {
+      "title": "API 密钥",
+      "limit_reached": "你最多只能拥有 5 个 API 密钥。",
+      "name_placeholder": "最多 100 个字符",
+      "create_button": "创建 API 密钥",
+      "table": {
+        "name": "名称",
+        "key": "密钥",
+        "created": "创建时间",
+        "last_activity": "最后活跃"
+      }
+    },
+    "endpoints": {
+      "title": "端点",
+      "exchange": {
+        "title": "交易所数据",
+        "description": "提供交易所信息，包括 PRUNplanner 计算的平均值（PP7D, PP30D）以及游戏内数据。"
+      },
+      "material": {
+        "title": "物料数据",
+        "description": "提供所有 Prosperous Universe 物料的数据，包括其代码、重量和体积。"
+      },
+      "material_io": {
+        "title": "物料进出",
+        "description": "提供你的计划物料进出信息，数据在每次计划计算保存时刷新。"
+      }
+    }
+  },
+  "auth": {
+    "login_title": "登录",
+    "username": "用户名",
+    "password": "密码",
+    "error_login": "登录失败。请检查你的用户名和密码。",
+    "tos_prefix": "使用 PRUNplanner 即表示你同意",
+    "tos_link": "服务条款",
+    "forgot_password_prefix": "忘记密码了？申请",
+    "forgot_password_link": "重置密码",
+    "register_title": "创建账户",
+    "register_success_welcome": "欢迎，{username}！",
+    "register_success_desc": "注册成功。你现在可以登录 PRUNplanner 了。",
+    "account_info": "账户信息",
+    "register_tos_desc": "PRUNplanner 是免费使用的。通过创建账户，你确认并同意",
+    "error_register": "注册时出错。",
+    "username_info": "长度必须至少为 3 个字符。不能包含空格。",
+    "password_info": "长度必须至少为 8 个字符。",
+    "email": "电子邮箱",
+    "email_placeholder": "非强制，但建议填写。",
+    "email_info": "非强制。增加你的账户安全性。",
+    "security_question": "安全问题",
+    "security_question_desc": "请输入星球 {planet} 的名称。要找到它，请在 Prosperous Universe 中使用指令 {command} 打开新缓冲区。你会在星球信息的 “Name” 下看到该星球的名称。",
+    "planet_name_label": "名称",
+    "register_button": "创建账户"
+  },
+  "loading": {
+    "title": "正在加载数据...",
+    "rendering": "正在渲染视图",
+    "steps": {
+      "Materials": "物料",
+      "Material Data": "物料数据",
+      "Exchanges": "交易所",
+      "Exchange Data": "交易所数据",
+      "Buildings": "建筑",
+      "Building Data": "建筑数据",
+      "Recipes": "配方",
+      "Recipe Data": "配方数据",
+      "Planets": "星球",
+      "Planet": "星球",
+      "All Planets": "全部星球",
+      "Plans": "计划",
+      "Empires": "帝国",
+      "Shared Data": "分享数据",
+      "Empires Configurations": "帝国配置",
+      "Plan Configuration": "计划配置",
+      "All Plan Configurations": "全部计划配置",
+      "Shared Plan Configuration": "分享计划配置",
+      "CX Configurations": "交易所配置",
+      "Empire Plans": "帝国计划",
+      "Shared Plan Configurations": "分享计划列表"
+    },
+    "version_update": {
+      "updated": "<strong>PRUNplanner</strong> 已更新！",
+      "click_to_load": "点击加载最新版本。"
+    }
+  },
+  "help": {
+    "title": "帮助",
+    "heading": "帮助与更新日志",
+    "changelog": "更新日志",
+    "unable_to_load": "无法加载 \"{file}\"",
+    "contribution_text": "PRUNplanner 的前端是开源的，欢迎在 GitHub 上做出贡献！",
+    "tutorial": {
+      "intro": "PRUNplanner 帮助你设计基地、组织帝国并计算利润 —— 无需浪费游戏内资源。它模拟了 <span class=\"italic\">Prosperous Universe</span> 的几乎所有方面，因此你可以更明智地规划并更有信心。 ",
+      "getting_started": {
+        "title": "入门指南",
+        "step1": "在 <strong>管理</strong> 中创建帝国：默认情况下你已有一个帝国。但你可以为不同的阵营或区域添加更多。分配名称和阵营，然后保存。",
+        "step2": "设置 <strong>交易所</strong>：进入管理页面并创建你的交易所。切换到交易所视图进行修改。对于大多数玩家，将其设置为 <em>全部</em> (买入和卖出) 并选择你的基地将使用的交易所 (例如，CI1 对应 Benten)。保存设置。",
+        "step3": "搜索 <strong>星球</strong>：使用星球搜索通过资源、项目或距离 CX 的远近进行过滤。选择你的目标星球并查看其修正、提取率和基础设施。",
+        "step4": "<strong>创建计划：</strong> 选择你的帝国，命名，然后添加建筑。例如：添加精炼厂，设置生产订单并保存计划。你可以修改所有方面，如 COGC、专家加成并进行优化。",
+        "step5": "<strong>查看 ROI：</strong> 设置完成后，你将看到每条生产线的每日利润、投入产出以及投资回报率。进行调整、实验和优化。"
+      },
+      "concepts": {
+        "title": "核心概念",
+        "plans": {
+          "title": "计划",
+          "desc": "计划代表单个基地：其建筑、生产和加成。通过选择星球、放置建筑并将其分配给具有交易所偏好的帝国来创建计划。"
+        },
+        "empires": {
+          "title": "帝国",
+          "desc": "帝国是多个计划的容器 —— 实际上是你的整个基地网络。帝国让你的供应链保持有条不紊，并允许你共同管理多个基地。"
+        },
+        "exchanges": {
+          "title": "交易所",
+          "desc": "交易所设置定义了价格的计算方式。为保持一致性，每个帝国使用一个交易所。如果需要，你可以在多个帝国中重复使用相同的交易所设置。"
+        }
+      },
+      "features": {
+        "title": "关键功能",
+        "base_simulation": {
+          "title": "基地模拟",
+          "desc": "在不消耗资源的情况下设计和测试基地。从居住到生产，再到星球特定的修正和加成 —— PRUNplanner 模拟了一切。"
+        },
+        "empire_planning": {
+          "title": "帝国规划",
+          "desc": "跨多个基地和供应链管理你的帝国。保持物资流动，防止瓶颈，并实现规模化平稳运行。始终掌握全局，明确最佳扩张点。"
+        },
+        "game_data": {
+          "title": "游戏数据",
+          "desc": "市场信息直接从社区 API (FIO) 集成。规划扩张、查看 ROI 并做出明智的交易决策。探索历史市场数据，或让 PRUNplanner 计算生产或资源提取的 ROI。"
+        },
+        "burn_repair": {
+          "title": "消耗与维修",
+          "desc": "跟踪消耗品和建筑磨损。通过准确了解殖民地的需求及时间点，避免短缺和停工。"
+        },
+        "additional_tools": {
+          "title": "丰富的附加工具",
+          "desc": "深入研究历史价格、优化居住布局、估算访问频率并微调生产效率。PRUNplanner 充满了能让你获得优势的实用工具。"
+        }
+      }
+    }
+  },
+  "sharing": {
+    "title": "分享计划",
+    "create_info": "这将创建一个可以与他人分享的唯一链接。他们将能够查看你的计划，但无法修改。一旦你选择停止分享或删除计划，该链接将失效。",
+    "active_info": "你当前正在分享此计划。它已被浏览了 {count} 次。",
+    "create_link_button": "创建分享链接",
+    "copy_link_button": "复制链接",
+    "stop_sharing_button": "停止分享",
+    "share_label": "分享",
+    "views_label": "次浏览"
+  },
+  "manage": {
+    "title": "管理",
+    "empires": {
+      "heading": "帝国配置",
+      "update_cx_button": "更新交易所分配",
+      "new_empire_button": "新建帝国",
+      "info_text": "删除帝国不会删除任何关联的计划 —— 它们将变为未分配状态。你可以在帝国视图中编辑现有的帝国。为确保准确的计划效率计算，请确保每个帝国都设置了正确的阵营和准入证。",
+      "create_section": {
+        "name_label": "帝国名称",
+        "name_placeholder": "帝国名称（最多 100 个字符）",
+        "faction_label": "阵营",
+        "permits_total_label": "准入证总数",
+        "permits_used_label": "已用准入证",
+        "use_fio_label": "使用 FIO 仓储？",
+        "create_button": "创建"
+      },
+      "table": {
+        "name": "名称",
+        "faction": "阵营",
+        "permits": "准入证",
+        "plans": "计划",
+        "fio": "FIO",
+        "cx": "交易所",
+        "yes": "是",
+        "no": "否",
+        "no_empires": "没有可用的帝国。",
+        "create_first": "创建你的第一个帝国。"
+      },
+      "delete_confirm": {
+        "title": "确认删除帝国",
+        "content": "你确定吗？删除帝国不会删除分配给它的计划。",
+        "positive": "删除",
+        "negative": "取消"
+      }
+    },
+    "exchanges": {
+      "heading": "交易所配置",
+      "title": "交易所",
+      "new_cx_button": "新建交易所",
+      "info_text": "删除交易所偏好将删除其所有的交易所和材料设置。已分配的帝国将不受影响，但它们将不再使用已删除的偏好。请务必分配一个新的交易所偏好。",
+      "no_preferences_title": "无偏好设置",
+      "no_preferences_text": "你还没有任何交易所偏好。请前往管理页面创建你的第一个偏好。",
+      "preference_name": "偏好名称",
+      "empire_preferences": "帝国偏好",
+      "exchange_label": "交易所",
+      "ticker_label": "代码",
+      "planet_preferences": "星球偏好",
+      "create_section": {
+        "name_label": "交易所名称",
+        "name_placeholder": "交易所名称（最多 100 个字符）",
+        "create_button": "创建"
+      },
+      "table": {
+        "name": "名称",
+        "assigned": "已分配到帝国？",
+        "yes": "是",
+        "no": "否",
+        "no_cx": "没有可用的交易所偏好。",
+        "create_first": "创建你的第一个交易所偏好。"
+      },
+      "delete_confirm": {
+        "title": "确认删除交易所偏好",
+        "content": "你确定吗？删除交易所将删除所有偏好设置。",
+        "positive": "删除",
+        "negative": "取消"
+      },
+      "preference_component": {
+        "no_config": "未配置交易所偏好",
+        "no_ticker_config": "未配置代码偏好",
+        "material_placeholder": "材料",
+        "types": {
+          "BUY": "买入",
+          "SELL": "卖出",
+          "BOTH": "全部"
+        }
+      }
+    },
+    "assignments": {
+      "heading": "计划 ↔ 帝国 归属管理",
+      "update_button": "更新计划归属",
+      "reload_button": "重载",
+      "info_text": "每个规划的基地都可以分配给多个帝国。这让你可以同时跟踪现有的 Prosperous Universe 帝国、公司生产链或未来的扩张计划。",
+      "table": {
+        "plan": "计划",
+        "planet": "星球",
+        "configuration": "配置",
+        "loading": "加载中...",
+        "no_plans": "没有可用的计划。",
+        "create_first": "使用星球搜索创建你的第一个计划。"
+      },
+      "actions": {
+        "clone_suffix": "（副本）"
+      },
+      "delete_confirm": {
+        "title": "确认删除计划",
+        "content": "你确定吗？计划删除后无法恢复。",
+        "positive": "删除",
+        "negative": "取消"
+      },
+      "filters": {
+        "heading": "过滤器",
+        "plan_label": "计划",
+        "empire_label": "所属帝国"
+      }
+    }
+  }
+}

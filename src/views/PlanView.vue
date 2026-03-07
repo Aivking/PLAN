@@ -9,9 +9,8 @@
 		Ref,
 		watch,
 	} from "vue";
-
-	// Naive UI
-	import { NModal } from "naive-ui";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	// Router
 	import router from "@/router";
@@ -24,7 +23,6 @@
 	import { IPlan, IPlanEmpireElement } from "@/stores/planningStore.types";
 	import { IPlanet } from "@/features/api/gameData.types";
 	import { INFRASTRUCTURE_TYPE } from "@/features/planning/usePlanCalculation.types";
-	import { IPlanCreateData } from "@/features/planning_data/usePlan.types";
 	import {
 		optimizeHabs,
 		calculateAvailableArea,
@@ -43,6 +41,7 @@
 		createNewPlan,
 		saveExistingPlan,
 		reloadExistingPlan,
+		patchMaterialIO,
 		cloneSharedPlan,
 	} = usePlan();
 	import { trackEvent } from "@/lib/analytics/useAnalytics";
@@ -67,17 +66,7 @@
 	);
 
 	// UI
-	import {
-		PButton,
-		PButtonGroup,
-		PTooltip,
-		PSpin,
-		PForm,
-		PFormItem,
-		PInput,
-		PSelect,
-	} from "@/ui";
-	import { PSelectOption } from "@/ui/ui.types";
+	import { PButton, PButtonGroup, PTooltip, PSpin } from "@/ui";
 	import {
 		ShoppingBasketSharp,
 		AttachMoneySharp,
@@ -119,10 +108,6 @@
 	const refEmpireUuid: Ref<string | undefined> = ref(undefined);
 	const refCXUuid: Ref<string | undefined> = ref(undefined);
 
-	const planetData: IPlanet = await getPlanet(
-		props.planData.planet_natural_id
-	);
-
 	const calculation = await usePlanCalculation(
 		refPlanData,
 		refEmpireUuid,
@@ -151,7 +136,6 @@
 		handleUpdateBuildingAmount,
 		handleDeleteBuilding,
 		handleCreateBuilding,
-		handleCreateBuildingAndRecipe,
 		handleUpdateBuildingRecipeAmount,
 		handleDeleteBuildingRecipe,
 		handleAddBuildingRecipe,
@@ -159,14 +143,10 @@
 		handleChangePlanName,
 	} = calculation;
 
+	const planetData: IPlanet = await getPlanet(props.planData.planet_id);
+
 	const refMaterialIOShowBasked: Ref<boolean> = ref(false);
 	const refMaterialIOSplitted: Ref<boolean> = ref(false);
-
-	// Save As modal state
-	const refShowSaveAsModal: Ref<boolean> = ref(false);
-	const refSaveAsName: Ref<string> = ref("");
-	const refSaveAsEmpireUuid: Ref<string | undefined> = ref(undefined);
-	const refIsSavingAs: Ref<boolean> = ref(false);
 
 	// Plan Preferences
 	const planPrefs = computed<ReturnType<typeof usePlanPreferences> | null>(
@@ -249,28 +229,38 @@
 			case "visitation-frequency":
 				return defineAsyncComponent(
 					() =>
-						import("@/features/planning/components/tools/PlanVisitationFrequency.vue")
+						import(
+							"@/features/planning/components/tools/PlanVisitationFrequency.vue"
+						)
 				);
 			case "repair-analysis":
 				return defineAsyncComponent(
 					() =>
-						import("@/features/planning/components/tools/PlanRepairAnalysis.vue")
+						import(
+							"@/features/planning/components/tools/PlanRepairAnalysis.vue"
+						)
 				);
 
 			case "popr":
 				return defineAsyncComponent(
 					() =>
-						import("@/features/planning/components/tools/PlanPOPR.vue")
+						import(
+							"@/features/planning/components/tools/PlanPOPR.vue"
+						)
 				);
 			case "supply-cart":
 				return defineAsyncComponent(
 					() =>
-						import("@/features/planning/components/tools/PlanSupplyCart.vue")
+						import(
+							"@/features/planning/components/tools/PlanSupplyCart.vue"
+						)
 				);
 			case "construction-cart":
 				return defineAsyncComponent(
 					() =>
-						import("@/features/planning/components/tools/PlanConstructionCart.vue")
+						import(
+							"@/features/planning/components/tools/PlanConstructionCart.vue"
+						)
 				);
 			default:
 				return null;
@@ -282,7 +272,7 @@
 			case "visitation-frequency":
 				return {
 					props: {
-						storage: result.value.storage,
+						stoAmount: result.value.infrastructure["STO"],
 						materialIO: result.value.materialio,
 						disabled: props.disabled,
 						planUuid: refPlanData.value.uuid,
@@ -301,14 +291,14 @@
 							};
 						}),
 						cxUuid: refCXUuid.value,
-						planetNaturalId: planetData.planet_natural_id,
+						planetNaturalId: planetData.PlanetNaturalId,
 					},
 					listeners: {},
 				};
 			case "popr":
 				return {
 					props: {
-						planetNaturalId: planetData.planet_natural_id,
+						planetNaturalId: planetData.PlanetNaturalId,
 						workforceData: result.value.workforce,
 					},
 					listeners: {},
@@ -316,7 +306,7 @@
 			case "supply-cart":
 				return {
 					props: {
-						planetNaturalId: planetData.planet_natural_id,
+						planetNaturalId: planetData.PlanetNaturalId,
 						materialIO: result.value.materialio,
 						workforceMaterialIO: result.value.workforceMaterialIO,
 						productionMaterialIO: result.value.productionMaterialIO,
@@ -326,7 +316,7 @@
 			case "construction-cart":
 				return {
 					props: {
-						planetNaturalId: planetData.planet_natural_id,
+						planetNaturalId: planetData.PlanetNaturalId,
 						cxUuid: refCXUuid.value,
 						constructionData: result.value.constructionMaterials,
 						productionBuildingData:
@@ -353,11 +343,17 @@
 		if (existing.value) {
 			await saveExistingPlan(refPlanData.value.uuid!, backendData.value);
 
+			await patchMaterialIO(
+				refPlanData.value.uuid!,
+				planetData.PlanetNaturalId,
+				result.value.materialio
+			);
+
 			// reset modified state
 			handleResetModified();
 
 			trackEvent("plan_save", {
-				planetNaturalId: planetData.planet_natural_id,
+				planetNaturalId: planetData.PlanetNaturalId,
 			});
 
 			refIsSaving.value = false;
@@ -367,6 +363,13 @@
 					if (newUuid) {
 						refIsSaving.value = false;
 						refPlanData.value.uuid = newUuid;
+
+						await patchMaterialIO(
+							refPlanData.value.uuid!,
+							planetData.PlanetNaturalId,
+							result.value.materialio
+						);
+
 						// Persist the auto-optimize-habs preference
 						const prefs = usePlanPreferences(
 							refPlanData.value.uuid!
@@ -377,60 +380,17 @@
 						// reset modified state
 						handleResetModified();
 						trackEvent("plan_create", {
-							planetNaturalId: planetData.planet_natural_id,
+							planetNaturalId: planetData.PlanetNaturalId,
 						});
 
 						router.push(
-							`/plan/${planetData.planet_natural_id}/${newUuid}`
+							`/plan/${planetData.PlanetNaturalId}/${newUuid}`
 						);
 					}
 				}
 			);
 			refIsSaving.value = false;
 		}
-	}
-
-	async function saveAs(): Promise<void> {
-		if (!refSaveAsName.value.trim()) return;
-
-		refIsSavingAs.value = true;
-
-		// Create new plan data with the new name and selected empire
-		const saveAsData: IPlanCreateData = {
-			...backendData.value,
-			plan_name: refSaveAsName.value.trim(),
-			empire_uuid: refSaveAsEmpireUuid.value,
-		};
-
-		const newUuid = await createNewPlan(saveAsData);
-
-		if (newUuid) {
-			// Persist the auto-optimize-habs preference
-			const prefs = usePlanPreferences(newUuid);
-			prefs.autoOptimizeHabs.value = refAutoOptimizeHabs.value;
-
-			trackEvent("plan_save_as", {
-				planetNaturalId: planetData.planet_natural_id,
-			});
-
-			// Close modal and open new plan in a new tab
-			refShowSaveAsModal.value = false;
-			window.open(
-				`/plan/${planetData.planet_natural_id}/${newUuid}`,
-				"_blank"
-			);
-			return;
-		}
-
-		refIsSavingAs.value = false;
-	}
-
-	function openSaveAsModal(): void {
-		// Pre-fill with current plan name + " (Copy)"
-		refSaveAsName.value = planName.value ? `${planName.value} (Copy)` : "";
-		// Pre-fill with current empire
-		refSaveAsEmpireUuid.value = refEmpireUuid.value;
-		refShowSaveAsModal.value = true;
 	}
 
 	const refIsReloading: Ref<boolean> = ref(false);
@@ -447,7 +407,7 @@
 		);
 
 		trackEvent("plan_reload", {
-			planetNaturalId: planetData.planet_natural_id,
+			planetNaturalId: planetData.PlanetNaturalId,
 		});
 		refIsReloading.value = false;
 	}
@@ -460,7 +420,7 @@
 
 		sharedWasCloned.value = await cloneSharedPlan(props.sharedPlanUuid);
 		trackEvent("plan_shared_cloned", {
-			planetNaturalId: planetData.planet_natural_id,
+			planetNaturalId: planetData.PlanetNaturalId,
 			sharedUuid: props.sharedPlanUuid,
 		});
 	}
@@ -471,7 +431,7 @@
 		title: computed(() =>
 			planName.value
 				? `${planName.value} | PRUNplanner`
-				: `${props.planData.planet_natural_id} | PRUNplanner`
+				: `${props.planData.planet_id} | PRUNplanner`
 		),
 	});
 
@@ -479,12 +439,10 @@
 	onBeforeRouteLeave(() => {
 		if (modified.value && !props.sharedPlanUuid) {
 			trackEvent("plan_leave_changed", {
-				planetNaturalId: planetData.planet_natural_id,
+				planetNaturalId: planetData.PlanetNaturalId,
 			});
 
-			const answer = confirm(
-				"Do you really want to leave? Unsaved changes will be lost."
-			);
+			const answer = confirm(t("plan.leave_confirmation"));
 
 			if (!answer) return false;
 		}
@@ -497,15 +455,6 @@
 			result.value.area.areaUsed,
 			result.value.infrastructure
 		);
-	});
-
-	// Save As empire options
-	const saveAsEmpireOptions: ComputedRef<PSelectOption[]> = computed(() => {
-		if (!refEmpireList.value) return [];
-		return refEmpireList.value.map((e) => ({
-			label: e.empire_name,
-			value: e.uuid,
-		}));
 	});
 
 	function applyOptimizeHabs(goal: HabSolverGoal, force: boolean) {
@@ -563,11 +512,11 @@
 				</h1>
 				<span class="text-white/60">
 					{{
-						planetData.planet_name != planetData.planet_natural_id
-							? planetData.planet_name + " - "
+						planetData.PlanetName != planetData.PlanetNaturalId
+							? planetData.PlanetName + " - "
 							: ""
 					}}
-					{{ planetData.planet_natural_id }}
+					{{ planetData.PlanetNaturalId }}
 				</span>
 			</div>
 			<!-- Status Bar (sticky) -->
@@ -581,10 +530,7 @@
 					:overview-data="overviewData" />
 			</div>
 			<!-- Plan Actions -->
-			<div
-				class="row-2 md:row-1 md:col-3 py-3 flex flex-row flex-wrap gap-x-3">
-				<HelpDrawer file-name="plan" />
-
+			<div class="row-2 md:row-1 md:col-3 py-3 flex flex-row flex-wrap">
 				<PButtonGroup v-if="userStore.isLoggedIn">
 					<PButton
 						v-if="disabled"
@@ -594,8 +540,8 @@
 						<template #icon>
 							<ContentCopySharp />
 						</template>
-						<span v-if="!sharedWasCloned"> Clone Plan </span>
-						<span v-else> Cloning Complete </span>
+						<span v-if="!sharedWasCloned"> {{ $t("plan.actions.clone") }} </span>
+						<span v-else> {{ $t("plan.actions.cloning_complete") }} </span>
 					</PButton>
 					<PTooltip :disabled="saveable">
 						<template #trigger>
@@ -607,24 +553,16 @@
 									modified || !saveable ? 'error' : 'success'
 								"
 								:disabled="disabled || !saveable"
-								class="rounded-none! rounded-l-sm!"
+								class="!rounded-none !rounded-l-sm"
 								@click="save">
 								<template #icon>
 									<SaveSharp />
 								</template>
-								{{ existing ? "Save" : "Create" }}
+								{{ existing ? $t("plan.actions.save") : $t("plan.actions.create") }}
 							</PButton>
 						</template>
-						Must set a plan name in Configuration to save
+						{{ $t("plan.actions.must_set_name") }}
 					</PTooltip>
-					<PButton
-						v-if="existing && !disabled"
-						@click="openSaveAsModal">
-						<template #icon>
-							<ContentCopySharp />
-						</template>
-						Save As
-					</PButton>
 					<PButton
 						v-if="existing"
 						:disabled="disabled"
@@ -633,15 +571,17 @@
 						<template #icon>
 							<ChangeCircleOutlined />
 						</template>
-						Reload
+						{{ $t("plan.actions.reload") }}
 					</PButton>
 
 					<ShareButton
 						v-if="!disabled && refPlanData.uuid"
 						:plan-uuid="refPlanData.uuid" />
+
+					<HelpDrawer file-name="plan" />
 				</PButtonGroup>
 				<!-- empty div to maintain layout -->
-				<div v-else class="@[1290px]:w-112.5" />
+				<div v-else class="@[1290px]:w-[450px]" />
 			</div>
 			<!-- Tools Container -->
 			<div class="row-4 md:col-span-3">
@@ -658,13 +598,13 @@
 						<template #icon>
 							<SettingsSharp />
 						</template>
-						Configuration
+						{{ $t("plan.tools.configuration") }}
 					</PButton>
 					<PButton
 						v-if="userStore.isLoggedIn"
 						:type="refShowTool === 'popr' ? 'primary' : 'secondary'"
 						@click="toggleTool('popr')">
-						POPR
+						{{ $t("plan.tools.popr") }}
 					</PButton>
 					<PButton
 						:type="
@@ -673,7 +613,7 @@
 								: 'secondary'
 						"
 						@click="toggleTool('visitation-frequency')">
-						Visitation Frequency
+						{{ $t("plan.tools.visitation_frequency") }}
 					</PButton>
 					<PButton
 						:type="
@@ -682,7 +622,7 @@
 								: 'secondary'
 						"
 						@click="toggleTool('construction-cart')">
-						Construction Cart
+						{{ $t("plan.tools.construction_cart") }}
 					</PButton>
 					<PButton
 						:type="
@@ -691,7 +631,7 @@
 								: 'secondary'
 						"
 						@click="toggleTool('supply-cart')">
-						Supply Cart
+						{{ $t("plan.tools.supply_cart") }}
 					</PButton>
 					<PButton
 						:type="
@@ -700,7 +640,7 @@
 								: 'secondary'
 						"
 						@click="toggleTool('repair-analysis')">
-						Repair Analysis
+						{{ $t("plan.tools.repair_analysis") }}
 					</PButton>
 				</div>
 				<!-- Tool View -->
@@ -708,15 +648,15 @@
 					class="transition-discrete transition-opacity duration-500"
 					:class="
 						!refShowTool
-							? 'opacity-0 overflow-hidden h-0!'
+							? 'opacity-0 overflow-hidden !h-0'
 							: 'px-6 py-3 opacity-100 border-b border-white/10'
 					">
 					<div
 						v-if="refShowTool === 'configuration'"
 						class="flex flex-wrap sm:justify-center-safe gap-6">
-						<div class="flex flex-col min-w-75">
+						<div class="flex flex-col min-w-[300px]">
 							<h2 class="text-white/80 font-bold text-lg pb-3">
-								Configuration
+								{{ $t("plan.tools.configuration") }}
 							</h2>
 
 							<div
@@ -730,8 +670,7 @@
 									@update:active-empire="
 										(empireUuid: string) => {
 											refEmpireUuid = empireUuid;
-											refCXUuid =
-												findEmpireCXUuid(empireUuid);
+											refCXUuid = findEmpireCXUuid(empireUuid);
 										}
 									"
 									@update:plan-name="handleChangePlanName" />
@@ -739,7 +678,7 @@
 									:disabled="disabled"
 									:area-data="result.area"
 									:planet-natural-id="
-										planetData.planet_natural_id
+										planetData.PlanetNaturalId
 									"
 									@update:permits="handleUpdatePermits" />
 								<PlanBonuses
@@ -747,7 +686,7 @@
 									:corphq="result.corphq"
 									:cogc="result.cogc"
 									:planet-natural-id="
-										planetData.planet_natural_id
+										planetData.PlanetNaturalId
 									"
 									@update:corphq="handleUpdateCorpHQ"
 									@update:cogc="handleUpdateCOGC" />
@@ -755,7 +694,7 @@
 						</div>
 						<div>
 							<h2 class="text-white/80 font-bold text-lg pb-3">
-								Infrastructure
+								{{ $t("plan.sections.infrastructure") }}
 							</h2>
 							<div
 								class="sm:border sm:border-white/10 sm:rounded sm:p-3">
@@ -764,7 +703,7 @@
 									:infrastructure-data="result.infrastructure"
 									:auto-optimize-habs="refAutoOptimizeHabs"
 									:planet-natural-id="
-										planetData.planet_natural_id
+										planetData.PlanetNaturalId
 									"
 									@update:infrastructure="
 										handleUpdateInfrastructure
@@ -772,22 +711,16 @@
 									@update:auto-optimize-habs="
 										(v: boolean, goal: HabSolverGoal) => {
 											refAutoOptimizeHabs = v;
-											trackEvent(
-												'plan_tool_optimize_habitation_active',
-												{ active: v }
-											);
+											trackEvent('plan_tool_optimize_habitation_active', { active: v });
 											applyOptimizeHabs(goal, false);
 										}
 									"
-									@optimize-habs="
-										(goal: HabSolverGoal) =>
-											applyOptimizeHabs(goal, true)
-									" />
+									@optimize-habs="(goal: HabSolverGoal) => applyOptimizeHabs(goal, true)" />
 							</div>
 						</div>
 						<div>
 							<h2 class="text-white/80 font-bold text-lg pb-3">
-								Experts
+								{{ $t("plan.sections.experts") }}
 							</h2>
 							<div
 								class="sm:border sm:border-white/10 sm:rounded sm:p-3">
@@ -795,7 +728,7 @@
 									:disabled="disabled"
 									:expert-data="result.experts"
 									:planet-natural-id="
-										planetData.planet_natural_id
+										planetData.PlanetNaturalId
 									"
 									@update:expert="handleUpdateExpert" />
 							</div>
@@ -824,14 +757,12 @@
 						class="flex flex-row flex-wrap sm:justify-center-safe gap-6">
 						<div>
 							<h2 class="text-white/80 font-bold text-lg pb-3">
-								Workforce
+								{{ $t("plan.sections.workforce") }}
 							</h2>
 							<PlanWorkforce
 								:disabled="disabled"
 								:workforce-data="result.workforce"
-								:planet-natural-id="
-									planetData.planet_natural_id
-								"
+								:planet-natural-id="planetData.PlanetNaturalId"
 								@update:lux="handleUpdateWorkforceLux" />
 						</div>
 						<div>
@@ -852,16 +783,13 @@
 						<PlanProduction
 							:disabled="disabled"
 							:production-data="result.production"
-							:planet-resources="planetData.resources"
+							:planet-resources="planetData.Resources"
 							:cogc="result.cogc"
 							:cx-uuid="refCXUuid"
-							:planet-id="planetData.planet_natural_id"
+							:planet-id="planetData.PlanetNaturalId"
 							@update:building:amount="handleUpdateBuildingAmount"
 							@delete:building="handleDeleteBuilding"
 							@create:building="handleCreateBuilding"
-							@create:building:recipe="
-								handleCreateBuildingAndRecipe
-							"
 							@update:building:recipe:amount="
 								handleUpdateBuildingRecipeAmount
 							"
@@ -872,11 +800,11 @@
 							" />
 					</div>
 				</div>
-				<div>
-					<div class="sticky top-12">
+				<div class="@[1290px]:h-[calc(100vh-100px)]">
+					<div class="sticky top-12 h-full flex flex-col">
 						<h2
-							class="text-white/80 font-bold text-lg pb-3 flex justify-between child:my-auto">
-							<div>Material I/O</div>
+							class="text-white/80 font-bold text-lg pb-3 flex justify-between child:my-auto flex-shrink-0">
+							<div>{{ $t("plan.sections.material_io") }}</div>
 							<div class="flex gap-x-3">
 								<PTooltip>
 									<template #trigger>
@@ -896,7 +824,7 @@
 											</template>
 										</PButton>
 									</template>
-									Toggle Weight & Volume
+									{{ $t("plan.tips.toggle_weight_volume") }}
 								</PTooltip>
 
 								<PTooltip>
@@ -917,64 +845,30 @@
 											</template>
 										</PButton>
 									</template>
-									Toggle Production & Workforce Split
+									{{ $t("plan.tips.toggle_split") }}
 								</PTooltip>
 							</div>
 						</h2>
-						<template v-if="!refMaterialIOSplitted">
-							<PlanMaterialIO
-								:material-i-o-data="result.materialio"
-								:show-basked="refMaterialIOShowBasked" />
-						</template>
-						<template v-else>
-							<h3 class="font-bold pb-3">Production</h3>
-							<PlanMaterialIO
-								:material-i-o-data="result.productionMaterialIO"
-								:show-basked="refMaterialIOShowBasked" />
-							<h3 class="font-bold py-3">Workforce</h3>
-							<PlanMaterialIO
-								:material-i-o-data="result.workforceMaterialIO"
-								:show-basked="refMaterialIOShowBasked" />
-						</template>
+						<div class="overflow-y-auto flex-grow pr-1 custom-scrollbar" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;">
+							<template v-if="!refMaterialIOSplitted">
+								<PlanMaterialIO
+									:material-i-o-data="result.materialio"
+									:show-basked="refMaterialIOShowBasked" />
+							</template>
+							<template v-else>
+								<h3 class="font-bold pb-3 text-white/80">{{ $t("plan.sections.production") }}</h3>
+								<PlanMaterialIO
+									:material-i-o-data="result.productionMaterialIO"
+									:show-basked="refMaterialIOShowBasked" />
+								<h3 class="font-bold py-3 text-white/80">{{ $t("plan.sections.workforce") }}</h3>
+								<PlanMaterialIO
+									:material-i-o-data="result.workforceMaterialIO"
+									:show-basked="refMaterialIOShowBasked" />
+							</template>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!-- Save As Modal -->
-	<n-modal
-		v-model:show="refShowSaveAsModal"
-		class="w-120! max-w-[90vw]!"
-		preset="card"
-		title="Save As">
-		<PForm>
-			<PFormItem label="Name">
-				<PInput
-					v-model:value="refSaveAsName"
-					class="w-full"
-					placeholder="New Plan Name" />
-			</PFormItem>
-			<PFormItem v-if="saveAsEmpireOptions.length > 0" label="Empire">
-				<PSelect
-					v-model:value="refSaveAsEmpireUuid"
-					class="w-full"
-					:options="saveAsEmpireOptions" />
-			</PFormItem>
-		</PForm>
-		<template #action>
-			<div class="flex justify-end gap-3">
-				<PButton type="secondary" @click="refShowSaveAsModal = false">
-					Cancel
-				</PButton>
-				<PButton
-					:loading="refIsSavingAs"
-					:disabled="!refSaveAsName.trim()"
-					type="primary"
-					@click="saveAs">
-					Create
-				</PButton>
-			</div>
-		</template>
-	</n-modal>
 </template>

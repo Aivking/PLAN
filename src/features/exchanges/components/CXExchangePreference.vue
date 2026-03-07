@@ -37,7 +37,7 @@
 	} = await useCXManagement();
 
 	const selectedType: Ref<PreferenceType> = ref("BOTH");
-	const selectedExchange: Ref<ExchangeType> = ref("UNIVERSE_30D");
+	const selectedExchange: Ref<ExchangeType> = ref("PP30D_UNIVERSE");
 </script>
 
 <template>
@@ -45,7 +45,7 @@
 		<PSelect
 			v-model:value="selectedType"
 			:options="typeOptions"
-			class="w-25!" />
+			class="!w-[100px]" />
 
 		<PSelect
 			v-model:value="selectedExchange"
@@ -74,16 +74,16 @@
 			<tr
 				v-for="preference in localCXOptions"
 				:key="`${preference.type}#${preference.exchange}`">
-				<td class="w-18.75">
+				<td class="w-[75px]">
 					<PTag
 						:type="
 							preference.type === 'BUY'
 								? 'success'
 								: preference.type === 'SELL'
-									? 'error'
-									: 'primary'
+								? 'error'
+								: 'primary'
 						">
-						{{ preference.type }}
+						{{ $t("manage.exchanges.preference_component.types." + (preference.type || "BOTH")) }}
 					</PTag>
 				</td>
 				<td>{{ preference.exchange }}</td>
@@ -103,8 +103,8 @@
 			</tr>
 			<tr
 				v-if="localCXOptions.length === 0"
-				class="text-center child:text-white/50!">
-				<td colspan="3">No Exchange Preference Configured</td>
+				class="text-center child:!text-white/50">
+				<td colspan="3">{{ $t("manage.exchanges.preference_component.no_config") }}</td>
 			</tr>
 		</PTable>
 	</div>

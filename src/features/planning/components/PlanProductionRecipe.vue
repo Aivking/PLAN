@@ -110,7 +110,7 @@
 		:key="`COGM#RECIPE#${recipeData.recipe.building_ticker}#${localRecipeIndex}`"
 		v-model:show="refShowCOGM"
 		preset="card"
-		title="Cost Of Goods Manufactured"
+		:title="$t('plan.production.recipe.cogm_title')"
 		:class="cogmWithCX ? 'max-w-250' : 'max-w-150'">
 		<PlanCOGM
 			v-if="localRecipeData.cogm && cxUuid"
@@ -186,7 +186,7 @@
 								),
 						})
 					">
-					<XNDataTableColumn key="input" title="input">
+					<XNDataTableColumn key="input" :title="$t('plan.production.recipe.table.input')">
 						<template #render-cell="{ rowData }">
 							<div class="flex flex-row gap-1">
 								<span
@@ -205,13 +205,13 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="TimeMs"
-						title="Time"
+						:title="$t('plan.production.recipe.table.time')"
 						sorter="default">
 						<template #render-cell="{ rowData }">
 							{{ humanizeTimeMs(rowData.time_ms) }}
 						</template>
 					</XNDataTableColumn>
-					<XNDataTableColumn key="output" title="output">
+					<XNDataTableColumn key="output" :title="$t('plan.production.recipe.table.output')">
 						<template #render-cell="{ rowData }">
 							<div class="flex flex-row gap-1">
 								<MaterialTile
@@ -224,7 +224,7 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="dailyRevenue"
-						title="$ / Day"
+						:title="$t('plan.production.recipe.table.daily_revenue')"
 						sorter="default">
 						<template #render-cell="{ rowData }">
 							<span
@@ -239,7 +239,7 @@
 					</XNDataTableColumn>
 					<XNDataTableColumn
 						key="profitPerArea"
-						title="$ / Area"
+						:title="$t('plan.production.recipe.table.profit_area')"
 						sorter="default">
 						<template #render-cell="{ rowData }">
 							<span
@@ -252,7 +252,7 @@
 							</span>
 						</template>
 					</XNDataTableColumn>
-					<XNDataTableColumn key="roi" title="ROI" sorter="default">
+					<XNDataTableColumn key="roi" :title="$t('plan.production.recipe.table.roi')" sorter="default">
 						<template #render-cell="{ rowData }">
 							<span
 								:class="

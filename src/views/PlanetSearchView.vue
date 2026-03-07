@@ -1,9 +1,11 @@
 <script setup lang="ts">
 	import { ref, Ref } from "vue";
 	import { useHead } from "@unhead/vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	useHead({
-		title: "Planet Search | PRUNplanner",
+		title: `${t("search.title")} | PRUNplanner`,
 	});
 
 	// Components
@@ -17,9 +19,6 @@
 
 	const refResults: Ref<IPlanet[]> = ref([]);
 	const refSearchMaterials: Ref<string[]> = ref([]);
-	const refSearchMaterialRichness: Ref<Record<string, number>> = ref({});
-	const refSearchSystem: Ref<string | undefined> = ref(undefined);
-	const refSearchSystemDistance: Ref<number | undefined> = ref(undefined);
 </script>
 
 <template>
@@ -27,7 +26,7 @@
 		<div class="min-h-screen flex flex-col">
 			<div
 				class="px-6 py-3 border-b border-white/10 flex flex-row justify-between">
-				<h1 class="text-2xl font-bold my-auto">Planet Search</h1>
+				<h1 class="text-2xl font-bold my-auto">{{ $t("search.title") }}</h1>
 				<HelpDrawer file-name="planet_search" />
 			</div>
 
@@ -40,9 +39,6 @@
 								(value) => {
 									refResults = value;
 									refSearchMaterials = [];
-									refSearchMaterialRichness = {};
-									refSearchSystem = undefined;
-									refSearchSystemDistance = undefined;
 								}
 							" />
 					</div>
@@ -51,15 +47,6 @@
 							@update:results="(value) => (refResults = value)"
 							@update:materials="
 								(value) => (refSearchMaterials = value)
-							"
-							@update:richness="
-								(value) => (refSearchMaterialRichness = value)
-							"
-							@update:distance="
-								(searchSystem, searchDistance) => {
-									refSearchSystem = searchSystem;
-									refSearchSystemDistance = searchDistance;
-								}
 							" />
 					</div>
 				</div>
@@ -68,10 +55,7 @@
 				<div>
 					<PlanetSearchResults
 						:results="refResults"
-						:search-materials="refSearchMaterials"
-						:search-material-richness="refSearchMaterialRichness"
-						:search-system="refSearchSystem"
-						:search-system-distance="refSearchSystemDistance" />
+						:search-materials="refSearchMaterials" />
 				</div>
 			</div>
 		</div>

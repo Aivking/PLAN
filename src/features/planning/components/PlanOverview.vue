@@ -39,21 +39,21 @@
 <template>
 	<div class="flex flex-row flex-wrap gap-6 child:shrink-0">
 		<div>
-			<slot name="heading" text="Overview"></slot>
+			<slot name="heading" :text="$t('plan.overview.heading')"></slot>
 			<PTable striped>
 				<tbody
 					class="child:child:first:font-bold child:child:last:text-end">
 					<!-- empty row to make the background colors match the other tables-->
 					<tr />
 					<tr>
-						<td>Daily Cost</td>
+						<td>{{ $t("plan.overview.daily_cost") }}</td>
 						<td>
 							{{ formatNumber(overviewData.dailyCost) }}
 							<span class="font-light text-white/50"> $ </span>
 						</td>
 					</tr>
 					<tr>
-						<td>Degradation</td>
+						<td>{{ $t("plan.overview.degradation") }}</td>
 						<td>
 							{{
 								formatNumber(overviewData.dailyDegradationCost)
@@ -62,7 +62,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Plan Cost</td>
+						<td>{{ $t("plan.overview.plan_cost") }}</td>
 						<td>
 							{{
 								formatNumber(overviewData.totalConstructionCost)
@@ -71,36 +71,36 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Daily Profit</td>
+						<td>{{ $t("plan.overview.daily_profit") }}</td>
 						<td
 							:class="
 								overviewData.profit >= 0
-									? 'text-positive!'
-									: 'text-negative!'
+									? '!text-positive'
+									: '!text-negative'
 							">
 							{{ formatNumber(overviewData.profit) }}
 							<span class="font-light text-white/50"> $ </span>
 						</td>
 					</tr>
 					<tr>
-						<td>ROI</td>
+						<td>{{ $t("plan.overview.roi") }}</td>
 						<td
 							:class="
 								overviewData.roi > 0
-									? 'text-positive!'
-									: 'text-negative!'
+									? '!text-positive'
+									: '!text-negative'
 							">
 							{{ formatNumber(overviewData.roi) }}
 							<span class="font-light text-white/50"> d </span>
 						</td>
 					</tr>
 					<tr>
-						<td>Profit / Area</td>
+						<td>{{ $t("plan.overview.profit_area") }}</td>
 						<td
 							:class="
 								profitPerArea >= 0
-									? 'text-positive!'
-									: 'text-negative!'
+									? '!text-positive'
+									: '!text-negative'
 							">
 							{{ formatNumber(profitPerArea) }}
 							<span class="font-light text-white/50"> $ </span>
@@ -110,41 +110,41 @@
 			</PTable>
 		</div>
 		<div>
-			<slot name="heading" text="Storage"></slot>
+			<slot name="heading" :text="$t('plan.storage.heading')"></slot>
 			<PTable striped>
 				<thead class="child:text-center">
 					<tr>
 						<th />
-						<th class="text-center!">t</th>
-						<th class="text-center!">m³</th>
+						<th class="!text-center">m³</th>
+						<th class="!text-center">t</th>
 					</tr>
 				</thead>
 				<tbody class="child:child:text-center">
 					<tr>
-						<td class="text-left! font-bold">Import</td>
-						<td>
-							{{ formatNumber(visitationData.dailyWeightImport) }}
-						</td>
+						<td class="!text-left font-bold">{{ $t("plan.storage.import") }}</td>
 						<td>
 							{{ formatNumber(visitationData.dailyVolumeImport) }}
 						</td>
+						<td>
+							{{ formatNumber(visitationData.dailyWeightImport) }}
+						</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">Export</td>
-						<td>
-							{{ formatNumber(visitationData.dailyWeightExport) }}
-						</td>
+						<td class="!text-left font-bold">{{ $t("plan.storage.export") }}</td>
 						<td>
 							{{ formatNumber(visitationData.dailyVolumeExport) }}
 						</td>
+						<td>
+							{{ formatNumber(visitationData.dailyWeightExport) }}
+						</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">&#8721;</td>
-						<td>{{ formatNumber(visitationData.dailyWeight) }}</td>
+						<td class="!text-left font-bold">&#8721;</td>
 						<td>{{ formatNumber(visitationData.dailyVolume) }}</td>
+						<td>{{ formatNumber(visitationData.dailyWeight) }}</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">Filled</td>
+						<td class="!text-left font-bold">{{ $t("plan.storage.filled") }}</td>
 						<td colspan="2" class="font-bold">
 							{{ formatNumber(visitationData.storageFilled) }}
 							<span class="font-light text-white/50"> d </span>

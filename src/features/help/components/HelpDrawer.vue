@@ -1,5 +1,7 @@
 <script setup lang="ts">
 	import { PropType, ref, Ref, watch } from "vue";
+	import { useI18n } from "vue-i18n";
+	const { t, locale } = useI18n();
 
 	import { PButton } from "@/ui";
 	import { NDrawer, NDrawerContent } from "naive-ui";
@@ -13,7 +15,13 @@
 			import: "default",
 		}) as Record<string, () => Promise<string>>;
 
-		const path = `/src/assets/help/${props.fileName}.md`;
+		const localeSuffix = locale.value === "zh" ? ".zh" : "";
+		let path = `/src/assets/help/${props.fileName}${localeSuffix}.md`;
+
+		if (!markdownFiles[path]) {
+			path = `/src/assets/help/${props.fileName}.md`;
+		}
+
 		const loader = markdownFiles[path];
 		if (!loader)
 			throw new Error(`Markdown file "${props.fileName}" not found.`);
@@ -30,12 +38,12 @@
 		drawerTitle: {
 			type: String,
 			required: false,
-			default: "Help",
+			default: undefined,
 		},
 		buttonTitle: {
 			type: String,
 			required: false,
-			default: "Help",
+			default: undefined,
 		},
 		buttonSize: {
 			type: String as PropType<"sm" | "md">,
@@ -54,7 +62,7 @@
 		},
 	});
 
-	watch(showDrawer, async () => {
+	watch([showDrawer, locale], async () => {
 		if (showDrawer.value) {
 			markdownContent.value = await loadMarkdown();
 		}
@@ -67,18 +75,18 @@
 		:class="buttonClass"
 		type="secondary"
 		@click="() => (showDrawer = !showDrawer)">
-		{{ buttonTitle }}
+		{{ buttonTitle ? buttonTitle : $t("help.title") }}
 	</PButton>
 	<n-drawer v-model:show="showDrawer" :width="drawerWidth" placement="right">
 		<n-drawer-content closable>
 			<template #header>
-				{{ drawerTitle }}
+				{{ drawerTitle ? drawerTitle : $t("help.title") }}
 			</template>
 			<div v-if="markdownContent != ''" id="markdown">
 				<VueShowdown :markdown="markdownContent" />
 			</div>
 			<div v-else class="text-center text-red-500">
-				Unable to load '{{ fileName }}'
+				{{ $t("help.unable_to_load", { file: fileName }) }}
 			</div>
 		</n-drawer-content>
 	</n-drawer>

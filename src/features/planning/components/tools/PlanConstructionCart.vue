@@ -13,8 +13,6 @@
 	import { useMaterialData } from "@/database/services/useMaterialData";
 	import { usePrice } from "@/features/cx/usePrice";
 	import { useFIOStorage } from "@/features/fio/useFIOStorage";
-	import { useQuery } from "@/lib/query_cache/useQuery";
-	import { useUserStore } from "@/stores/userStore";
 
 	// Components
 	import MaterialTile from "@/features/material_tile/components/MaterialTile.vue";
@@ -67,25 +65,6 @@
 	const { hasStorage, storageOptions, findStorageValueFromOptions } =
 		useFIOStorage();
 
-	// Get already constructed buildings
-	let constructedMap: Map<string, number> | null = null;
-	if (useUserStore().hasFIO) {
-		constructedMap = new Map<string, number>();
-		const fioSites = await useQuery("GetFIOStorage").execute();
-		if (
-			fioSites.sites_data[props.planetNaturalId] &&
-			fioSites.sites_data[props.planetNaturalId].Buildings
-		) {
-			const constructedArray =
-				fioSites.sites_data[props.planetNaturalId].Buildings;
-			for (const building of constructedArray) {
-				const count = constructedMap.get(building.BuildingTicker) ?? 0;
-				constructedMap.set(building.BuildingTicker, count + 1);
-			}
-		}
-	}
-
-	const plannedBuildings: Ref<Record<string, number>> = ref({});
 	const localBuildingAmount: Ref<Record<string, number>> = ref({});
 	const localBuildingMaterials: Ref<Record<string, Record<string, number>>> =
 		ref({});
@@ -124,23 +103,19 @@
 
 	function generateMatrix(): void {
 		buildingTicker.value.forEach((bticker) => {
-			if (localBuildingAmount.value[bticker] === undefined) {
-				let planned =
-					props.productionBuildingData.find(
-						(pf) => pf.name === bticker
-					)?.amount ??
-					props.infrastructureData[bticker as INFRASTRUCTURE_TYPE];
-				if (bticker === "CM") planned = 1;
-				let need = planned;
-				if (planned !== undefined) {
-					plannedBuildings.value[bticker] = planned;
-					if (constructedMap !== null)
-						need = Math.max(
-							planned - (constructedMap.get(bticker) ?? 0),
-							0
-						);
-				}
-				localBuildingAmount.value[bticker] = need;
+			localBuildingAmount.value[bticker] =
+				localBuildingAmount.value[bticker] ??
+				props.productionBuildingData.find((pf) => pf.name === bticker)
+					?.amount ??
+				props.infrastructureData[bticker as INFRASTRUCTURE_TYPE] ??
+				undefined;
+
+			// handle core module separately
+			if (
+				bticker === "CM" &&
+				localBuildingAmount.value["CM"] === undefined
+			) {
+				localBuildingAmount.value["CM"] = 1;
 			}
 
 			const thisMats = props.constructionData.find(
@@ -149,15 +124,11 @@
 
 			if (thisMats) {
 				localBuildingMaterials.value[bticker] =
-					thisMats.materials.reduce(
-						(sum, current) => {
-							sum[current.ticker] =
-								current.input *
-								localBuildingAmount.value[bticker];
-							return sum;
-						},
-						{} as Record<string, number>
-					);
+					thisMats.materials.reduce((sum, current) => {
+						sum[current.ticker] =
+							current.input * localBuildingAmount.value[bticker];
+						return sum;
+					}, {} as Record<string, number>);
 			}
 		});
 	}
@@ -218,7 +189,7 @@
 		hasStorage.value
 			? storageOptions.value.filter(
 					(e) => e.value === `PLANET#${props.planetNaturalId}`
-				)
+			  )
 				? `PLANET#${props.planetNaturalId}`
 				: undefined
 			: undefined
@@ -231,8 +202,8 @@
 
 		for (const m of data) {
 			const materialInfo = materialsMap.value[m.ticker];
-			weight += materialInfo.weight * m.value;
-			volume += materialInfo.volume * m.value;
+			weight += materialInfo.Weight * m.value;
+			volume += materialInfo.Volume * m.value;
 
 			const unitPrice = await getPrice(m.ticker, "BUY");
 			price += unitPrice * m.value;
@@ -259,8 +230,8 @@
 
 <template>
 	<div class="pb-3 flex flex-row justify-between child:my-auto">
-		<h2 class="text-white/80 font-bold text-lg">Construction Cart</h2>
-		<div class="flex flex-row gap-x-3 child:my-auto!">
+		<h2 class="text-white/80 font-bold text-lg">{{ $t("plan.tools.construction_cart_details.title") }}</h2>
+		<div class="flex flex-row gap-x-3 child:!my-auto">
 			<XITTransferActionButton
 				:elements="xitTransferElements"
 				transfer-name="Construct"
@@ -271,14 +242,12 @@
 		<PTable striped>
 			<thead>
 				<tr>
-					<th>Building</th>
-					<th v-if="constructedMap">Built</th>
-					<th>Amount</th>
-					<th>Planned</th>
+					<th>{{ $t("plan.tools.construction_cart_details.building_label") }}</th>
+					<th>{{ $t("plan.tools.construction_cart_details.amount_label") }}</th>
 					<th
 						v-for="mat in uniqueMaterials"
 						:key="`CONSTRUCTIONCART#COLUMN#${mat}`"
-						class="text-center!">
+						class="!text-center">
 						<MaterialTile :key="mat" :ticker="mat" />
 					</th>
 				</tr>
@@ -288,26 +257,11 @@
 					v-for="building in buildingTicker"
 					:key="`CONSTRUCTIONCART#ROW#${building}`">
 					<th>{{ building }}</th>
-					<th
-						v-if="constructedMap"
-						:class="
-							(constructedMap.get(building) ?? 0) >
-							plannedBuildings[building]
-								? 'text-red-500'
-								: 'text-neutral-500'
-						">
-						{{ constructedMap.get(building) ?? 0 }}
-					</th>
-					<th class="border-r!">
+					<th class="!border-r">
 						<PInputNumber
 							v-model:value="localBuildingAmount[building]"
 							show-buttons
-							size="sm"
-							class="min-w-20"
 							:min="0" />
-					</th>
-					<th>
-						{{ plannedBuildings[building] ?? 0 }}
 					</th>
 					<td
 						v-for="mat in uniqueMaterials"
@@ -327,8 +281,8 @@
 						</span>
 					</td>
 				</tr>
-				<tr class="child:border-t-2! child:border-b-2!">
-					<td :colspan="constructedMap ? 4 : 3">Materials Sum</td>
+				<tr class="child:!border-t-2 child:!border-b-2">
+					<td colspan="2">{{ $t("plan.tools.construction_cart_details.materials_sum") }}</td>
 					<td
 						v-for="mat in uniqueMaterials"
 						:key="`CONSTRUCTIONCART#COLUMN#TOTALS#${mat}`"
@@ -337,15 +291,12 @@
 					</td>
 				</tr>
 				<tr>
-					<td
-						:colspan="
-							uniqueMaterials.length + (constructedMap ? 4 : 3)
-						">
+					<td :colspan="uniqueMaterials.length + 2">
 						<div
 							class="flex flex-row justify-between child:my-auto">
 							<div
 								class="grid grid-cols-2 gap-x-3 gap-y-1 child:not-even:font-bold">
-								<div>Total Cost</div>
+								<div>{{ $t("plan.tools.construction_cart_details.total_cost") }}</div>
 								<div>
 									{{ formatNumber(totalInformation.price) }}
 									<span class="pl-1 font-light text-white/50">
@@ -355,18 +306,18 @@
 							</div>
 							<div
 								class="grid grid-cols-2 gap-x-3 gap-y-1 child:text-end child:not-even:font-bold">
-								<div>Total Weight</div>
-								<div>
-									{{ formatNumber(totalInformation.weight) }}
-									<span class="pl-1 font-light text-white/50">
-										t
-									</span>
-								</div>
-								<div>Total Volume</div>
+								<div>{{ $t("plan.tools.construction_cart_details.total_volume") }}</div>
 								<div>
 									{{ formatNumber(totalInformation.volume) }}
 									<span class="pl-1 font-light text-white/50">
 										m³
+									</span>
+								</div>
+								<div>{{ $t("plan.tools.construction_cart_details.total_weight") }}</div>
+								<div>
+									{{ formatNumber(totalInformation.weight) }}
+									<span class="pl-1 font-light text-white/50">
+										t
 									</span>
 								</div>
 							</div>
@@ -379,16 +330,17 @@
 		<div>
 			<div class="py-3 flex flex-row justify-between">
 				<h2 class="text-white/80 font-bold text-lg my-auto">
-					Material
+					{{ $t("plan.tools.construction_cart_details.material_heading") }}
 				</h2>
 				<div class="flex flex-row flex-wrap gap-3">
 					<template v-if="hasStorage">
-						<div class="my-auto font-bold">Storage</div>
+						<div class="my-auto font-bold">{{ $t("plan.tools.construction_cart_details.storage_label") }}</div>
 						<PSelect
 							v-model:value="refSelectedStorage"
 							searchable
 							:options="storageOptions"
-							class="w-62.5!" />
+							:placeholder="$t('plan.tools.construction_cart_details.storage_label')"
+							class="!w-[250px]" />
 					</template>
 					<XITTransferActionButton
 						:elements="xitTransferElementsOverview"
@@ -400,11 +352,11 @@
 			<PTable striped>
 				<thead>
 					<tr>
-						<th>Material</th>
-						<th>Amount</th>
-						<th v-if="hasStorage">Stock</th>
-						<th>Stock Override</th>
-						<th>Need</th>
+						<th>{{ $t("plan.tools.construction_cart_details.table.material") }}</th>
+						<th>{{ $t("plan.tools.construction_cart_details.table.amount") }}</th>
+						<th v-if="hasStorage">{{ $t("plan.tools.construction_cart_details.table.stock") }}</th>
+						<th>{{ $t("plan.tools.construction_cart_details.table.stock_override") }}</th>
+						<th>{{ $t("plan.tools.construction_cart_details.table.need") }}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -430,7 +382,7 @@
 								placeholder=""
 								show-buttons
 								:min="0"
-								class="max-w-50" />
+								class="max-w-[200px]" />
 						</td>
 						<td>
 							{{ formatAmount(material.total) }}
@@ -443,7 +395,7 @@
 								class="flex flex-row justify-between child:my-auto">
 								<div
 									class="grid grid-cols-2 gap-x-3 gap-y-1 child:not-even:font-bold">
-									<div>Total Cost</div>
+									<div>{{ $t("plan.tools.construction_cart_details.total_cost") }}</div>
 									<div>
 										{{
 											formatNumber(
@@ -458,19 +410,7 @@
 								</div>
 								<div
 									class="grid grid-cols-2 gap-x-3 gap-y-1 child:text-end child:not-even:font-bold">
-									<div>Total Weight</div>
-									<div>
-										{{
-											formatNumber(
-												overviewTotalInformation.weight
-											)
-										}}
-										<span
-											class="pl-1 font-light text-white/50">
-											t
-										</span>
-									</div>
-									<div>Total Volume</div>
+									<div>{{ $t("plan.tools.construction_cart_details.total_volume") }}</div>
 									<div>
 										{{
 											formatNumber(
@@ -480,6 +420,18 @@
 										<span
 											class="pl-1 font-light text-white/50">
 											m³
+										</span>
+									</div>
+									<div>{{ $t("plan.tools.construction_cart_details.total_weight") }}</div>
+									<div>
+										{{
+											formatNumber(
+												overviewTotalInformation.weight
+											)
+										}}
+										<span
+											class="pl-1 font-light text-white/50">
+											t
 										</span>
 									</div>
 								</div>

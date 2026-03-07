@@ -1,5 +1,7 @@
 <script setup lang="ts">
-	import { computed, ComputedRef, ref, Ref, watch } from "vue";
+	import { computed, ComputedRef, ref, Ref } from "vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	// API
 	import { useQuery } from "@/lib/query_cache/useQuery";
@@ -38,17 +40,10 @@
 	const emit = defineEmits<{
 		(e: "update:results", value: IPlanet[]): void;
 		(e: "update:materials", value: string[]): void;
-		(
-			e: "update:distance",
-			system: string | undefined,
-			distance: number | undefined
-		): void;
-		(e: "update:richness", value: Record<string, number>): void;
 	}>();
 
 	// input refs
 	const inputMaterials: Ref<string[]> = ref([]);
-	const inputMaterialRichness: Ref<Record<string, number>> = ref({});
 	const inputCOGC: Ref<string[]> = ref([]);
 	const inputInfrastructure: Ref<string[]> = ref([]);
 	const inputSystem: Ref<string | undefined> = ref(undefined);
@@ -64,46 +59,55 @@
 
 	const searchPayload: ComputedRef<IPlanetSearchAdvanced> = computed(() => {
 		return {
-			materials: inputMaterials.value,
-			cogc_programs: inputCOGC.value as PLANET_COGCPROGRAM_TYPE[],
-			environment_rocky: inputIncludeRocky.value,
-			environment_gaseous: inputIncludeGaseous.value,
-			environment_low_gravity: inputIncludeLowGravity.value,
-			environment_high_gravity: inputIncludeHighGravity.value,
-			environment_low_pressure: inputIncludeLowPressure.value,
-			environment_high_pressure: inputIncludeHighPressure.value,
-			environment_low_temperature: inputIncludeLowTemperature.value,
-			environment_high_temperature: inputIncludeHighTemperature.value,
-			must_be_fertile:
+			Materials: inputMaterials.value,
+			COGC: inputCOGC.value as PLANET_COGCPROGRAM_TYPE[],
+			IncludeRocky: inputIncludeRocky.value,
+			IncludeGaseous: inputIncludeGaseous.value,
+			IncludeLowGravity: inputIncludeLowGravity.value,
+			IncludeHighGravity: inputIncludeHighGravity.value,
+			IncludeLowPressure: inputIncludeLowPressure.value,
+			IncludeHighPressure: inputIncludeHighPressure.value,
+			IncludeLowTemperature: inputIncludeLowTemperature.value,
+			IncludeHighTemperature: inputIncludeHighTemperature.value,
+			MustBeFertile:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("Fertile")
 					? true
 					: false,
-			must_have_localmarket:
+			MustHaveLocalMarket:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("LM")
 					? true
 					: false,
-			must_have_chamberofcommerce:
+			MustHaveChamberOfCommerce:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("COGC")
 					? true
 					: false,
-			must_have_warehouse:
+			MustHaveWarehouse:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("WAR")
 					? true
 					: false,
-			must_have_administrationcenter:
+			MustHaveAdministrationCenter:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("ADM")
 					? true
 					: false,
-			must_have_shipyard:
+			MustHaveShipyard:
 				inputInfrastructure.value &&
 				inputInfrastructure.value.includes("SHY")
 					? true
 					: false,
+			MaxDistanceCheck:
+				inputSystem.value !== undefined &&
+				inputSystem.value !== null &&
+				inputSystemDistance.value !== undefined
+					? {
+							SystemId: inputSystem.value,
+							MaxDistance: inputSystemDistance.value,
+					  }
+					: undefined,
 		};
 	});
 
@@ -129,30 +133,6 @@
 		inputIncludeHighTemperature.value = true;
 	}
 
-	// Watch materials to manage richness thresholds
-	watch(
-		inputMaterials,
-		(newMaterials) => {
-			const newRichness: Record<string, number> = {};
-			for (const material of newMaterials) {
-				// Keep existing value or default to 0 (no filter)
-				newRichness[material] =
-					inputMaterialRichness.value[material] ?? 0;
-			}
-			inputMaterialRichness.value = newRichness;
-		},
-		{ immediate: true }
-	);
-
-	// Watch richness changes to emit updates in real-time
-	watch(
-		inputMaterialRichness,
-		(newRichness) => {
-			emit("update:richness", { ...newRichness });
-		},
-		{ deep: true }
-	);
-
 	async function doSearch() {
 		refIsLoading.value = true;
 
@@ -162,24 +142,11 @@
 			const data: IPlanet[] = await useQuery("PostPlanetSearch", {
 				searchData: searchPayload.value,
 			}).execute();
-
-			// also send distance
-			if (inputSystem.value && inputSystemDistance.value) {
-				emit(
-					"update:distance",
-					inputSystem.value,
-					inputSystemDistance.value
-				);
-			}
-
-			emit("update:materials", inputMaterials.value);
-			emit("update:richness", { ...inputMaterialRichness.value });
 			emit("update:results", data);
+			emit("update:materials", inputMaterials.value);
 		} catch {
 			emit("update:results", []);
 			emit("update:materials", []);
-			emit("update:richness", {});
-			emit("update:distance", undefined, undefined);
 		}
 
 		refIsLoading.value = false;
@@ -188,22 +155,23 @@
 
 <template>
 	<div class="flex flex-row justify-between pb-3">
-		<h2 class="text-lg font-bold my-auto">Advanced Search</h2>
+		<h2 class="text-lg font-bold my-auto">{{ $t("search.advanced.heading") }}</h2>
 		<PButton :loading="refIsLoading" @click="doSearch">
 			<template #icon><SearchSharp /></template>
-			Search
+			{{ $t("search.advanced.search_button") }}
 		</PButton>
 	</div>
 
 	<div class="grid grid-cols-1 xl:grid-cols-[40%_auto] gap-x-6">
 		<div>
 			<PForm>
-				<PFormItem label="Materials">
+				<PFormItem :label="$t('search.advanced.materials_label')">
 					<PSelectMultiple
 						v-model:value="inputMaterials"
 						:options="PLANETSEARCHOPTIONMATERIALS"
 						clearable
 						searchable
+						:placeholder="$t('manage.exchanges.preference_component.material_placeholder')"
 						class="w-full"
 						@update:value="
 							(value) => {
@@ -217,48 +185,31 @@
 							}
 						" />
 				</PFormItem>
-				<PFormItem
-					v-if="inputMaterials.length > 0"
-					label="Min. Richness %">
-					<div class="flex flex-col gap-1 w-full">
-						<div
-							v-for="material in inputMaterials"
-							:key="material"
-							class="flex items-center gap-2">
-							<span class="w-12 text-sm font-mono">{{
-								material
-							}}</span>
-							<PInputNumber
-								v-model:value="inputMaterialRichness[material]"
-								:min="0"
-								:max="100"
-								class="flex-1" />
-							<span class="text-sm text-white/50">%</span>
-						</div>
-					</div>
-				</PFormItem>
-				<PFormItem label="COGC">
+				<PFormItem :label="$t('search.advanced.cogc_label')">
 					<PSelectMultiple
 						v-model:value="inputCOGC"
 						:options="PLANETSEARCHCOGC"
 						clearable
 						searchable
+						:placeholder="$t('plan.status_bar.none')"
 						class="w-full" />
 				</PFormItem>
-				<PFormItem label="Planet Features">
+				<PFormItem :label="$t('search.advanced.features_label')">
 					<PSelectMultiple
 						v-model:value="inputInfrastructure"
 						:options="PLANETSEARCHINFRASTRUCTURE"
 						searchable
 						clearable
+						:placeholder="$t('plan.status_bar.none')"
 						class="w-full" />
 				</PFormItem>
-				<PFormItem label="System Distance">
+				<PFormItem :label="$t('search.advanced.distance_label')">
 					<PSelect
 						v-model:value="inputSystem"
 						:options="PLANETSEARCHSYSTEMS"
 						searchable
 						clearable
+						:placeholder="$t('plan.status_bar.none')"
 						class="pr-3 w-full" />
 					<PInputNumber
 						v-model:value="inputSystemDistance"
@@ -269,16 +220,16 @@
 			</PForm>
 		</div>
 		<div>
-			<h3 class="pb-3">Planet Environment</h3>
+			<h3 class="pb-3">{{ $t("search.advanced.environment_heading") }}</h3>
 
 			<div class="flex flex-row gap-x-3">
 				<PTable class="w-full">
 					<tbody>
 						<tr class="child:w-[25%]">
-							<td>Surface</td>
-							<td>Gravity</td>
-							<td>Temperature</td>
-							<td>Pressure</td>
+							<td>{{ $t("search.advanced.env_table.surface") }}</td>
+							<td>{{ $t("search.advanced.env_table.gravity") }}</td>
+							<td>{{ $t("search.advanced.env_table.temperature") }}</td>
+							<td>{{ $t("search.advanced.env_table.pressure") }}</td>
 						</tr>
 						<tr>
 							<td>
@@ -286,7 +237,7 @@
 									class="flex flex-row gap-x-3 child:my-auto">
 									<PCheckbox
 										v-model:checked="inputIncludeRocky" />
-									Rocky
+									{{ $t("search.advanced.env_table.rocky") }}
 								</div>
 							</td>
 							<td>
@@ -296,7 +247,7 @@
 										v-model:checked="
 											inputIncludeLowGravity
 										" />
-									Low
+									{{ $t("search.advanced.env_table.low") }}
 								</div>
 							</td>
 							<td>
@@ -306,7 +257,7 @@
 										v-model:checked="
 											inputIncludeLowTemperature
 										" />
-									Low
+									{{ $t("search.advanced.env_table.low") }}
 								</div>
 							</td>
 							<td>
@@ -316,7 +267,7 @@
 										v-model:checked="
 											inputIncludeLowPressure
 										" />
-									Low
+									{{ $t("search.advanced.env_table.low") }}
 								</div>
 							</td>
 						</tr>
@@ -326,7 +277,7 @@
 									class="flex flex-row gap-x-3 child:my-auto">
 									<PCheckbox
 										v-model:checked="inputIncludeGaseous" />
-									Gaseous
+									{{ $t("search.advanced.env_table.gaseous") }}
 								</div>
 							</td>
 							<td>
@@ -336,7 +287,7 @@
 										v-model:checked="
 											inputIncludeHighGravity
 										" />
-									High
+									{{ $t("search.advanced.env_table.high") }}
 								</div>
 							</td>
 							<td>
@@ -346,7 +297,7 @@
 										v-model:checked="
 											inputIncludeHighTemperature
 										" />
-									High
+									{{ $t("search.advanced.env_table.high") }}
 								</div>
 							</td>
 							<td>
@@ -356,7 +307,7 @@
 										v-model:checked="
 											inputIncludeHighPressure
 										" />
-									High
+									{{ $t("search.advanced.env_table.high") }}
 								</div>
 							</td>
 						</tr>
@@ -365,10 +316,10 @@
 
 				<div class="flex flex-col gap-y-3">
 					<PButton secondary @click="environmentDefault">
-						Default
+						{{ $t("search.advanced.env_buttons.default") }}
 					</PButton>
 					<PButton secondary @click="environmentAll">
-						Select All
+						{{ $t("search.advanced.env_buttons.select_all") }}
 					</PButton>
 				</div>
 			</div>

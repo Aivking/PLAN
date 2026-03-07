@@ -1,10 +1,12 @@
 <script setup lang="ts">
 	import { defineAsyncComponent, ref, Ref } from "vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	// Unhead
 	import { useHead } from "@unhead/vue";
 	useHead({
-		title: "Management | PRUNplanner",
+		title: `${t("manage.title")} | PRUNplanner`,
 	});
 
 	// Composables
@@ -15,7 +17,9 @@
 	import HelpDrawer from "@/features/help/components/HelpDrawer.vue";
 	const AsyncManagePlanEmpireAssignments = defineAsyncComponent(
 		() =>
-			import("@/features/manage/components/ManagePlanEmpireAssignments.vue")
+			import(
+				"@/features/manage/components/ManagePlanEmpireAssignments.vue"
+			)
 	);
 	const AsyncManageCX = defineAsyncComponent(
 		() => import("@/features/manage/components/ManageCX.vue")
@@ -58,7 +62,7 @@
 		@complete="planOnComplete">
 		<div
 			class="px-6 py-3 border-b border-white/10 flex flex-row justify-between gap-x-3">
-			<h1 class="text-2xl font-bold my-auto">Management</h1>
+			<h1 class="text-2xl font-bold my-auto">{{ $t("manage.title") }}</h1>
 			<HelpDrawer file-name="management" />
 		</div>
 		<div

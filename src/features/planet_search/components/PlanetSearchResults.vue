@@ -1,9 +1,8 @@
 <script setup lang="ts">
-	import { computed, ComputedRef, PropType } from "vue";
+	import { computed, ComputedRef, PropType, ref, Ref, watch } from "vue";
 
 	// Composables
-	import { usePlanetSearchResults } from "@/features/planet_search/usePlanetSearchResults";
-	import { usePathfinder } from "@/features/pathfinding/usePathfinder";
+	import { usePlanetSearchResults } from "../usePlanetSearchResults";
 
 	// Util
 	import { formatNumber } from "@/util/numbers";
@@ -31,60 +30,43 @@
 			type: Array as PropType<string[]>,
 			required: true,
 		},
-		searchMaterialRichness: {
-			type: Object as PropType<Record<string, number>>,
-			required: false,
-			default: () => ({}),
-		},
-		searchSystem: {
-			type: String,
-			required: false,
-			default: undefined,
-		},
-		searchSystemDistance: {
-			type: Number,
-			required: false,
-			default: undefined,
-		},
 	});
 
-	const { getSystemName } = usePathfinder();
-
-	function distanceSorter(key: string) {
-		return (
-			row1: Record<string, unknown>,
-			row2: Record<string, unknown>
-		): number => {
-			const d1 = row1[key] === -1 ? Infinity : (row1[key] as number);
-			const d2 = row2[key] === -1 ? Infinity : (row2[key] as number);
-			return d1 - d2;
-		};
-	}
-
-	// Table Data - computed to always reflect current props
-	const tableSearchMaterials: ComputedRef<string[]> = computed(
+	// Local State
+	const localSearchMaterials: ComputedRef<string[]> = computed(
 		() => props.searchMaterials
 	);
+	const localResults: ComputedRef<IPlanet[]> = computed(() => props.results);
 
-	const tableResults: ComputedRef<IPlanetSearchResult[]> = computed(() => {
-		if (props.results.length === 0) return [];
-		return usePlanetSearchResults(
-			props.results,
-			props.searchMaterials,
-			props.searchMaterialRichness,
-			props.searchSystem,
-			props.searchSystemDistance
+	// Table Data
+	const tableResults: Ref<IPlanetSearchResult[]> = ref([]);
+	const tableSearchMaterials: Ref<string[]> = ref([]);
+	const tableCheckDistances: Ref<string | null> = ref(null);
+
+	function prepareTableData(): void {
+		tableSearchMaterials.value = [...props.searchMaterials];
+
+		tableResults.value = usePlanetSearchResults(
+			localResults.value,
+			localSearchMaterials.value
 		).results.value;
-	});
+		tableCheckDistances.value = usePlanetSearchResults(
+			localResults.value,
+			localSearchMaterials.value
+		).hasCheckDistance.value;
+	}
 
-	const tableCheckDistances: ComputedRef<string | null> = computed(() =>
-		props.searchSystem ? getSystemName(props.searchSystem) : null
+	watch(
+		() => localResults.value,
+		(newResults: IPlanet[]) => {
+			if (newResults.length > 0) prepareTableData();
+		}
 	);
 </script>
 
 <template>
 	<XNDataTable :data="tableResults" striped :pagination="{ pageSize: 50 }">
-		<XNDataTableColumn key="Plan" title="Plan" width="50">
+		<XNDataTableColumn key="Plan" :title="$t('search.results.plan')" width="50">
 			<template #render-cell="{ rowData }">
 				<router-link :to="`/plan/${rowData.planetId}`">
 					<PButton size="sm">
@@ -95,19 +77,19 @@
 				</router-link>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="planetName" title="Planet" sorter="default">
+		<XNDataTableColumn key="planetName" :title="$t('search.results.planet')" sorter="default">
 			<template #render-cell="{ rowData }">
 				<span
 					v-if="rowData.planetName === rowData.planetId"
-					class="font-bold!">
+					class="!font-bold">
 					{{ rowData.planetId }}
 				</span>
-				<span v-else class="font-bold!">
+				<span v-else class="!font-bold">
 					{{ rowData.planetName }} ({{ rowData.planetId }})
 				</span>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="fertility" title="Fertility" sorter="default">
+		<XNDataTableColumn key="fertility" :title="$t('search.results.fertility')" sorter="default">
 			<template #render-cell="{ rowData }">
 				<span v-if="rowData.fertility === 0">&mdash;</span>
 				<span v-else>
@@ -137,7 +119,7 @@
 				</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="additionalResources" title="Resources">
+		<XNDataTableColumn key="additionalResources" :title="$t('search.results.resources')">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1 child:text-nowrap">
 					<MaterialTile
@@ -158,7 +140,7 @@
 		</XNDataTableColumn>
 		<XNDataTableColumn
 			key="cogcProgram"
-			title="COGC Program"
+			title="COGC"
 			sorter="default">
 			<template #render-cell="{ rowData }">
 				{{
@@ -168,7 +150,7 @@
 				}}
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="environment" title="Environment">
+		<XNDataTableColumn key="environment" :title="$t('search.results.environment')">
 			<template #render-cell="{ rowData }">
 				<div class="flex flex-row flex-wrap gap-1">
 					<PTooltip v-if="rowData.environmentSurface.length !== 0">
@@ -179,7 +161,7 @@
 									:ticker="rowData.environmentSurface[0]" />
 							</div>
 						</template>
-						Surface
+						{{ $t("search.results.env_tips.surface") }}
 					</PTooltip>
 					<PTooltip v-if="rowData.environmentGravity.length !== 0">
 						<template #trigger>
@@ -189,7 +171,7 @@
 									:ticker="rowData.environmentGravity[0]" />
 							</div>
 						</template>
-						Gravity
+						{{ $t("search.results.env_tips.gravity") }}
 					</PTooltip>
 					<PTooltip
 						v-if="rowData.environmentTemperature.length !== 0">
@@ -202,7 +184,7 @@
 									" />
 							</div>
 						</template>
-						Temperature
+						{{ $t("search.results.env_tips.temperature") }}
 					</PTooltip>
 					<PTooltip v-if="rowData.environmentPressure.length !== 0">
 						<template #trigger>
@@ -212,12 +194,12 @@
 									:ticker="rowData.environmentPressure[0]" />
 							</div>
 						</template>
-						Pressure
+						{{ $t("search.results.env_tips.pressure") }}
 					</PTooltip>
 				</div>
 			</template>
 		</XNDataTableColumn>
-		<XNDataTableColumn key="infrastructures" title="Infrastructure">
+		<XNDataTableColumn key="infrastructures" :title="$t('search.results.infrastructure')">
 			<template #render-cell="{ rowData }">
 				{{ rowData.infrastructures.join(", ") }}
 			</template>
@@ -227,53 +209,9 @@
 			key="checkDistance"
 			:title="`Distance ${tableCheckDistances}`"
 			sorter="default" />
-		<XNDataTableColumn
-			key="distanceAI1"
-			title="AI1"
-			:sorter="distanceSorter('distanceAI1')">
-			<template #render-cell="{ rowData }">
-				<PTooltip v-if="rowData.distanceAI1 == -1">
-					<template #trigger> ∞ </template>
-					Colony Ship Required
-				</PTooltip>
-				<span v-else>{{ rowData.distanceAI1 }}</span>
-			</template>
-		</XNDataTableColumn>
-		<XNDataTableColumn
-			key="distanceCI1"
-			title="CI1"
-			:sorter="distanceSorter('distanceCI1')">
-			<template #render-cell="{ rowData }">
-				<PTooltip v-if="rowData.distanceCI1 == -1">
-					<template #trigger> ∞ </template>
-					Colony Ship Required
-				</PTooltip>
-				<span v-else>{{ rowData.distanceCI1 }}</span>
-			</template>
-		</XNDataTableColumn>
-		<XNDataTableColumn
-			key="distanceIC1"
-			title="IC1"
-			:sorter="distanceSorter('distanceIC1')">
-			<template #render-cell="{ rowData }">
-				<PTooltip v-if="rowData.distanceIC1 == -1">
-					<template #trigger> ∞ </template>
-					Colony Ship Required
-				</PTooltip>
-				<span v-else>{{ rowData.distanceIC1 }}</span>
-			</template>
-		</XNDataTableColumn>
-		<XNDataTableColumn
-			key="distanceNC1"
-			title="NC1"
-			:sorter="distanceSorter('distanceNC1')">
-			<template #render-cell="{ rowData }">
-				<PTooltip v-if="rowData.distanceNC1 == -1">
-					<template #trigger> ∞ </template>
-					Colony Ship Required
-				</PTooltip>
-				<span v-else>{{ rowData.distanceNC1 }}</span>
-			</template>
-		</XNDataTableColumn>
+		<XNDataTableColumn key="distanceAI1" title="AI1" sorter="default" />
+		<XNDataTableColumn key="distanceCI1" title="CI1" sorter="default" />
+		<XNDataTableColumn key="distanceIC1" title="IC1" sorter="default" />
+		<XNDataTableColumn key="distanceNC1" title="NC1" sorter="default" />
 	</XNDataTable>
 </template>

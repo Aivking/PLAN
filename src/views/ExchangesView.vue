@@ -7,6 +7,8 @@
 		Ref,
 		watch,
 	} from "vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	// Stores
 	import { usePlanningStore } from "@/stores/planningStore";
@@ -27,7 +29,6 @@
 	);
 
 	import CXExchangePreference from "@/features/exchanges/components/CXExchangePreference.vue";
-	import CXPreferenceImportExport from "@/features/exchanges/components/CXPreferenceImportExport.vue";
 	import CXTickerPreference from "@/features/exchanges/components/CXTickerPreference.vue";
 	import CXPlanetPreferenceTable from "@/features/exchanges/components/CXPlanetPreferenceTable.vue";
 
@@ -42,14 +43,13 @@
 		ArrowDropDownSharp,
 		SaveSharp,
 		ChangeCircleOutlined,
-		ImportExportOutlined,
 	} from "@vicons/material";
 
 	// Unhead
 	import { useHead } from "@unhead/vue";
 
 	useHead({
-		title: `Exchanges | PRUNplanner`,
+		title: `${t("manage.exchanges.title")} | PRUNplanner`,
 	});
 
 	const planningStore = usePlanningStore();
@@ -65,29 +65,32 @@
 	const localCXUuid: Ref<string | undefined> = ref(props.cxUuid);
 	const localCXs: Ref<ICX[]> = ref([]);
 	const selectedCX: Ref<ICX | null> = ref(null);
-	const selectedImportExport: Ref<boolean> = ref(false);
 	const selectedName: Ref<string | null> = ref(null);
 	const rawSelectedCX: Ref<ICX | null> = ref(null);
+	const planetMap: Ref<ICXPlanetMap> = ref({});
 
 	const selectorDropdownOptions = computed(() =>
 		localCXs.value.map((c) => ({
-			label: c.cx_name,
+			label: c.name,
 			key: c.uuid,
 		}))
 	);
 
 	const cxName = computed(() => {
-		if (!localCXUuid.value) return "Exchanges";
-		return planningStore.getCX(localCXUuid.value).cx_name;
+		if (!localCXUuid.value) return t("manage.exchanges.title");
+		return planningStore.getCX(localCXUuid.value).name;
 	});
 
 	const localPlanetList: Ref<string[]> = ref([]);
 
 	watch(
 		[() => localCXUuid.value, () => localPlanetList.value],
-		([cxUuid, _planetList]) => {
+		([cxUuid, planetList]) => {
 			if (cxUuid) {
 				initialize(cxUuid);
+				if (planetList.length > 0) {
+					generatePlanetMap(planetList);
+				}
 			}
 		},
 		{ immediate: true }
@@ -95,16 +98,14 @@
 
 	function initialize(cxUuid: string): void {
 		selectedCX.value = planningStore.getCX(cxUuid);
-		selectedName.value = selectedCX.value.cx_name;
+		selectedName.value = selectedCX.value.name;
 
 		// save raw, in order to re-use on "reload" button
 		rawSelectedCX.value = planningStore.getCX(cxUuid);
 	}
 
-	const planetMap = computed(() => {
-		if (!selectedCX.value) return {};
-
-		return localPlanetList.value.reduce((acc, planet) => {
+	function generatePlanetMap(planetList: string[]): void {
+		planetMap.value = planetList.reduce((acc, planet) => {
 			acc[planet] = {
 				planet: planet,
 				exchanges:
@@ -118,7 +119,7 @@
 			};
 			return acc;
 		}, {} as ICXPlanetMap);
-	});
+	}
 
 	const patchData: ComputedRef<undefined | ICXData> = computed(() => {
 		const activeCX = selectedCX.value;
@@ -160,7 +161,6 @@
 			});
 
 			await useQuery("PatchCX", {
-				cxName: selectedName.value ?? "Unnamed",
 				cxUuid: selectedCX.value.uuid,
 				data: data,
 			}).execute();
@@ -173,50 +173,9 @@
 	function reloadCXData(): void {
 		trackEvent("exchange_reload", { location: "exchanges_view" });
 		selectedCX.value = inertClone(rawSelectedCX.value);
-		selectedName.value = selectedCX.value!.cx_name;
+		selectedName.value = selectedCX.value!.name;
+		generatePlanetMap(localPlanetList.value);
 	}
-
-	function toggleImportExport(): void {
-		selectedImportExport.value = !selectedImportExport.value;
-	}
-
-	const planetCXMapped = computed({
-		get: () => {
-			if (!selectedCX.value) return [];
-			return selectedCX.value.cx_data.cx_planets.map((p) => ({
-				planet: p.planet,
-				exchanges: p.preferences,
-				ticker: [], // Empty because this is the exchange-only list
-			}));
-		},
-		set: (val) => {
-			if (selectedCX.value) {
-				selectedCX.value.cx_data.cx_planets = val.map((v) => ({
-					planet: v.planet,
-					preferences: v.exchanges,
-				}));
-			}
-		},
-	});
-
-	const planetTickerMapped = computed({
-		get: () => {
-			if (!selectedCX.value) return [];
-			return selectedCX.value.cx_data.ticker_planets.map((p) => ({
-				planet: p.planet,
-				exchanges: [], // Empty because this is the ticker-only list
-				ticker: p.preferences,
-			}));
-		},
-		set: (val) => {
-			if (selectedCX.value) {
-				selectedCX.value.cx_data.ticker_planets = val.map((v) => ({
-					planet: v.planet,
-					preferences: v.ticker,
-				}));
-			}
-		},
-	});
 </script>
 
 <template>
@@ -224,14 +183,14 @@
 		plan-list
 		load-c-x
 		:cx-uuid="props.cxUuid"
-		@update:cx-uuid="(cxUuid: string | undefined) => (localCXUuid = cxUuid)"
-		@data:cx="(data: ICX[]) => (localCXs = data)"
-		@data:plan:list:planets="(data: string[]) => (localPlanetList = data)">
+		@update:cx-uuid="(cxUuid: string | undefined) => localCXUuid = cxUuid"
+		@data:cx="(data: ICX[]) => localCXs = data"
+		@data:plan:list:planets="(data: string[]) => localPlanetList = data">
 		<WrapperGameDataLoader load-exchanges load-materials>
 			<template v-if="!localCXUuid">
 				<AsyncWrapperGenericError
-					message-title="No Preferences"
-					message-text="You don't have exchange preferences. Head to Management and create your first." />
+					:message-title="$t('manage.exchanges.no_preferences_title')"
+					:message-text="$t('manage.exchanges.no_preferences_text')" />
 			</template>
 			<div v-else class="min-h-screen flex flex-col">
 				<div
@@ -241,7 +200,7 @@
 							v-if="selectorDropdownOptions.length > 0"
 							trigger="hover"
 							:options="selectorDropdownOptions"
-							@select="(value: string) => (localCXUuid = value)">
+							@select="(value: string) => localCXUuid = value">
 							<div>
 								<PIcon class="-mr-1">
 									<ArrowDropDownSharp />
@@ -249,38 +208,28 @@
 								{{ cxName }}
 							</div>
 						</n-dropdown>
-						<template v-else>Exchanges</template>
+						<template v-else>{{ $t("manage.exchanges.title") }}</template>
 					</h1>
 					<div class="flex flex-row gap-x-3">
-						<PButton @click="toggleImportExport">
-							<template #icon>
-								<ImportExportOutlined />
-							</template>
-							Import / Export CSV
-						</PButton>
 						<PButton
 							v-if="patchData"
 							:loading="isPatching"
 							@click="patchCX(patchData)">
-							<template #icon>
-								<SaveSharp />
-							</template>
-							Save
+							<template #icon><SaveSharp /></template>
+							{{ $t("plan.actions.save") }}
 						</PButton>
 						<PButton @click="reloadCXData">
-							<template #icon>
-								<ChangeCircleOutlined />
-							</template>
-							Reload
+							<template #icon><ChangeCircleOutlined /></template>
+							{{ $t("plan.actions.reload") }}
 						</PButton>
 						<HelpDrawer file-name="exchanges" />
 					</div>
 				</div>
 				<div
 					:kex="`EXCHANGE#${localCXUuid}`"
-					class="grow grid grid-cols-1 lg:grid-cols-[25%_auto] divide-x divide-white/10">
+					class="flex-grow grid grid-cols-1 lg:grid-cols-[25%_auto] divide-x divide-white/10">
 					<div class="px-6 pb-3 pt-4 border-b border-white/10">
-						<h3 class="text-lg font-bold pb-3">Preference Name</h3>
+						<h3 class="text-lg font-bold pb-3">{{ $t("manage.exchanges.preference_name") }}</h3>
 						<PInput
 							v-model:value="selectedName"
 							:status="
@@ -288,15 +237,14 @@
 									? 'warning'
 									: 'success'
 							" />
-
 						<h2 class="text-xl font-bold py-3 pt-6 my-auto">
-							Empire Preferences
+							{{ $t("manage.exchanges.empire_preferences") }}
 						</h2>
-						<h3 class="text-lg font-bold pb-3">Exchange</h3>
+						<h3 class="text-lg font-bold pb-3">{{ $t("manage.exchanges.exchange_label") }}</h3>
 						<CXExchangePreference
 							v-if="selectedCX"
 							v-model:cx-options="selectedCX.cx_data.cx_empire" />
-						<h3 class="text-lg font-bold py-3">Ticker</h3>
+						<h3 class="text-lg font-bold py-3">{{ $t("manage.exchanges.ticker_label") }}</h3>
 						<CXTickerPreference
 							v-if="selectedCX"
 							v-model:cx-options="
@@ -304,15 +252,6 @@
 							" />
 					</div>
 					<div class="p-6">
-						<CXPreferenceImportExport
-							v-if="selectedCX && selectedImportExport"
-							v-model:empire-ticker-options="
-								selectedCX.cx_data.ticker_empire
-							"
-							v-model:planet-ticker-options="planetTickerMapped"
-							v-model:cx-empire="selectedCX.cx_data.cx_empire"
-							v-model:cx-planets="planetCXMapped" />
-
 						<CXPlanetPreferenceTable
 							v-if="selectedCX"
 							:key="selectedCX.uuid"

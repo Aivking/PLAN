@@ -65,27 +65,27 @@
 	<PTable striped>
 		<thead>
 			<tr>
-				<th>Type</th>
-				<th>Req.</th>
-				<th>Capa.</th>
-				<th>Open</th>
-				<th class="text-center!">L1</th>
-				<th class="text-center!">L2</th>
-				<th class="text-end!">%Eff</th>
+				<th>{{ $t("plan.workforce.type") }}</th>
+				<th>{{ $t("plan.workforce.required") }}</th>
+				<th>{{ $t("plan.workforce.capacity") }}</th>
+				<th>{{ $t("plan.workforce.open") }}</th>
+				<th class="!text-center">L1</th>
+				<th class="!text-center">L2</th>
+				<th class="!text-end">{{ $t("plan.workforce.efficiency") }}</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr v-for="workforce in localWorkforceData" :key="workforce.name">
 				<td class="font-bold">
-					{{ capitalizeString(workforce.name) }}
+					{{ $t("empire.plan_list.cogc_mapping." + workforce.name.toUpperCase()) }}
 				</td>
-				<td :class="workforce.required === 0 ? 'text-white/50!' : ''">
+				<td :class="workforce.required === 0 ? '!text-white/50' : ''">
 					{{ formatAmount(workforce.required) }}
 				</td>
-				<td :class="workforce.capacity === 0 ? 'text-white/50!' : ''">
+				<td :class="workforce.capacity === 0 ? '!text-white/50' : ''">
 					{{ formatAmount(workforce.capacity) }}
 				</td>
-				<td :class="workforce.left === 0 ? 'text-white/50!' : ''">
+				<td :class="workforce.left === 0 ? '!text-white/50' : ''">
 					{{ formatAmount(workforce.left) }}
 				</td>
 				<td class="text-center">
@@ -118,7 +118,7 @@
 				</td>
 				<td
 					class="text-end"
-					:class="workforce.efficiency === 0 ? 'text-white/50!' : ''">
+					:class="workforce.efficiency === 0 ? '!text-white/50' : ''">
 					{{ formatNumber(workforce.efficiency * 100) }} %
 				</td>
 			</tr>

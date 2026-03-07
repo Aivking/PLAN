@@ -1,9 +1,11 @@
 <script setup lang="ts">
 	import { computed, onMounted, Ref, ref } from "vue";
 	import { useHead } from "@unhead/vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	useHead({
-		title: "HQ Upgrade Calculator | PRUNplanner",
+		title: `${t("tools.hq_calculator.title")} | PRUNplanner`,
 	});
 
 	// Composables
@@ -66,7 +68,7 @@
 				<div
 					class="px-6 py-3 border-b border-white/10 flex flex-row justify-between gap-x-3">
 					<h1 class="text-2xl font-bold my-auto">
-						HQ Upgrade Calculator
+						{{ $t("tools.hq_calculator.title") }}
 					</h1>
 					<HelpDrawer file-name="tools_hq_upgrade_calculator" />
 				</div>
@@ -76,27 +78,27 @@
 						class="px-6 py-3 grid grid-cols-1 xl:grid-cols-2 gap-3">
 						<div>
 							<PForm>
-								<PFormItem label="From HQ Level">
+								<PFormItem :label="$t('tools.hq_calculator.from_level')">
 									<PSelect
 										v-model:value="selectedStart"
 										:options="levelOptions"
 										searchable
-										class="w-37.5"
+										class="w-[150px]"
 										@update:value="calculateMaterialData" />
 								</PFormItem>
-								<PFormItem label="To HQ Level">
+								<PFormItem :label="$t('tools.hq_calculator.to_level')">
 									<PSelect
 										v-model:value="selectedTo"
 										:options="levelOptionsTo"
 										searchable
-										class="w-37.5"
+										class="w-[150px]"
 										@update:value="calculateMaterialData" />
 								</PFormItem>
 							</PForm>
 						</div>
 						<div>
 							<PForm>
-								<PFormItem label="CX Preference">
+								<PFormItem :label="$t('tools.hq_calculator.cx_preference')">
 									<CXPreferenceSelector
 										:cx-uuid="refSelectedCXUuid"
 										class="w-full"
@@ -105,7 +107,7 @@
 												(refSelectedCXUuid = value)
 										" />
 								</PFormItem>
-								<PFormItem label="Show Locations">
+								<PFormItem :label="$t('tools.hq_calculator.show_locations')">
 									<PCheckbox
 										v-model:checked="
 											selectedShowLocations
@@ -118,29 +120,29 @@
 						class="px-6 py-3 grid grid-cols-1 xl:grid-cols-2 gap-x-3">
 						<div
 							class="grid grid-cols-[min-content_1fr] gap-x-3 child:not-even:font-bold child:not-even:text-nowrap child:not-even:pr-3">
-							<div>Total Cost</div>
+							<div>{{ $t("tools.hq_calculator.total_cost") }}</div>
 							<div>
 								{{ formatNumber(totalCost) }}
 								<span class="pl-1 font-light text-white/50">
 									$
 								</span>
 							</div>
-							<div>Total Weight</div>
-							<div>
-								{{
-									formatNumber(totalWeightVolume.totalWeight)
-								}}
-								<span class="pl-1 font-light text-white/50">
-									t
-								</span>
-							</div>
-							<div>Total Volume</div>
+							<div>{{ $t("tools.hq_calculator.total_volume") }}</div>
 							<div>
 								{{
 									formatNumber(totalWeightVolume.totalVolume)
 								}}
 								<span class="pl-1 font-light text-white/50">
 									m³
+								</span>
+							</div>
+							<div>{{ $t("tools.hq_calculator.total_weight") }}</div>
+							<div>
+								{{
+									formatNumber(totalWeightVolume.totalWeight)
+								}}
+								<span class="pl-1 font-light text-white/50">
+									t
 								</span>
 							</div>
 						</div>
@@ -162,7 +164,7 @@
 					<XNDataTable :data="materialData" striped>
 						<XNDataTableColumn
 							key="ticker"
-							title="Material"
+							:title="$t('tools.hq_calculator.table.material')"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								<MaterialTile
@@ -173,7 +175,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="amount"
-							title="Amount"
+							:title="$t('tools.hq_calculator.table.amount')"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatAmount(rowData.amount) }}
@@ -181,7 +183,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="storage"
-							title="Storage"
+							:title="$t('tools.hq_calculator.table.storage')"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatAmount(rowData.storage) }}
@@ -189,7 +191,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="override"
-							title="Override Stock">
+							:title="$t('tools.hq_calculator.table.override')">
 							<template #render-cell="{ rowData }">
 								<PInputNumber
 									:key="`OVERRIDE#${rowData.ticker}`"
@@ -200,13 +202,13 @@
 									clearable
 									show-buttons
 									placeholder=""
-									class="max-w-37.5"
+									class="max-w-[150px]"
 									@update:value="calculateMaterialData" />
 							</template>
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="required"
-							title="Required"
+							:title="$t('tools.hq_calculator.table.required')"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatAmount(rowData.required) }}
@@ -214,7 +216,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="unitCost"
-							title="Cost / Unit"
+							:title="$t('tools.hq_calculator.table.unit_cost')"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatNumber(rowData.unitCost) }}
@@ -225,7 +227,7 @@
 						</XNDataTableColumn>
 						<XNDataTableColumn
 							key="totalCost"
-							title="Total Cost"
+							:title="$t('tools.hq_calculator.table.total_cost_material')"
 							sorter="default">
 							<template #render-cell="{ rowData }">
 								{{ formatNumber(rowData.totalCost) }}
@@ -237,7 +239,7 @@
 						<XNDataTableColumn
 							v-if="selectedShowLocations"
 							key="storageLocations"
-							title="Storage Locations"
+							:title="$t('tools.hq_calculator.table.storage_locations')"
 							:width="'25%'">
 							<template #render-cell="{ rowData }">
 								{{

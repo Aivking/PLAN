@@ -1,5 +1,7 @@
 <script setup lang="ts">
 	import { computed, ComputedRef, watch } from "vue";
+	import { useI18n } from "vue-i18n";
+	const { t, locale } = useI18n();
 
 	// Stores
 	import { useUserStore } from "@/stores/userStore";
@@ -35,6 +37,8 @@
 		ProductionQuantityLimitsSharp,
 		PersonSharp,
 		HelpOutlineSharp,
+		ExtensionSharp,
+		LanguageRound,
 		LocalFireDepartmentSharp,
 		AutoFixNormalSharp,
 		MoneySharp,
@@ -42,7 +46,6 @@
 		TravelExploreSharp,
 		KeyboardDoubleArrowLeftSharp,
 		KeyboardDoubleArrowRightSharp,
-		AccountBalanceSharp,
 	} from "@vicons/material";
 
 	const userStore = useUserStore();
@@ -58,6 +61,7 @@
 		(newValue: boolean) => {
 			if (newValue) {
 				useQuery("GetFIOStorage").execute();
+				useQuery("GetFIOSites").execute();
 			} else {
 				queryStore.invalidateKey(["gamedata", "fio"], {
 					exact: false,
@@ -73,35 +77,41 @@
 			queryStore.peekQueryState(["gamedata", "fio", "storage"])
 				?.timestamp ?? 0
 	);
+	const sitesTimestamp = computed(
+		() =>
+			queryStore.peekQueryState(["gamedata", "fio", "sites"])
+				?.timestamp ?? 0
+	);
 
 	const storageAge = computed(() => planningStore.fio_storage_timestamp ?? 0);
+	const sitesAge = computed(() => planningStore.fio_sites_timestamp ?? 0);
 
 	const menuItems: ComputedRef<IMenuSection[]> = computed(() => [
 		{
-			label: "Planning",
-			labelShort: "Plan",
+			label: t("nav.sections.planning"),
+			labelShort: t("nav.sections.planning"),
 			display: true,
 			children: [
 				{
-					label: "Empire",
+					label: t("nav.items.empire"),
 					display: true,
 					routerLink: "/",
 					icon: HomeSharp,
 				},
 				{
-					label: "Planet Search",
+					label: t("nav.items.planet_search"),
 					display: true,
 					routerLink: "/search",
 					icon: SearchRound,
 				},
 				{
-					label: "Management",
+					label: t("nav.items.management"),
 					display: true,
 					routerLink: "/manage",
 					icon: SettingsRound,
 				},
 				{
-					label: "Exchanges",
+					label: t("nav.items.exchanges"),
 					display: true,
 					routerLink: "/exchanges",
 					icon: ShoppingBasketSharp,
@@ -124,24 +134,24 @@
 		// 	],
 		// },
 		{
-			label: "Tools",
-			labelShort: "Tool",
+			label: t("nav.sections.tools"),
+			labelShort: t("nav.sections.tools"),
 			display: true,
 			children: [
 				{
-					label: "Market Exploration",
+					label: t("nav.items.market_exploration"),
 					display: true,
 					routerLink: "/market-exploration",
 					icon: ExploreSharp,
 				},
 				{
-					label: "Recipe ROI",
+					label: t("nav.items.recipe_roi"),
 					display: true,
 					routerLink: "/roi-overview",
 					icon: MoneySharp,
 				},
 				{
-					label: "Resource ROI",
+					label: t("nav.items.resource_roi"),
 					display: true,
 					routerLink: "/resource-roi-overview",
 					icon: TravelExploreSharp,
@@ -173,22 +183,16 @@
 				// 	],
 				// },
 				{
-					label: "HQ Calculator",
+					label: t("nav.items.hq_calculator"),
 					display: true,
 					routerLink: "/hq-upgrade-calculator",
 					icon: ProductionQuantityLimitsSharp,
 				},
 				{
-					label: "Production Chains",
+					label: t("nav.items.production_chains"),
 					display: true,
 					routerLink: "/production-chain",
 					icon: CompareSharp,
-				},
-				{
-					label: "Upkeep Prices",
-					display: true,
-					routerLink: "/upkeep-price-calculator",
-					icon: AccountBalanceSharp,
 				},
 				// {
 				// 	label: "Base Compare",
@@ -203,13 +207,13 @@
 				// 	icon: StarsSharp,
 				// },
 				{
-					label: "FIO Burn",
+					label: t("nav.items.fio_burn"),
 					display: userStore.hasFIO,
 					routerLink: "/fio/burn",
 					icon: LocalFireDepartmentSharp,
 				},
 				{
-					label: "FIO Repair",
+					label: t("nav.items.fio_repair"),
 					display: userStore.hasFIO,
 					routerLink: "/fio/repair",
 					icon: AutoFixNormalSharp,
@@ -247,41 +251,47 @@
 			],
 		},
 		{
-			label: "Account",
-			labelShort: "Acc",
+			label: t("nav.sections.account"),
+			labelShort: t("nav.sections.account"),
 			display: true,
 			children: [
-				// {
-				// 	label: "API",
-				// 	display: true,
-				// 	routerLink: "/api",
-				// 	icon: ExtensionSharp,
-				// },
 				{
-					label: "Profile",
+					label: t("nav.items.api"),
+					display: true,
+					routerLink: "/api",
+					icon: ExtensionSharp,
+				},
+				{
+					label: t("nav.items.profile"),
 					display: true,
 					routerLink: "/profile",
 					icon: PersonSharp,
 				},
 				{
-					label: "Help",
+					label: t("nav.items.help"),
 					display: true,
 					routerLink: "/help",
 					icon: HelpOutlineSharp,
 				},
-				{
-					label: "Logout",
-					display: true,
-					icon: LogOutRound,
-					functionCall: () => {
-						userStore.logout();
-						router.push("/");
-					},
-				},
-			],
-		},
-	]);
-
+				                {
+				                    label: t("nav.items.logout"),
+				                    display: true,
+				                    icon: LogOutRound,
+				                    functionCall: () => {
+				                        userStore.logout();
+				                    },
+				                },
+				                {
+				                    label: locale.value === "zh" ? "English" : "中文",
+				                    display: true,
+				                    icon: LanguageRound,
+				                    functionCall: () => {
+				                        locale.value = locale.value === "zh" ? "en" : "zh";
+				                    },
+				                },
+				            ],
+				        },
+				    ]);
 	const appVersion = __APP_VERSION__;
 
 	function toggleNavigationSize(): void {
@@ -316,7 +326,7 @@
 		<div class="items-center justify-between sm:hidden md:flex">
 			<div class="w-full flex flex-row items-baseline pt-4">
 				<div
-					class="grow text-prunplanner text-xl font-light text-center">
+					class="flex-grow text-prunplanner text-xl font-light text-center">
 					<router-link to="/">
 						<template v-if="isFull">
 							<span class="font-bold">PRUN</span>planner
@@ -325,9 +335,13 @@
 					</router-link>
 				</div>
 				<div v-if="isFull" class="text-end text-[10px] text-white/40">
-					<RouterLink to="/debug">
-						{{ appVersion }}
-					</RouterLink>
+					{{ appVersion }}
+					<a
+						href="https://github.com/SupCH/PRUNplanner-zh"
+						target="_blank"
+						class="block text-[8px] bg-orange-500/20 text-orange-400 px-1 rounded mt-0.5 border border-orange-500/30 hover:bg-orange-500/40 transition-colors">
+						CN
+					</a>
 				</div>
 			</div>
 		</div>
@@ -349,11 +363,7 @@
 							">
 							<!-- without children-->
 							<RouterLink
-								v-if="
-									item.display &&
-									!item.children &&
-									item.routerLink
-								"
+								v-if="!item.children && item.routerLink"
 								:key="
 									'ROUTER#' + section.label + '#' + item.label
 								"
@@ -515,21 +525,37 @@
 				class="flex gap-1 justify-between items-center"
 				:class="isFull ? 'flex-row' : 'flex-col'">
 				<div>
-					<PTooltip v-if="userStore.hasFIO && storageTimestamp !== 0">
+					<PTooltip
+						v-if="
+							userStore.hasFIO &&
+							storageTimestamp !== 0 &&
+							sitesTimestamp !== 0
+						">
 						<template #trigger>
 							<PTag size="sm" type="success" :bordered="false">
-								{{ isFull ? "FIO Active" : "FIO" }}
+								{{ isFull ? $t("nav.status.fio_active") : "FIO" }}
 							</PTag>
 						</template>
 						<PTable striped>
 							<thead>
 								<tr>
+									<th>Type</th>
 									<th>Backend</th>
 									<th>FIO</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
+									<td>Sites</td>
+									<td>
+										{{ relativeFromDate(sitesTimestamp) }}
+									</td>
+									<td>
+										{{ relativeFromDate(sitesAge) }}
+									</td>
+								</tr>
+								<tr>
+									<td>Storage</td>
 									<td>
 										{{ relativeFromDate(storageTimestamp) }}
 									</td>
@@ -540,18 +566,18 @@
 							</tbody>
 						</PTable>
 					</PTooltip>
-					<RouterLink v-else to="/profile">
-						<PTag size="sm" type="warning" :bordered="false">
-							{{ isFull ? "FIO Inactive" : "FIO" }}
-						</PTag>
-					</RouterLink>
+					<PTag v-else size="sm" type="warning" :bordered="false">
+						{{ isFull ? $t("nav.status.fio_inactive") : "FIO" }}
+					</PTag>
 				</div>
 				<div @click="toggleNavigationSize">
 					<div class="hover:bg-white/20 hover:rounded-sm p-2">
 						<KeyboardDoubleArrowLeftSharp
 							v-if="isFull"
-							class="w-5 h-5" />
-						<KeyboardDoubleArrowRightSharp v-else class="w-5 h-5" />
+							class="w-[20px] h-[20px]" />
+						<KeyboardDoubleArrowRightSharp
+							v-else
+							class="w-[20px] h-[20px]" />
 					</div>
 				</div>
 			</div>

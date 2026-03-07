@@ -53,7 +53,7 @@
 
 <template>
 	<div class="flex flex-row gap-x-1">
-		<div class="child:w-25!">
+		<div class="child:!w-[100px]">
 			<PSelect v-model:value="selectedType" :options="typeOptions" />
 		</div>
 		<PSelect
@@ -61,13 +61,13 @@
 			:options="materialOptions"
 			searchable
 			size="small"
-			placeholder="Material"
-			class="w-25!" />
+			:placeholder="$t('manage.exchanges.preference_component.material_placeholder')"
+			class="!w-[100px]" />
 		<PInputNumber
 			v-model:value="selectedValue"
 			:min="0"
 			decimals
-			class="w-62.5!" />
+			class="!w-[250px]" />
 		<div>
 			<PButton
 				:disabled="
@@ -94,7 +94,7 @@
 			<tr
 				v-for="preference in sortedCXOptions"
 				:key="`${preference.type}#${preference.ticker}`">
-				<td class="w-18.75">
+				<td class="w-[75px]">
 					<PTag
 						:type="
 							preference.type === 'BUY'
@@ -103,7 +103,7 @@
 								? 'error'
 								: 'primary'
 						">
-						{{ preference.type }}
+						{{ $t("manage.exchanges.preference_component.types." + (preference.type || "BOTH")) }}
 					</PTag>
 				</td>
 				<td>
@@ -132,8 +132,8 @@
 			</tr>
 			<tr
 				v-if="localCXOptions.length === 0"
-				class="text-center child:text-white/50!">
-				<td colspan="4">No Ticker Preferences Configured</td>
+				class="text-center child:!text-white/50">
+				<td colspan="4">{{ $t("manage.exchanges.preference_component.no_ticker_config") }}</td>
 			</tr>
 		</PTable>
 	</div>

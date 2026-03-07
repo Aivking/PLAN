@@ -34,8 +34,8 @@
 		trackEvent("user_password_change");
 
 		await useQuery("PatchUserChangePassword", {
-			old_password: refCurrentPassword.value,
-			new_password: refNewPassword.value,
+			old: refCurrentPassword.value,
+			new: refNewPassword.value,
 		})
 			.execute()
 			.then((result: boolean) => {
@@ -52,41 +52,41 @@
 <template>
 	<div>
 		<div class="flex flex-row flex-wrap gap-3">
-			<h2 class="grow my-auto text-white/80 font-bold text-lg">
-				Change Password
+			<h2 class="flex-grow my-auto text-white/80 font-bold text-lg">
+				{{ $t("profile.change_password.title") }}
 			</h2>
 			<PButton
 				:disabled="!canChange"
 				:loading="isChanging"
 				@click="patchPassword">
-				Change Password
+				{{ $t("profile.change_password.update_button") }}
 			</PButton>
 		</div>
 		<div class="py-3 text-white/60">
-			Passwords must be at least 8 characters long.
+			{{ $t("profile.change_password.description") }}
 		</div>
 		<template v-if="changeStatus !== null">
 			<div
 				v-if="changeStatus"
 				class="mb-3 py-1 px-2 bg-prunplanner text-black">
-				Password changed.
+				{{ $t("profile.change_password.success") }}
 			</div>
 			<div v-else class="mb-3 py-1 px-2 bg-red-600 text-white">
-				Password changed failed.
+				{{ $t("profile.change_password.error") }}
 			</div>
 		</template>
 		<PForm>
-			<PFormItem label="Current Password">
+			<PFormItem :label="$t('profile.change_password.current_password')">
 				<PInput
 					v-model:value="refCurrentPassword"
 					type="password"
-					class="w-full min-w-50 max-w-[50%]" />
+					class="w-full min-w-[200px] max-w-[50%]" />
 			</PFormItem>
-			<PFormItem label="New Password">
+			<PFormItem :label="$t('profile.change_password.new_password')">
 				<PInput
 					v-model:value="refNewPassword"
 					type="password"
-					class="w-full min-w-50 max-w-[50%]" />
+					class="w-full min-w-[200px] max-w-[50%]" />
 			</PFormItem>
 		</PForm>
 	</div>

@@ -14,6 +14,9 @@
 	import { createPopper, Instance } from "@popperjs/core";
 	import { ClearSharp } from "@vicons/material";
 
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
+
 	const value = defineModel<null | string | number | undefined>("value", {
 		required: true,
 	});
@@ -23,7 +26,7 @@
 		searchable = false,
 		disabled = false,
 		clearable = false,
-		placeholder = "Please Select",
+		placeholder = undefined,
 	} = defineProps<{
 		options: PSelectOption[];
 		searchable?: boolean;
@@ -55,7 +58,7 @@
 
 		return (
 			allOptions.find((f) => f.value === value.value)?.label ??
-			placeholder
+			(placeholder ? placeholder : t("plan.status_bar.none"))
 		);
 	});
 
@@ -202,22 +205,24 @@
 		@keydown="onKeyDown">
 		<label name="pselect-label">
 			<div
-				class="flex flex-row items-center cursor-pointer bg-white/5 text-white/80 rounded-sm pr-2 min-h-7"
+				class="flex flex-row items-center cursor-pointer bg-white/5 text-white/80 rounded-sm pr-2 min-h-[28px]"
 				:class="!useSearch ? 'py-1 ' : ''"
 				@click="toggleOpen">
-				<div v-if="!useSearch" class="grow px-2">
+				<div v-if="!useSearch" class="flex-grow px-2">
 					{{ displayValue }}
 				</div>
-				<div v-else class="grow child:child:bg-transparent! py-0.5">
-					<PInput v-model:value="searchString" placeholder="Search" />
+				<div
+					v-else
+					class="flex-grow child:child:!bg-transparent py-0.5">
+					<PInput v-model:value="searchString" :placeholder="$t('search.basic.search_button')" />
 				</div>
 				<div
 					v-if="value && value !== null && clearable"
-					class="text-white/60 w-4"
+					class="text-white/60 w-[16px]"
 					@click="clear">
 					<ClearSharp />
 				</div>
-				<div class="text-white w-4" @click="toggleOpen">
+				<div class="text-white w-[16px]" @click="toggleOpen">
 					<svg
 						viewBox="0 0 16 16"
 						fill="none"
@@ -234,7 +239,7 @@
 			<div
 				v-if="open"
 				ref="dropdownRef"
-				class="z-5000 p-1 bg-gray-900 text-white rounded-sm shadow-lg max-h-75 overflow-auto"
+				class="z-5000 p-1 bg-gray-900 text-white rounded-sm shadow-lg max-h-[300px] overflow-auto"
 				:style="dropdownPosition">
 				<div
 					class="w-full flex flex-col bg-gray-900 child:py-1 child:px-2 child:hover:bg-gray-800 rounded-b-sm">
@@ -247,7 +252,7 @@
 						@click="(v) => change(v)" />
 
 					<template v-if="filteredOptions.length === 0">
-						<div class="text-center text-xs">No Results</div>
+						<div class="text-center text-xs">{{ $t("search.results.no_results") }}</div>
 					</template>
 				</div>
 			</div>

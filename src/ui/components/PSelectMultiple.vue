@@ -27,12 +27,14 @@
 		disabled = false,
 		clearable = true,
 		maxItems = Infinity,
+		placeholder = undefined,
 	} = defineProps<{
 		options: PSelectOption[];
 		searchable?: boolean;
 		disabled?: boolean;
 		clearable?: boolean;
 		maxItems?: number;
+		placeholder?: string;
 	}>();
 
 	const open = ref(false);
@@ -224,8 +226,8 @@
 		@keydown="onKeyDown">
 		<label name="pselect-multiple-label">
 			<div
-				class="flex flex-row items-center cursor-pointer bg-white/5 py-1 text-white/80 rounded-sm px-2 min-h-7">
-				<div class="w-full max-w-full grow" @click="toggleOpen">
+				class="flex flex-row items-center cursor-pointer bg-white/5 py-1 text-white/80 rounded-sm px-2 min-h-[28px]">
+				<div class="w-full max-w-full flex-grow" @click="toggleOpen">
 					<template v-if="displayValue.length > 0">
 						<div class="flex w-full max-w-full flex-wrap gap-y-1">
 							<PTag
@@ -238,16 +240,18 @@
 							</PTag>
 						</div>
 					</template>
-					<template v-else> Select Options </template>
+					<template v-else>
+						{{ placeholder ? placeholder : $t("plan.status_bar.none") }}
+					</template>
 				</div>
 
 				<div
 					v-if="clearable && value.length !== 0"
-					class="text-white/60 w-4"
+					class="text-white/60 w-[16px]"
 					@click="clear">
 					<ClearSharp />
 				</div>
-				<div class="text-white w-4" @click="toggleOpen">
+				<div class="text-white w-[16px]" @click="toggleOpen">
 					<svg
 						viewBox="0 0 16 16"
 						fill="none"
@@ -264,29 +268,28 @@
 			<div
 				v-if="open"
 				ref="dropdownRef"
-				class="z-5000 p-1 bg-gray-900 text-white rounded-sm shadow-lg max-h-75 overflow-auto"
+				class="z-5000 p-1 bg-gray-900 text-white rounded-sm shadow-lg max-h-[300px] overflow-auto"
 				:style="dropdownPosition">
-				<div
-					class="w-full flex flex-col bg-gray-900 child:py-1 child:px-2 child:hover:bg-gray-800 rounded-b-sm">
-					<PInput
-						v-if="searchable"
-						ref="searchInputRef"
-						v-model:value="searchString"
-						placeholder="Search"
-						@keydown="onKeyDown" />
-					<PSelectElement
-						v-for="(option, idx) in filteredOptions"
-						:key="option.value"
-						:option="option"
-						:selected-value="value"
-						:highlighted="idx === highlightedIndex"
-						@click="(v) => change(v)" />
-
-					<template v-if="filteredOptions.length === 0">
-						<div class="text-center text-xs">No Results</div>
-					</template>
-				</div>
-			</div>
+				                <div
+									class="w-full flex flex-col bg-gray-900 child:py-1 child:px-2 child:hover:bg-gray-800 rounded-b-sm">
+									<PInput
+										v-if="searchable"
+										ref="searchInputRef"
+										v-model:value="searchString"
+										:placeholder="$t('search.basic.search_button')"
+										@keydown="onKeyDown" />
+									<PSelectElement
+										v-for="(option, idx) in filteredOptions"
+										:key="option.value"
+										:option="option"
+										:selected-value="value"
+										:highlighted="idx === highlightedIndex"
+										@click="(v) => change(v)" />
+				
+									<template v-if="filteredOptions.length === 0">
+										<div class="text-center text-xs">{{ $t("search.results.no_results") }}</div>
+									</template>
+								</div>			</div>
 		</Teleport>
 	</div>
 </template>

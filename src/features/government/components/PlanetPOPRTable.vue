@@ -48,74 +48,68 @@
 
 <template>
 	<div v-if="!poprData" class="text-center">
-		Planet {{ planetNaturalId }} has no population data.
+		{{ $t("plan.tools.popr_details.no_data", { planet: planetNaturalId }) }}
 	</div>
 
-	<PTable v-if="poprData" striped>
+	<PTable striped>
 		<thead>
 			<tr>
 				<th></th>
-				<th>Pioneer</th>
-				<th>Settler</th>
-				<th>Technician</th>
-				<th>Engineer</th>
-				<th>Scientist</th>
+				<th>{{ $t("empire.plan_list.cogc_mapping.PIONEERS") }}</th>
+				<th>{{ $t("empire.plan_list.cogc_mapping.SETTLERS") }}</th>
+				<th>{{ $t("empire.plan_list.cogc_mapping.TECHNICIANS") }}</th>
+				<th>{{ $t("empire.plan_list.cogc_mapping.ENGINEERS") }}</th>
+				<th>{{ $t("empire.plan_list.cogc_mapping.SCIENTISTS") }}</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td class="font-bold">Total Population</td>
-				<td>{{ formatAmount(poprData.next_population_pioneer) }}</td>
-				<td>{{ formatAmount(poprData.next_population_settler) }}</td>
-				<td>{{ formatAmount(poprData.next_population_technician) }}</td>
-				<td>{{ formatAmount(poprData.next_population_engineer) }}</td>
-				<td>{{ formatAmount(poprData.next_population_scientist) }}</td>
+				<td class="font-bold">{{ $t("plan.tools.popr_details.table.total_population") }}</td>
+				<td>{{ formatAmount(poprData.NextPopulationPioneer) }}</td>
+				<td>{{ formatAmount(poprData.NextPopulationSettler) }}</td>
+				<td>{{ formatAmount(poprData.NextPopulationTechnician) }}</td>
+				<td>{{ formatAmount(poprData.NextPopulationEngineer) }}</td>
+				<td>{{ formatAmount(poprData.NextPopulationScientist) }}</td>
 			</tr>
 			<tr>
-				<td class="font-bold">Free Population</td>
-				<td>{{ formatAmount(poprData.free_pioneer) }}</td>
-				<td>{{ formatAmount(poprData.free_settler) }}</td>
-				<td>{{ formatAmount(poprData.free_technician) }}</td>
-				<td>{{ formatAmount(poprData.free_engineer) }}</td>
-				<td>{{ formatAmount(poprData.free_scientist) }}</td>
+				<td class="font-bold">{{ $t("plan.tools.popr_details.table.free_population") }}</td>
+				<td>{{ formatAmount(poprData.FreePioneer) }}</td>
+				<td>{{ formatAmount(poprData.FreeSettler) }}</td>
+				<td>{{ formatAmount(poprData.FreeTechnician) }}</td>
+				<td>{{ formatAmount(poprData.FreeEngineer) }}</td>
+				<td>{{ formatAmount(poprData.FreeScientist) }}</td>
 			</tr>
 			<tr>
-				<td class="font-bold">Free Population %</td>
+				<td class="font-bold">{{ $t("plan.tools.popr_details.table.free_population_percent") }}</td>
 				<td>
-					{{ formatNumber(poprData.unemployment_rate_pioneer * 100) }}
+					{{ formatNumber(poprData.UnemploymentRatePioneer * 100) }}
 				</td>
 				<td>
-					{{ formatNumber(poprData.unemployment_rate_settler * 100) }}
+					{{ formatNumber(poprData.UnemploymentRateSettler * 100) }}
 				</td>
 				<td>
 					{{
-						formatNumber(
-							poprData.unemployment_rate_technician * 100
-						)
+						formatNumber(poprData.UnemploymentRateTechnician * 100)
 					}}
 				</td>
 				<td>
-					{{
-						formatNumber(poprData.unemployment_rate_engineer * 100)
-					}}
+					{{ formatNumber(poprData.UnemploymentRateEngineer * 100) }}
 				</td>
 				<td>
-					{{
-						formatNumber(poprData.unemployment_rate_scientist * 100)
-					}}
+					{{ formatNumber(poprData.UnemploymentRateScientist * 100) }}
 				</td>
 			</tr>
 			<tr>
-				<td class="font-bold">Unfilled Jobs</td>
-				<td>{{ formatAmount(poprData.open_jobs_pioneer) }}</td>
-				<td>{{ formatAmount(poprData.open_jobs_settler) }}</td>
-				<td>{{ formatAmount(poprData.open_jobs_technician) }}</td>
-				<td>{{ formatAmount(poprData.open_jobs_engineer) }}</td>
-				<td>{{ formatAmount(poprData.open_jobs_scientist) }}</td>
+				<td class="font-bold">{{ $t("plan.tools.popr_details.table.unfilled_jobs") }}</td>
+				<td>{{ formatAmount(poprData.OpenJobsPioneer) }}</td>
+				<td>{{ formatAmount(poprData.OpenJobsSettler) }}</td>
+				<td>{{ formatAmount(poprData.OpenJobsTechnician) }}</td>
+				<td>{{ formatAmount(poprData.OpenJobsEngineer) }}</td>
+				<td>{{ formatAmount(poprData.OpenJobsScientist) }}</td>
 			</tr>
 			<template v-if="workforceData">
-				<tr class="child:border-t-2! child:border-t-white/20!">
-					<td class="font-bold">Plan Need</td>
+				<tr class="child:!border-t-2 child:!border-t-white/20">
+					<td class="font-bold">{{ $t("plan.tools.popr_details.table.plan_need") }}</td>
 					<td>{{ formatAmount(workforceData.pioneer.required) }}</td>
 					<td>{{ formatAmount(workforceData.settler.required) }}</td>
 					<td>
@@ -127,14 +121,14 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="font-bold">Plan Check</td>
+					<td class="font-bold">{{ $t("plan.tools.popr_details.table.plan_check") }}</td>
 					<td>
 						<PIcon>
 							<component
 								:is="
 									assessPlanWorkforce(
-										poprData.free_pioneer,
-										poprData.open_jobs_pioneer,
+										poprData.FreePioneer,
+										poprData.OpenJobsPioneer,
 										workforceData.pioneer.required
 									)
 										? CheckSharp
@@ -142,8 +136,8 @@
 								"
 								:class="
 									assessPlanWorkforce(
-										poprData.free_pioneer,
-										poprData.open_jobs_pioneer,
+										poprData.FreePioneer,
+										poprData.OpenJobsPioneer,
 										workforceData.pioneer.required
 									)
 										? 'text-positive'
@@ -156,8 +150,8 @@
 							<component
 								:is="
 									assessPlanWorkforce(
-										poprData.free_settler,
-										poprData.open_jobs_settler,
+										poprData.FreeSettler,
+										poprData.OpenJobsSettler,
 										workforceData.settler.required
 									)
 										? CheckSharp
@@ -165,8 +159,8 @@
 								"
 								:class="
 									assessPlanWorkforce(
-										poprData.free_settler,
-										poprData.open_jobs_settler,
+										poprData.FreeSettler,
+										poprData.OpenJobsSettler,
 										workforceData.settler.required
 									)
 										? 'text-positive'
@@ -179,8 +173,8 @@
 							<component
 								:is="
 									assessPlanWorkforce(
-										poprData.free_technician,
-										poprData.open_jobs_technician,
+										poprData.FreeTechnician,
+										poprData.OpenJobsTechnician,
 										workforceData.technician.required
 									)
 										? CheckSharp
@@ -188,8 +182,8 @@
 								"
 								:class="
 									assessPlanWorkforce(
-										poprData.free_technician,
-										poprData.open_jobs_technician,
+										poprData.FreeTechnician,
+										poprData.OpenJobsTechnician,
 										workforceData.technician.required
 									)
 										? 'text-positive'
@@ -202,8 +196,8 @@
 							<component
 								:is="
 									assessPlanWorkforce(
-										poprData.free_engineer,
-										poprData.open_jobs_engineer,
+										poprData.FreeEngineer,
+										poprData.OpenJobsEngineer,
 										workforceData.engineer.required
 									)
 										? CheckSharp
@@ -211,8 +205,8 @@
 								"
 								:class="
 									assessPlanWorkforce(
-										poprData.free_engineer,
-										poprData.open_jobs_engineer,
+										poprData.FreeEngineer,
+										poprData.OpenJobsEngineer,
 										workforceData.engineer.required
 									)
 										? 'text-positive'
@@ -225,8 +219,8 @@
 							<component
 								:is="
 									assessPlanWorkforce(
-										poprData.free_scientist,
-										poprData.open_jobs_scientist,
+										poprData.FreeScientist,
+										poprData.OpenJobsScientist,
 										workforceData.scientist.required
 									)
 										? CheckSharp
@@ -234,8 +228,8 @@
 								"
 								:class="
 									assessPlanWorkforce(
-										poprData.free_scientist,
-										poprData.open_jobs_scientist,
+										poprData.FreeScientist,
+										poprData.OpenJobsScientist,
 										workforceData.scientist.required
 									)
 										? 'text-positive'

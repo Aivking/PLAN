@@ -50,7 +50,7 @@
 			);
 
 			selectOptions.push({
-				label: pE ? `» ${e.empire_name}` : e.empire_name,
+				label: pE ? `» ${e.name}` : e.name,
 				value: e.uuid,
 			});
 		});
@@ -85,18 +85,19 @@
 
 <template>
 	<PForm>
-		<PFormItem label="Name">
+		<PFormItem :label="$t('plan.configuration.name_label')">
 			<PInput
 				v-model:value="localPlanName"
 				class="w-full"
 				:disabled="disabled"
-				placeholder="Plan Name" />
+				:placeholder="$t('plan.configuration.name_placeholder')" />
 		</PFormItem>
-		<PFormItem label="Empire">
+		<PFormItem :label="$t('plan.configuration.empire_label')">
 			<PSelect
 				v-model:value="localActiveEmpireUuid"
 				class="w-full"
 				:disabled="disabled"
+				:placeholder="$t('nav.items.empire')"
 				:options="empireSelectOptions" />
 		</PFormItem>
 	</PForm>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 	import { onMounted, ref, Ref, computed, ComputedRef } from "vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	import { PForm, PFormItem, PFormSeperator, PButton, PInput } from "@/ui";
 	import { IUserRegistrationPayload } from "@/features/api/userData.types";
@@ -60,8 +62,8 @@
 		() => ({
 			username: inputUsername.value ?? "",
 			password: inputPassword.value ?? "",
-			planet_id: activeSecurityOption.value ?? "",
-			planet_input: inputPlanetName.value ?? "",
+			planet: inputPlanetName.value ?? "",
+			randomplanet: activeSecurityOption.value ?? "",
 			...(inputEmail.value ? { email: inputEmail.value } : {}),
 		})
 	);
@@ -81,11 +83,10 @@
 			registrationSuccess.value = true;
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			if (err.validationFields) {
-				hasErrorMessage.value = err.validationFields;
-			} else {
-				hasErrorMessage.value =
-					"Unknown error. Please try again later.";
+			// error message is string
+			const match = err.message.match(/{.*}$/);
+			if (match) {
+				hasErrorMessage.value = JSON.parse(match[0]).detail;
 			}
 			hasError.value = true;
 			randomSecurityOption();
@@ -98,80 +99,68 @@
 </script>
 
 <template>
-	<div class="mx-auto max-w-100">
+	<div class="mx-auto max-w-[400px]">
 		<template v-if="registrationSuccess">
 			<div>
 				<div class="text-xl text-white font-bold font-mono pb-1">
-					Welcome, {{ registrationUsername }}!
+					{{ $t("auth.register_success_welcome", { username: registrationUsername }) }}
 				</div>
 				<div class="pt-3">
-					Registration successful. You can now login to PRUNplanner.
+					{{ $t("auth.register_success_desc") }}
 				</div>
 			</div>
 		</template>
 		<template v-else>
 			<div class="text-xl text-white font-bold font-mono pb-1">
-				Account Information
+				{{ $t("auth.account_info") }}
 			</div>
 			<div class="pb-3 text-white/60 text-xs font-mono">
-				PRUNplanner is free to use. By creating an account, you
-				acknowledge and agree to the
+				{{ $t("auth.register_tos_desc") }}
 				<router-link
 					to="/imprint-tos"
 					class="underline hover:text-link-primary">
-					Terms of Service.
+					{{ $t("auth.tos_link") }}
 				</router-link>
 			</div>
 			<div v-if="hasError" class="pb-3 text-red-600">
-				Error during registration.
+				{{ $t("auth.error_register") }}
 				{{ hasErrorMessage }}
 			</div>
 			<PForm>
-				<PFormItem label="Username">
+				<PFormItem :label="$t('auth.username')">
 					<PInput v-model:value="inputUsername" class="w-full" />
 					<template #info>
-						Must be at least 3 characters long. Can't contain
-						spaces.
+						{{ $t("auth.username_info") }}
 					</template>
 				</PFormItem>
-				<PFormItem label="Password">
+				<PFormItem :label="$t('auth.password')">
 					<PInput
 						v-model:value="inputPassword"
 						type="password"
 						class="w-full" />
 					<template #info>
-						Must be at least 8 characters long.
+						{{ $t("auth.password_info") }}
 					</template>
 				</PFormItem>
-				<PFormItem label="Email">
+				<PFormItem :label="$t('auth.email')">
 					<PInput
 						v-model:value="inputEmail"
-						placeholder="Not mandatory, but recommended."
+						:placeholder="$t('auth.email_placeholder')"
 						class="w-full" />
 					<template #info>
-						Not mandatory. Increases your account security.
+						{{ $t("auth.email_info") }}
 					</template>
 				</PFormItem>
 				<PFormSeperator>
 					<div
 						class="text-xl text-white font-bold font-mono pt-3 pb-1">
-						Security Question
+						{{ $t("auth.security_question") }}
 					</div>
 					<div class="font-mono text-xs text-white/60 pb-3">
-						Enter the name of planet
-						<span
-							class="text-nowrap bg-prunplanner text-black px-1"
-							>{{ activeSecurityOption }}</span
-						>. To find it, open a new Prosperous Universe buffer
-						with the command
-						<span
-							class="text-nowrap bg-prunplanner text-black px-0.5"
-							>{{ `PLI ${activeSecurityOption}` }}</span
-						>. You'll see the planet's name listed under "Name" in
-						the planet information.
+						{{ $t("auth.security_question_desc", { planet: activeSecurityOption, command: 'PLI ' + activeSecurityOption }) }}
 					</div>
 				</PFormSeperator>
-				<PFormItem label="Name">
+				<PFormItem :label="$t('auth.planet_name_label')">
 					<PInput v-model:value="inputPlanetName" class="w-full" />
 				</PFormItem>
 				<PFormItem label="">
@@ -180,7 +169,7 @@
 						:loading="isLoading"
 						class="mt-3"
 						@click="registerUser">
-						Create Account
+						{{ $t("auth.register_button") }}
 					</PButton>
 				</PFormItem>
 			</PForm>

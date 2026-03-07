@@ -8,7 +8,6 @@
 		IInfrastructureRecord,
 		INFRASTRUCTURE_TYPE,
 	} from "@/features/planning/usePlanCalculation.types";
-	import { isStorageInfrastructure } from "@/features/planning/calculations/infrastructureCalculations";
 
 	// UI
 	import {
@@ -68,10 +67,6 @@
 		"HBL",
 		"HB5",
 		"STO",
-		"STA",
-		"STE",
-		"STV",
-		"STW",
 	];
 
 	const localAutoOptimizeHabs: WritableComputedRef<boolean> = computed({
@@ -85,15 +80,14 @@
 <template>
 	<div class="mb-3">
 		<PForm>
-			<PFormItem label="Auto-Optimize Habs">
+			<PFormItem :label="$t('plan.infrastructure.auto_optimize')">
 				<PTooltip>
 					<template #trigger>
 						<PCheckbox
 							v-model:checked="localAutoOptimizeHabs"
 							:disabled="disabled" />
 					</template>
-					Automatically optimize habitations to meet<br />workforce
-					needs as buildings are added.
+					{{ $t("plan.infrastructure.auto_optimize_tip") }}
 				</PTooltip>
 			</PFormItem>
 		</PForm>
@@ -103,10 +97,10 @@
 			<div>{{ inf }}</div>
 			<PInputNumber
 				v-model:value="localInfrastructureData[inf]"
-				:disabled="disabled || (localAutoOptimizeHabs && !isStorageInfrastructure(inf))"
+				:disabled="disabled || (localAutoOptimizeHabs && inf !== 'STO')"
 				show-buttons
 				:min="0"
-				class="min-w-21.25 max-w-25"
+				class="min-w-[85px] max-w-[100px]"
 				@update:value="
 					(value) => {
 						if (value !== null && value !== undefined) {
@@ -124,14 +118,14 @@
 			<PButton
 				:disabled="disabled || localAutoOptimizeHabs"
 				@click="emit('optimize-habs', 'cost')">
-				Optimize Cost
+				{{ $t("plan.infrastructure.optimize_cost") }}
 			</PButton>
 		</div>
 		<div class="col-span-2 justify-self-center">
 			<PButton
 				:disabled="disabled || localAutoOptimizeHabs"
 				@click="emit('optimize-habs', 'area')">
-				Optimize Area
+				{{ $t("plan.infrastructure.optimize_area") }}
 			</PButton>
 		</div>
 	</div>

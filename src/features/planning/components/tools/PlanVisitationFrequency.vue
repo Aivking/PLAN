@@ -1,5 +1,7 @@
 <script setup lang="ts">
 	import { computed, ComputedRef, PropType, ref, Ref, watch } from "vue";
+	import { useI18n } from "vue-i18n";
+	const { t } = useI18n();
 
 	// Composables
 	import { usePlanPreferences } from "@/features/preferences/usePlanPreferences";
@@ -9,14 +11,7 @@
 
 	// Types & Interfaces
 	import { PSelectOption } from "@/ui/ui.types";
-	import {
-		IMaterialIO,
-		IStorageRecord,
-	} from "@/features/planning/usePlanCalculation.types";
-	import {
-		getVolumeOfAllStorages,
-		getWeightOfAllStorages,
-	} from "../../calculations/infrastructureCalculations";
+	import { IMaterialIO } from "@/features/planning/usePlanCalculation.types";
 
 	interface IShippingCalculation {
 		shipVolume: number;
@@ -36,8 +31,8 @@
 	import { PSelectMultiple, PTable } from "@/ui";
 
 	const props = defineProps({
-		storage: {
-			type: Object as PropType<IStorageRecord>,
+		stoAmount: {
+			type: Number,
 			required: true,
 		},
 		materialIO: {
@@ -96,8 +91,8 @@
 		return {
 			storageFilled: Math.max(
 				Math.min(
-					totalWeight.value / dailyWeightTotal,
-					totalVolume.value / dailyVolumeTotal
+					totalStorage.value / dailyWeightTotal,
+					totalStorage.value / dailyVolumeTotal
 				),
 				0
 			),
@@ -111,24 +106,23 @@
 	}
 
 	// Local State
-	const localStorage: Ref<IStorageRecord> = ref(props.storage);
+	const localStoAmount: Ref<number> = ref(props.stoAmount);
 	const localMaterialIO: Ref<IMaterialIO[]> = ref(props.materialIO);
 
 	const refMaterialExclusionOption: Ref<PSelectOption[]> = ref(
 		getExclusionOptions(props.materialIO)
 	);
 	const refMaterialExclusions: Ref<string[]> = ref(
-		planPrefs.value === null ||
-			planPrefs.value.visitationMaterialExclusions.value === undefined
+		planPrefs.value === null
 			? []
 			: planPrefs.value.visitationMaterialExclusions.value
 	);
 
 	// Prop Watcher
 	watch(
-		() => props.storage,
-		(newStorage: IStorageRecord) => {
-			localStorage.value = newStorage;
+		() => props.stoAmount,
+		(newAmount: number) => {
+			localStoAmount.value = newAmount;
 		}
 	);
 	watch(
@@ -140,12 +134,8 @@
 	);
 
 	//
-	const totalWeight: ComputedRef<number> = computed(() => {
-		return getWeightOfAllStorages(localStorage.value);
-	});
-
-	const totalVolume: ComputedRef<number> = computed(() => {
-		return getVolumeOfAllStorages(localStorage.value);
+	const totalStorage: ComputedRef<number> = computed(() => {
+		return 1500 + 5000 * localStoAmount.value;
 	});
 
 	const dailyData = computed(() => {
@@ -211,87 +201,53 @@
 
 		return shippingCalc;
 	});
-
-	const storageAmountsForDisplay: ComputedRef<
-		{ ticker: string; amount: number }[]
-	> = computed(() => {
-		return Object.entries(localStorage.value)
-			.filter(([_, amount]) => amount > 0)
-			.map(([ticker, amount]) => ({ ticker: ticker, amount: amount }));
-	});
 </script>
 
 <template>
-	<h2 class="pb-3 text-white/80 font-bold text-lg">Visitation Frequency</h2>
+	<h2 class="pb-3 text-white/80 font-bold text-lg">{{ $t("plan.tools.visitation_frequency_details.title") }}</h2>
 
 	<div class="grid grid-cols-1 lg:grid-cols-[40%_auto] gap-3">
 		<div>
-			<h3 class="font-bold text-lg pb-3">Storage</h3>
+			<h3 class="font-bold text-lg pb-3">{{ $t("plan.tools.visitation_frequency_details.storage_heading") }}</h3>
 
-			<p class="pb-3">
-				<template v-if="storageAmountsForDisplay.length > 0">
-					Your plan involves adding
-					<template
-						v-for="(item, index) in storageAmountsForDisplay"
-						:key="item.ticker">
-						<strong>{{ item.amount }}</strong> {{ item.ticker
-						}}<template
-							v-if="index < storageAmountsForDisplay.length - 1"
-							>{{
-								index === storageAmountsForDisplay.length - 2
-									? " and "
-									: ", "
-							}}</template
-						> </template
-					>, giving you a total storage capacity of
-					<strong>{{ formatAmount(totalWeight) }}</strong> t and
-					<strong>{{ formatAmount(totalVolume) }}</strong> m³.
-				</template>
-				<template v-else
-					>Your plan has a storage capacity of
-					<strong>{{ formatAmount(totalWeight) }}</strong> t and
-					<strong>{{ formatAmount(totalVolume) }}</strong>
-					m³.</template
-				>
+			<p class="pb-3" v-html="$t('plan.tools.visitation_frequency_details.storage_info', { sto: localStoAmount, total: formatAmount(totalStorage) })">
 			</p>
 
 			<PTable striped>
 				<thead>
 					<tr>
 						<th />
-						<th class="text-center!">t</th>
-						<th class="text-center!">m³</th>
+						<th class="!text-center">m³</th>
+						<th class="!text-center">t</th>
 					</tr>
 				</thead>
 				<tbody class="child:child:text-center">
 					<tr>
-						<td class="text-left! font-bold">Import</td>
-						<td>{{ formatNumber(dailyData.dailyWeightImport) }}</td>
+						<td class="!text-left font-bold">{{ $t("plan.storage.import") }}</td>
 						<td>{{ formatNumber(dailyData.dailyVolumeImport) }}</td>
+						<td>{{ formatNumber(dailyData.dailyWeightImport) }}</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">Export</td>
-						<td>{{ formatNumber(dailyData.dailyWeightExport) }}</td>
+						<td class="!text-left font-bold">{{ $t("plan.storage.export") }}</td>
 						<td>{{ formatNumber(dailyData.dailyVolumeExport) }}</td>
+						<td>{{ formatNumber(dailyData.dailyWeightExport) }}</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">&#8721;</td>
-						<td>{{ formatNumber(dailyData.dailyWeight) }}</td>
+						<td class="!text-left font-bold">&#8721;</td>
 						<td>{{ formatNumber(dailyData.dailyVolume) }}</td>
+						<td>{{ formatNumber(dailyData.dailyWeight) }}</td>
 					</tr>
 					<tr>
-						<td class="text-left! font-bold">Storage Filled</td>
+						<td class="!text-left font-bold">{{ $t("plan.tools.visitation_frequency_details.storage_filled") }}</td>
 						<td colspan="2" class="font-bold">
-							{{ formatNumber(dailyData.storageFilled) }} days
+							{{ formatNumber(dailyData.storageFilled) }} {{ $t("plan.status_bar.none") === "None" ? "days" : "天" }}
 						</td>
 					</tr>
 				</tbody>
 			</PTable>
 
 			<p class="py-3">
-				Exclude local materials from visitation frequency calculation
-				for items handled exclusively planet-side, like local market
-				sales, purchases or contracts.
+				{{ $t("plan.tools.visitation_frequency_details.exclusion_info") }}
 			</p>
 
 			<PSelectMultiple
@@ -300,12 +256,11 @@
 				:options="refMaterialExclusionOption"
 				multiple
 				searchable
+				:placeholder="$t('plan.production.material')"
 				@update:value="
 					(value) => {
 						// only keep string values
-						const stringsOnly = value.filter(
-							(v): v is string => typeof v === 'string'
-						);
+						const stringsOnly = value.filter((v): v is string => typeof v === 'string');
 						if (planPrefs !== null) {
 							planPrefs.visitationMaterialExclusions.value =
 								stringsOnly;
@@ -315,25 +270,25 @@
 				" />
 		</div>
 		<div>
-			<h3 class="font-bold text-lg pb-3">Shipping</h3>
+			<h3 class="font-bold text-lg pb-3">{{ $t("plan.tools.visitation_frequency_details.shipping_heading") }}</h3>
 
 			<PTable striped>
 				<thead>
 					<tr>
-						<th>Ship t</th>
-						<th>Ship m³</th>
-						<th class="text-center!">Visitation (days)</th>
-						<th class="text-center!">Limit</th>
-						<th class="text-center!">Visitation (days)</th>
-						<th class="text-center!">Limit</th>
+						<th>{{ $t("plan.tools.visitation_frequency_details.table.ship_volume") }}</th>
+						<th>{{ $t("plan.tools.visitation_frequency_details.table.ship_weight") }}</th>
+						<th class="!text-center">{{ $t("plan.tools.visitation_frequency_details.table.visitation_days") }}</th>
+						<th class="!text-center">{{ $t("plan.tools.visitation_frequency_details.table.limit") }}</th>
+						<th class="!text-center">{{ $t("plan.tools.visitation_frequency_details.table.visitation_days") }}</th>
+						<th class="!text-center">{{ $t("plan.tools.visitation_frequency_details.table.limit") }}</th>
 					</tr>
 					<tr>
 						<th colspan="2" />
-						<th colspan="2" class="text-center!">
-							Export Frequency
+						<th colspan="2" class="!text-center">
+							{{ $t("plan.tools.visitation_frequency_details.table.export_frequency") }}
 						</th>
-						<th colspan="2" class="text-center!">
-							Import Frequency
+						<th colspan="2" class="!text-center">
+							{{ $t("plan.tools.visitation_frequency_details.table.import_frequency") }}
 						</th>
 					</tr>
 				</thead>
@@ -341,8 +296,8 @@
 					<tr
 						v-for="(shipData, index) in visitationData"
 						:key="index">
-						<td>{{ formatAmount(shipData.shipWeight) }}</td>
 						<td>{{ formatAmount(shipData.shipVolume) }}</td>
+						<td>{{ formatAmount(shipData.shipWeight) }}</td>
 						<td class="text-center">
 							{{ formatNumber(shipData.exportDays) }}
 						</td>
