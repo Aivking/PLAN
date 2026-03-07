@@ -342,12 +342,6 @@
 				</div>
 				<div v-if="isFull" class="text-end text-[10px] text-white/40">
 					{{ appVersion }}
-					<a
-						href="https://github.com/SupCH/PRUNplanner-zh"
-						target="_blank"
-						class="block text-[8px] bg-orange-500/20 text-orange-400 px-1 rounded mt-0.5 border border-orange-500/30 hover:bg-orange-500/40 transition-colors">
-						CN
-					</a>
 				</div>
 			</div>
 		</div>
